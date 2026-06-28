@@ -9,23 +9,20 @@ import { requirePermission } from "@/lib/auth";
 import { mintRegistryId } from "@/lib/registry";
 import { writeAudit, writeRevision } from "@/lib/audit";
 import { slugify } from "@/lib/slug";
+import { artworkSchema, idSchema, parseForm } from "@/lib/validation";
 
 function parseArtwork(fd: FormData) {
-  const yearRaw = String(fd.get("year") ?? "").trim();
-  return {
-    title: String(fd.get("title") ?? "").trim(),
-    artistId: String(fd.get("artistId") ?? "").trim() || null,
-    medium: String(fd.get("medium") ?? "").trim() || "Discarded items assemblage",
-    dimensions: String(fd.get("dimensions") ?? "").trim() || "61cm x 61cm",
-    year: yearRaw ? Number(yearRaw) : 2026,
-    statement: String(fd.get("statement") ?? "").trim() || null,
-    significance: String(fd.get("significance") ?? "").trim() || null,
-    materials: String(fd.get("materials") ?? "")
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean),
-    status: String(fd.get("status") ?? "draft"),
-  };
+  return parseForm(artworkSchema, {
+    title: fd.get("title"),
+    artistId: fd.get("artistId"),
+    medium: fd.get("medium"),
+    dimensions: fd.get("dimensions"),
+    year: fd.get("year"),
+    statement: fd.get("statement"),
+    significance: fd.get("significance"),
+    materials: fd.get("materials"),
+    status: fd.get("status"),
+  });
 }
 
 function revalidate(slug?: string | null) {
@@ -52,7 +49,7 @@ export async function createArtworkAction(fd: FormData) {
 
 export async function updateArtworkAction(fd: FormData) {
   const user = await requirePermission("artwork.update");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.artworks).where(eq(t.artworks.id, id)).get();
   if (!before) throw new Error("Not found.");
   const data = parseArtwork(fd);
@@ -67,7 +64,7 @@ const countRefs = (tbl: any, where: any) => db.select({ n: sql<number>`count(*)`
 
 export async function deleteArtworkAction(fd: FormData) {
   const user = await requirePermission("artwork.manage");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.artworks).where(eq(t.artworks.id, id)).get();
   if (!before) throw new Error("Not found.");
   const refs = countRefs(t.certificates, eq(t.certificates.artworkId, id));
@@ -83,7 +80,7 @@ export async function deleteArtworkAction(fd: FormData) {
 
 export async function archiveArtworkAction(fd: FormData) {
   const user = await requirePermission("artwork.archive");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.artworks).where(eq(t.artworks.id, id)).get();
   if (!before) throw new Error("Not found.");
   db.update(t.artworks).set({ archivedAt: new Date().toISOString(), status: "archived", updatedBy: user.id }).where(eq(t.artworks.id, id)).run();
@@ -94,7 +91,7 @@ export async function archiveArtworkAction(fd: FormData) {
 
 export async function restoreArtworkAction(fd: FormData) {
   const user = await requirePermission("artwork.restore");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.artworks).where(eq(t.artworks.id, id)).get();
   if (!before) throw new Error("Not found.");
   db.update(t.artworks).set({ archivedAt: null, status: "draft", updatedBy: user.id }).where(eq(t.artworks.id, id)).run();

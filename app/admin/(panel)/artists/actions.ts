@@ -9,20 +9,18 @@ import { requirePermission } from "@/lib/auth";
 import { mintRegistryId } from "@/lib/registry";
 import { writeAudit, writeRevision } from "@/lib/audit";
 import { slugify } from "@/lib/slug";
+import { personSchema, idSchema, parseForm } from "@/lib/validation";
 
 function parsePerson(fd: FormData) {
-  return {
-    fullName: String(fd.get("fullName") ?? "").trim(),
-    displayName: String(fd.get("displayName") ?? "").trim() || null,
-    primaryRole: String(fd.get("primaryRole") ?? "").trim() || null,
-    roles: String(fd.get("roles") ?? "")
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean),
-    shortBio: String(fd.get("shortBio") ?? "").trim() || null,
-    consentStatus: String(fd.get("consentStatus") ?? "pending"),
-    status: String(fd.get("status") ?? "draft"),
-  };
+  return parseForm(personSchema, {
+    fullName: fd.get("fullName"),
+    displayName: fd.get("displayName"),
+    primaryRole: fd.get("primaryRole"),
+    roles: fd.get("roles"),
+    shortBio: fd.get("shortBio"),
+    consentStatus: fd.get("consentStatus"),
+    status: fd.get("status"),
+  });
 }
 
 function revalidate(slug?: string | null) {
@@ -61,7 +59,7 @@ export async function createPersonAction(fd: FormData) {
 
 export async function updatePersonAction(fd: FormData) {
   const user = await requirePermission("artist.update");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.people).where(eq(t.people.id, id)).get();
   if (!before) throw new Error("Not found.");
   const data = parsePerson(fd);
@@ -79,7 +77,7 @@ const countRefs = (tbl: any, where: any) => db.select({ n: sql<number>`count(*)`
 
 export async function deletePersonAction(fd: FormData) {
   const user = await requirePermission("artist.manage");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.people).where(eq(t.people.id, id)).get();
   if (!before) throw new Error("Not found.");
   const refs =
@@ -98,7 +96,7 @@ export async function deletePersonAction(fd: FormData) {
 
 export async function archivePersonAction(fd: FormData) {
   const user = await requirePermission("artist.archive");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.people).where(eq(t.people.id, id)).get();
   if (!before) throw new Error("Not found.");
   db.update(t.people)
@@ -112,7 +110,7 @@ export async function archivePersonAction(fd: FormData) {
 
 export async function restorePersonAction(fd: FormData) {
   const user = await requirePermission("artist.restore");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.people).where(eq(t.people.id, id)).get();
   if (!before) throw new Error("Not found.");
   db.update(t.people)

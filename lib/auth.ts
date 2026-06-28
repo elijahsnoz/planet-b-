@@ -6,12 +6,19 @@ import bcrypt from "bcryptjs";
 import { randomUUID } from "node:crypto";
 import { and, eq, gt } from "drizzle-orm";
 import { db, schema as t } from "@/db/client";
+import { sessionSecret } from "@/lib/env";
 
 const COOKIE = "pb_session";
-const SECRET = new TextEncoder().encode(
-  process.env.PLANET_B_SESSION_SECRET ?? "dev-only-secret-change-me-please-32-bytes!!"
-);
 const SESSION_DAYS = 7;
+
+// Resolve the signing secret lazily + memoised, so importing this module during
+// the production build (which sets NODE_ENV=production) doesn't trip the
+// "secret required" guard before any request is ever served. It's enforced on
+// first actual use at runtime instead.
+let _secret: Uint8Array | undefined;
+function secret(): Uint8Array {
+  return (_secret ??= sessionSecret());
+}
 
 export type CurrentUser = {
   id: string;
@@ -35,7 +42,7 @@ export async function login(email: string, password: string): Promise<boolean> {
   const jwt = await new SignJWT({ sid: sessionId })
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime(`${SESSION_DAYS}d`)
-    .sign(SECRET);
+    .sign(secret());
 
   cookies().set(COOKIE, jwt, {
     httpOnly: true,
@@ -51,7 +58,7 @@ export async function logout() {
   const token = cookies().get(COOKIE)?.value;
   if (token) {
     try {
-      const { payload } = await jwtVerify(token, SECRET);
+      const { payload } = await jwtVerify(token, secret());
       if (payload.sid) db.delete(t.sessions).where(eq(t.sessions.id, String(payload.sid))).run();
     } catch {
       /* ignore */
@@ -84,7 +91,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
   if (!token) return null;
   let sid: string;
   try {
-    const { payload } = await jwtVerify(token, SECRET);
+    const { payload } = await jwtVerify(token, secret());
     sid = String(payload.sid);
   } catch {
     return null;

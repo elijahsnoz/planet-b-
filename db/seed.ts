@@ -249,16 +249,24 @@ function seedRbac() {
   grant("chapter_director", ["chapter.read","artist.read","artist.update","artwork.read","artwork.create","artwork.update","artwork.publish","artwork.archive","certificate.issue","media.read"]);
   grant("researcher", ["research.read","research.create","research.update","research.publish","artwork.read","artist.read"]);
 
-  // founder super admin
+  // founder super admin — never fall back to a known default in production
   const email = process.env.PLANET_B_ADMIN_EMAIL ?? "victoreni14@gmail.com";
-  const password = process.env.PLANET_B_ADMIN_PASSWORD ?? "planetb-admin";
+  let password = process.env.PLANET_B_ADMIN_PASSWORD;
+  if (!password) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("Refusing to seed: set PLANET_B_ADMIN_PASSWORD (no insecure default in production).");
+    }
+    password = "dev-only-admin-change-me";
+    console.warn("  ⚠ PLANET_B_ADMIN_PASSWORD not set — using an INSECURE dev password. Never deploy this.");
+  }
   const uid = randomUUID();
   db.insert(s.users).values({
     id: uid, email, displayName: "Elijah Snoz", passwordHash: bcrypt.hashSync(password, 10),
     isActive: true, mfaRequired: false,
   }).run();
   db.insert(s.userRoles).values({ userId: uid, roleId: roleId["super_admin"] }).run();
-  console.log(`  admin user: ${email}  (password: ${password} — change after first login)`);
+  // Never print the password. Source it from PLANET_B_ADMIN_PASSWORD.
+  console.log(`  admin user: ${email}  (password from PLANET_B_ADMIN_PASSWORD — change after first login)`);
 }
 
 tx();

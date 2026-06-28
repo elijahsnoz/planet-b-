@@ -77,10 +77,13 @@ npm run build      # production build
 ```
 
 ### Admin console
-Sign in at **/admin** (→ /admin/login).
-- Default super-admin: `victoreni14@gmail.com` / `planetb-admin` — **change after first login**
-  (override at seed time with `PLANET_B_ADMIN_EMAIL` / `PLANET_B_ADMIN_PASSWORD`).
-- Set `PLANET_B_SESSION_SECRET` in production (a long random string).
+Sign in at **/admin** (→ /admin/login). Super-admin email defaults to `victoreni14@gmail.com` (override with `PLANET_B_ADMIN_EMAIL`); **change the password after first login.**
+
+**Security env vars** (see [.env.example](.env.example)) — the app refuses to start in production without these:
+- `PLANET_B_SESSION_SECRET` — session-JWT signing secret, ≥32 random chars (`openssl rand -base64 48`). No insecure default in production.
+- `PLANET_B_ADMIN_PASSWORD` — initial super-admin password, set at seed time. No default in production.
+
+Hardening in place: login **rate limiting** (5 attempts / 15 min per IP, then lockout), **CSRF** protection (same-origin verification on all admin mutations via [middleware.ts](middleware.ts)), and **zod** input validation on every admin write ([lib/validation.ts](lib/validation.ts)).
 
 Modules: Dashboard · Genesis Chapter (sacred, read-only) · Artists · Artworks (create/edit/archive/restore + version history) · Organizations · Media · Certificates · System Logs. Every write is permission-checked (RBAC), audit-logged, and snapshotted as a revision.
 

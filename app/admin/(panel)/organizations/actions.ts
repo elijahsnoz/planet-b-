@@ -9,18 +9,19 @@ import { requirePermission } from "@/lib/auth";
 import { mintRegistryId } from "@/lib/registry";
 import { writeAudit, writeRevision } from "@/lib/audit";
 import { slugify } from "@/lib/slug";
+import { organizationSchema, idSchema, parseForm } from "@/lib/validation";
 
 function parseOrganization(fd: FormData) {
-  return {
-    name: String(fd.get("name") ?? "").trim(),
-    type: String(fd.get("type") ?? "").trim() || null,
-    role: String(fd.get("role") ?? "").trim() || null,
-    about: String(fd.get("about") ?? "").trim() || null,
-    website: String(fd.get("website") ?? "").trim() || null,
-    logoMedia: String(fd.get("logoMedia") ?? "").trim() || null,
-    established: String(fd.get("established") ?? "").trim() || null,
-    status: String(fd.get("status") ?? "draft"),
-  };
+  return parseForm(organizationSchema, {
+    name: fd.get("name"),
+    type: fd.get("type"),
+    role: fd.get("role"),
+    about: fd.get("about"),
+    website: fd.get("website"),
+    logoMedia: fd.get("logoMedia"),
+    established: fd.get("established"),
+    status: fd.get("status"),
+  });
 }
 
 function revalidate(slug?: string | null) {
@@ -53,7 +54,7 @@ export async function createOrganizationAction(fd: FormData) {
 
 export async function updateOrganizationAction(fd: FormData) {
   const user = await requirePermission("organization.update");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.organizations).where(eq(t.organizations.id, id)).get();
   if (!before) throw new Error("Not found.");
   const data = parseOrganization(fd);
@@ -71,7 +72,7 @@ const countRefs = (tbl: any, where: any) => db.select({ n: sql<number>`count(*)`
 
 export async function deleteOrganizationAction(fd: FormData) {
   const user = await requirePermission("organization.manage");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.organizations).where(eq(t.organizations.id, id)).get();
   if (!before) throw new Error("Not found.");
   const refs = countRefs(t.certificates, eq(t.certificates.organizationId, id));
@@ -87,7 +88,7 @@ export async function deleteOrganizationAction(fd: FormData) {
 
 export async function archiveOrganizationAction(fd: FormData) {
   const user = await requirePermission("organization.archive");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.organizations).where(eq(t.organizations.id, id)).get();
   if (!before) throw new Error("Not found.");
   db.update(t.organizations)
@@ -101,7 +102,7 @@ export async function archiveOrganizationAction(fd: FormData) {
 
 export async function restoreOrganizationAction(fd: FormData) {
   const user = await requirePermission("organization.restore");
-  const id = String(fd.get("id"));
+  const id = parseForm(idSchema, fd.get("id"));
   const before = db.select().from(t.organizations).where(eq(t.organizations.id, id)).get();
   if (!before) throw new Error("Not found.");
   db.update(t.organizations)
