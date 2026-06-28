@@ -47,7 +47,8 @@ export const chapters = sqliteTable("chapters", {
   movement: text("movement").notNull().default("Because There Is No Planet B"),
   theme: text("theme"),
   eventName: text("event_name"),
-  openedOn: text("opened_on"),
+  openedOn: text("opened_on"), // start / opening date
+  endedOn: text("ended_on"), // close date (null for ongoing)
   venue: text("venue"),
   summary: text("summary"),
   yorubaProverbs: text("yoruba_proverbs", { mode: "json" }).$type<{ yoruba: string; english: string }[]>(),

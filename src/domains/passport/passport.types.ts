@@ -95,6 +95,9 @@ export interface PassportArtwork {
 export interface ChapterRef {
   slug: string | null;
   name: string;
+  /** The roles this person held in the chapter (participated/organized/led/…). */
+  roles?: string[];
+  isGenesis?: boolean;
 }
 
 /** A row in the passport list (admin + indexes). */

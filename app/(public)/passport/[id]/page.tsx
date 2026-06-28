@@ -118,7 +118,21 @@ export default async function PublicPassport({ params }: { params: { id: string 
 
       {a.chapters.length > 0 && (
         <Section title="Chapters" count={a.counts.chapters}>
-          <p className="text-text-muted">{a.chapters.map((c) => c.name).join(" · ")}</p>
+          <ul className="space-y-2">
+            {a.chapters.map((c) => (
+              <li key={c.name} className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border/50 pb-2">
+                <span>
+                  {c.slug ? (
+                    <Link href={`/chapters/${c.slug}`} className="hover:text-accent">{c.name}</Link>
+                  ) : (
+                    c.name
+                  )}
+                  {c.isGenesis && <span className="ml-2 text-accent" title="Genesis Chapter">★</span>}
+                </span>
+                <span className="text-sm text-text-muted">{(c.roles ?? []).join(" · ")}</span>
+              </li>
+            ))}
+          </ul>
         </Section>
       )}
 

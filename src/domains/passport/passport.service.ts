@@ -20,6 +20,7 @@ import {
 } from "@shared/index";
 import { mintRegistryId } from "@domains/registry";
 import { certificateService } from "@domains/certificate";
+import { chapterService } from "@domains/chapter";
 import { preservation } from "@platform/preservation";
 import type {
   PassportPatch,
@@ -70,7 +71,14 @@ export class PassportService {
     const certificates = certificateService.listForPerson(base.person.id);
     const artworks = this.repo.artworksForPerson(base.person.id);
     const contributions = this.repo.listContributions(base.person.id);
-    const chapters = this.repo.chaptersForPerson(base.person.id);
+    // Role-aware chapter history (participated / organized / facilitated / led …)
+    // comes from the Chapter domain — the federation node owns participation.
+    const chapters = chapterService.participationFor(base.person.id).map((p) => ({
+      slug: p.chapterSlug,
+      name: p.chapterName,
+      roles: p.roles,
+      isGenesis: p.isGenesis,
+    }));
     const genesisCertificates = certificates.filter((c) => c.isGenesisCollection).length;
 
     const archive: PassportArchive = {

@@ -171,7 +171,10 @@ export default async function PassportDetail({ params }: { params: { id: string 
           <ul className="mt-2 space-y-1 text-sm text-text-muted">
             {a.chapters.length === 0 && <li className="text-stone">—</li>}
             {a.chapters.map((c) => (
-              <li key={c.name}>{c.name}</li>
+              <li key={c.name} className="flex justify-between gap-3">
+                <span>{c.name}{c.isGenesis ? " ★" : ""}</span>
+                <span className="text-stone">{(c.roles ?? []).join(", ")}</span>
+              </li>
             ))}
           </ul>
         </div>

@@ -1,0 +1,1 @@
+ALTER TABLE `chapters` ADD `ended_on` text;
