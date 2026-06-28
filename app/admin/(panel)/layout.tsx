@@ -11,6 +11,8 @@ const NAV: { href: string; label: string; perm?: string; star?: boolean }[] = [
   { href: "/admin/organizations", label: "Organizations", perm: "organization.read" },
   { href: "/admin/media", label: "Media Library", perm: "media.read" },
   { href: "/admin/certificates", label: "Certificates", perm: "certificate.read" },
+  { href: "/admin/certificates/genesis", label: "Genesis Collection", perm: "certificate.read", star: true },
+  { href: "/admin/verifications", label: "Verification Queue", perm: "verification.read" },
   { href: "/admin/audit", label: "System Logs", perm: "audit.read" },
 ];
 
