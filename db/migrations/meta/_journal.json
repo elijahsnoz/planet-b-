@@ -15,6 +15,13 @@
       "when": 1782683542664,
       "tag": "0001_handy_gwen_stacy",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1782686652531,
+      "tag": "0002_absent_zombie",
+      "breakpoints": true
     }
   ]
 }

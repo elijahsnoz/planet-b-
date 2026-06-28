@@ -208,6 +208,15 @@ export class SqliteCertificateRepository implements CertificateRepository {
       .filter((r) => r.isGenesisCollection);
   }
 
+  listForPerson(personId: string): CertificateListItem[] {
+    return (
+      baseQuery()
+        .where(eq(t.certificates.personId, personId))
+        .orderBy(t.certificates.publicId)
+        .all() as FlatRow[]
+    ).map(toListItem);
+  }
+
   countByStatus(): Record<string, number> {
     const rows = db
       .select({ status: t.certificates.status, n: sql<number>`count(*)` })

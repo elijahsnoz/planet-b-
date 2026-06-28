@@ -367,6 +367,84 @@ export const onchainRefs = sqliteTable(
   })
 );
 
+/* ── Planet Passport: lifelong institutional identity (Phase 2C) ──────────────
+ * A Passport is a 1:1 projection over a `people` row — NOT a user account
+ * (ADR-0002). Aggregations (certificates, artworks, chapters) are computed from
+ * joins + the graph, never duplicated here. Additive + Postgres-ready.
+ */
+
+/** One Passport per contributor. `passport_id` = PB-ID-NNNNNN (registry kind 'id'). */
+export const passports = sqliteTable(
+  "passports",
+  {
+    id: text("id").primaryKey(),
+    registryId: text("registry_id").unique(), // equals passportId for human use
+    passportId: text("passport_id").unique().notNull(), // PB-ID-000001
+    personId: text("person_id").notNull().unique().references(() => people.id),
+    country: text("country"),
+    passportStatus: text("passport_status").notNull().default("unclaimed"), // unclaimed|claimed|linked
+    institutionalNote: text("institutional_note"), // PRIVATE institutional data
+    createdAt: text("created_at").notNull().default(now),
+    updatedAt: text("updated_at").notNull().default(now),
+    createdBy: text("created_by"),
+    updatedBy: text("updated_by"),
+    archivedAt: text("archived_at"),
+  },
+  (t) => ({
+    personIdx: uniqueIndex("ux_passport_person").on(t.personId),
+    statusIdx: index("ix_passport_status").on(t.passportStatus),
+  })
+);
+
+/** A living contributor (a user account) claiming their Passport identity. */
+export const passportClaims = sqliteTable(
+  "passport_claims",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").references(() => users.id),
+    personId: text("person_id").notNull().references(() => people.id),
+    claimRequestId: text("claim_request_id").references(() => claimRequests.id),
+    status: text("status").notNull().default("pending"), // pending|approved|rejected
+    evidence: text("evidence", { mode: "json" }),
+    reviewer: text("reviewer").references(() => users.id),
+    reviewNote: text("review_note"),
+    decidedAt: text("decided_at"),
+    createdAt: text("created_at").notNull().default(now),
+    updatedAt: text("updated_at").notNull().default(now),
+  },
+  (t) => ({
+    userIdx: index("ix_pclaim_user").on(t.userId),
+    personIdx: index("ix_pclaim_person").on(t.personId),
+  })
+);
+
+/** Life-events that grow a Passport over decades (Principle: never "completed"). */
+export const contributions = sqliteTable(
+  "contributions",
+  {
+    id: text("id").primaryKey(),
+    registryId: text("registry_id"),
+    personId: text("person_id").notNull().references(() => people.id),
+    kind: text("kind").notNull(), // exhibition|award|mentorship|interview|research|talk|residency|role_change|leadership
+    title: text("title").notNull(),
+    description: text("description"),
+    occurredOn: text("occurred_on"),
+    chapterId: text("chapter_id").references(() => chapters.id),
+    source: text("source"),
+    verified: integer("verified", { mode: "boolean" }).notNull().default(false),
+    sortOrder: integer("sort_order").default(0),
+    createdAt: text("created_at").notNull().default(now),
+    updatedAt: text("updated_at").notNull().default(now),
+    createdBy: text("created_by"),
+    updatedBy: text("updated_by"),
+    archivedAt: text("archived_at"),
+  },
+  (t) => ({
+    personIdx: index("ix_contrib_person").on(t.personId, t.occurredOn),
+    kindIdx: index("ix_contrib_kind").on(t.kind),
+  })
+);
+
 /** Append-only log of every verify/claim/anchor/mint — feeds /verify + audit. */
 export const verificationEvents = sqliteTable(
   "verification_events",

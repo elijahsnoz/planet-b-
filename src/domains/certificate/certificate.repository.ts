@@ -18,6 +18,7 @@ export interface CertificateRepository {
   findByRegistryId(registryId: string): CertificateContext | null;
   list(query: CertificateListQuery): CertificateListItem[];
   listGenesisCollection(): CertificateListItem[];
+  listForPerson(personId: string): CertificateListItem[];
   countByStatus(): Record<string, number>;
 
   // Evolving digital layer only:

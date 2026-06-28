@@ -206,6 +206,14 @@ const tx = sqlite.transaction(() => {
     }).run();
   }
 
+  // ── Planet Passports (one per person — Principle IV) ──
+  for (const p of db.select({ id: s.people.id, registryId: s.people.registryId }).from(s.people).all()) {
+    const pid = mint("id"); // PB-ID-NNNNNN
+    db.insert(s.passports).values({
+      id: randomUUID(), registryId: pid, passportId: pid, personId: p.id, passportStatus: "unclaimed",
+    }).run();
+  }
+
   // ── RBAC ──
   seedRbac();
 });
@@ -220,7 +228,7 @@ function seedRbac() {
     ["researcher", "Researcher", 40], ["media_manager", "Media Manager", 40],
     ["artist", "Artist", 20], ["partner_org", "Partner Organization", 20], ["public", "Public", 0],
   ] as const;
-  const RESOURCES = ["chapter","artist","artwork","organization","certificate","verification","media","research","story","press","impact","timeline","user","settings","audit"];
+  const RESOURCES = ["chapter","artist","artwork","organization","certificate","verification","passport","media","research","story","press","impact","timeline","user","settings","audit"];
   const ACTIONS = ["read","create","update","publish","archive","restore","issue","revoke","manage","upload","export","history"];
 
   const roleId: Record<string, number> = {};

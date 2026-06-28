@@ -50,6 +50,10 @@ export class CertificateService {
   genesisCollection(): CertificateListItem[] {
     return this.repo.listGenesisCollection();
   }
+  /** All certificates held by a person (for their Planet Passport). */
+  listForPerson(personId: string): CertificateListItem[] {
+    return this.repo.listForPerson(personId);
+  }
   countByStatus(): Record<string, number> {
     return this.repo.countByStatus();
   }

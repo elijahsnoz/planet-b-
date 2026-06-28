@@ -6,6 +6,7 @@ import { logoutAction } from "./actions";
 const NAV: { href: string; label: string; perm?: string; star?: boolean }[] = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/chapters", label: "Genesis Chapter", perm: "chapter.read", star: true },
+  { href: "/admin/passports", label: "Planet Passports", perm: "passport.read" },
   { href: "/admin/artists", label: "Artists", perm: "artist.read" },
   { href: "/admin/artworks", label: "Artworks", perm: "artwork.read" },
   { href: "/admin/organizations", label: "Organizations", perm: "organization.read" },
