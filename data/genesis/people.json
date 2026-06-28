@@ -1,0 +1,197 @@
+{
+  "_note": "Every named contributor to the Genesis Chapter. consent_status defaults to 'pending' (catalogue is a published source, but platform-profile consent is tracked separately). Personal phone numbers from the catalogue are intentionally omitted (PII).",
+  "people": [
+    {
+      "slug": "ajayi-elijah-snoz",
+      "full_name": "Ajayi Elijah Snoz",
+      "display_name": "Elijah Snoz",
+      "roles": ["Founding Artist", "Storyteller", "Founding Narrator", "Creative Technologist", "Future Founder of Planet B"],
+      "primary_role": "Founding Artist",
+      "short_bio": "Founding artist of Because There Is No Planet B and creator of The Watchful Eye — the brand-seed work. Storyteller and founding narrator of the Genesis Chapter, and the creative technologist building the Planet B platform.",
+      "artworks": ["the-watchful-eye"],
+      "portrait_media": "plate.snoz.primary",
+      "founding_council": ["founding_artist", "key_collaborator"],
+      "evolves": true,
+      "_evolves_note": "Per founder's direction: roles append to this record as Planet B grows; no structural change required.",
+      "consent_status": "granted",
+      "verified": true
+    },
+    { "slug": "udie-undie", "full_name": "Udie Undie", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["reframing-rubbish"], "portrait_media": "plate.udie", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "abel-naomi-ufedo-ojo", "full_name": "Abel Naomi Ufedo-Ojo", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["survival-spoon"], "portrait_media": "plate.naomi", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "abduljabbar-hasheem-saidu", "full_name": "Abduljabbar Hasheem Saidu", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["the-only-address"], "portrait_media": "plate.abduljabbar", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "jesse-ojatta-ameje", "full_name": "Jesse Ojatta Ameje", "primary_role": "Founding Artist", "roles": ["Founding Artist", "Co-Performer"], "artworks": ["the-treasure-found"], "portrait_media": "plate.jesse", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "kaynan-peter", "full_name": "Kaynan Peter", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["adorn-her-grass-to-grace"], "portrait_media": "plate.kaynan", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "ngozi-akande", "full_name": "Ngozi Akande", "honorific": "PhD", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["starrs-everywhere"], "portrait_media": "plate.ngozi", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "ahmed-michael", "full_name": "Ahmed Michael", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["man-and-his-environment"], "portrait_media": "plate.ahmed", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "sadiq-abimbola-rukayat", "full_name": "Sadiq Abimbola Rukayat", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["the-sum-of-us"], "portrait_media": "plate.sadiq", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "joel-friday", "full_name": "Joel Friday", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["safe-house"], "portrait_media": "plate.joel", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "samuel-ilori", "full_name": "Samuel Ilori", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["a-call-to-build"], "portrait_media": "plate.samuel", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "olowa-emmanuel-akorede", "full_name": "Olowa Emmanuel Akorede", "primary_role": "Founding Artist", "roles": ["Founding Artist", "Co-Performer"], "artworks": ["mai-kayan-marmari"], "portrait_media": "plate.olowa", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true, "note": "Trained at the Zaria Art School." },
+    { "slug": "buhari-sani-junaid", "full_name": "Buhari Sani Junaid", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["garbage-to-grace"], "portrait_media": "plate.buhari", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+    { "slug": "mbaya-aisha", "full_name": "Mbaya Aisha", "primary_role": "Founding Artist", "roles": ["Founding Artist"], "artworks": ["gwarzo"], "portrait_media": "plate.mbaya", "founding_council": ["founding_artist"], "consent_status": "pending", "verified": true },
+
+    {
+      "slug": "yusuf-durodola",
+      "full_name": "Yusuf Durodola",
+      "primary_role": "Lead Facilitator / Workshop Director",
+      "roles": ["Lead Facilitator", "Workshop Director", "Curator", "Founding Artist", "Panelist", "Performance Lead", "Creative Director"],
+      "short_bio": "Integrative multimedia upcycling-art specialist; Creative Director of YD Studio and the Trash To Treasure Movement. Distinguished Nigerian visual artist, researcher and educator; Guinness World Record achiever (Largest Painting by Number, École de Dessin, Lagos); Painting Lecturer at the Federal College of Education (Technical), Akoka; Founder and Artistic Director of the Artegun Foundation. Lead facilitator and workshop director of the Genesis Chapter; led the performance Òdàlè Dà'lẹ̀.",
+      "artworks": ["top-up"],
+      "organizations": ["yd-studio", "artegun-foundation"],
+      "portrait_media": "media.keyart.meet-the-team",
+      "founding_council": ["key_collaborator"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "temitope-oladeji",
+      "full_name": "Temitope Oladeji",
+      "primary_role": "Co-Facilitator / Workshop Coordinator",
+      "roles": ["Co-Facilitator", "Workshop Coordinator", "Curator", "Panel Moderator"],
+      "short_bio": "Arts project coordinator and curator; Project Lead of The Art Exential, a 360-degree art firm he founded in 2020. Cross-sector experience in brand activation and events. Co-facilitator and workshop coordinator; led 'The Art of Business, The Business of Art' session; curated the performance; moderated the panel.",
+      "organizations": ["the-art-exential"],
+      "founding_council": ["organizer", "curator"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "caroline-useh",
+      "full_name": "Caroline Useh",
+      "primary_role": "Co-Facilitator",
+      "roles": ["Co-Facilitator", "Founding Artist", "Co-Performer"],
+      "short_bio": "Multidisciplinary artist from Delta State, based in Lagos, working without restriction to media. Winner of the Chinwe Russell Art Prize 2025; finalist at the Kuenyahia Art competition, Ghana 2024; finalist of Next of Kin Series 5 (2023). Co-facilitator on the creative process; exhibited 'Tomorrow'.",
+      "artworks": ["tomorrow"],
+      "founding_council": ["key_collaborator"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "katurag-chinyio",
+      "full_name": "Katurag Chinyio",
+      "primary_role": "Assistant Workshop Director",
+      "roles": ["Assistant Workshop Director", "Curator", "Organizing Committee", "Nike Art Gallery Representative"],
+      "short_bio": "Assistant Workshop Director and representative of Nike Art Gallery; supported coordination and documentation throughout the programme.",
+      "founding_council": ["organizer", "gallery_leadership"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "abdullahi-ibrahim",
+      "full_name": "Abdullahi Ibrahim",
+      "primary_role": "IT Manager / Logistics Coordinator",
+      "roles": ["IT Manager", "Logistics Coordinator", "Organizing Committee", "Graphics / Layout", "Nike Art Gallery Representative"],
+      "short_bio": "IT Manager and Logistics Coordinator representing Nike Art Gallery; built and ran the participant registration system, coordinated data collation and screening with the selection team, and designed administrative and promotional materials. Co-designed the catalogue layout.",
+      "founding_council": ["organizer"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "lavender-onyenah",
+      "full_name": "Lavender Onyenah",
+      "primary_role": "Organizing Committee",
+      "roles": ["Organizing Committee"],
+      "founding_council": ["organizer"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "benjamin-oladapo",
+      "full_name": "Benjamin Oladapo",
+      "primary_role": "Photographer",
+      "roles": ["Photographer (Performance)"],
+      "short_bio": "Performance photographer documenting Òdàlè Dà'lẹ̀ and the exhibition.",
+      "founding_council": ["key_collaborator"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "shedrach-gabriel",
+      "full_name": "Shedrach Gabriel",
+      "primary_role": "Co-Performer",
+      "roles": ["Co-Performer"],
+      "short_bio": "Co-performer in the performance art piece Òdàlè Dà'lẹ̀.",
+      "consent_status": "pending",
+      "verified": true
+    },
+
+    {
+      "slug": "svein-baera",
+      "full_name": "H. E. Mr. Svein Bæra",
+      "primary_role": "Ambassador",
+      "roles": ["Ambassador, Royal Norwegian Embassy"],
+      "short_bio": "Ambassador of the Kingdom of Norway to Nigeria; wrote the catalogue Forward emphasizing cross-border cooperation on climate and environment.",
+      "organizations": ["royal-norwegian-embassy"],
+      "founding_council": ["embassy_representative"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "solveig-andresen",
+      "full_name": "Ms. Solveig Andresen",
+      "primary_role": "Counsellor, Trade and Cultural Affairs",
+      "roles": ["Counsellor (Trade & Cultural Affairs), Royal Norwegian Embassy", "Organizing Committee"],
+      "short_bio": "Counsellor for Trade and Cultural Affairs at the Royal Norwegian Embassy, Abuja; co-author of the Forward and member of the organizing committee.",
+      "organizations": ["royal-norwegian-embassy"],
+      "founding_council": ["embassy_representative", "organizer"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "ingrid-rollag-fosker",
+      "full_name": "Ingrid Rollag Fosker",
+      "primary_role": "Organizing Committee",
+      "roles": ["Organizing Committee, Royal Norwegian Embassy"],
+      "organizations": ["royal-norwegian-embassy"],
+      "founding_council": ["embassy_representative", "organizer"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "nike-okundaye",
+      "full_name": "Chief Mrs. Nike Monica Okundaye",
+      "honorific": "Dr. Arts (h.c.)",
+      "display_name": "Mama Nike",
+      "primary_role": "Founder/Director, Nike Art Gallery & Foundation",
+      "roles": ["Founder/Director, Nike Art Gallery / Foundation", "Host"],
+      "short_bio": "Founder and Director of the Nike Art Gallery and Foundation (est. 1983), world-renowned for artistic education and cultural preservation; hosted the workshop and exhibition and authored the Gallery Statement.",
+      "organizations": ["nike-art-foundation"],
+      "founding_council": ["gallery_leadership"],
+      "consent_status": "pending",
+      "verified": true
+    },
+
+    {
+      "slug": "ikechi-chris-ebuka",
+      "full_name": "Ikechi Chris Ebuka",
+      "primary_role": "Panelist",
+      "roles": ["Panelist", "Programs Officer, Plogging Nigeria"],
+      "short_bio": "Business Development Manager, brand strategist and sustainability advocate; Programs Leader with Plogging Nigeria, contributor to niwad.ng and the Green Switch Academy, focused on the circular economy and waste-to-value innovation.",
+      "organizations": ["plogging-nigeria"],
+      "founding_council": ["key_collaborator"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "zainab-mustapha-umara",
+      "full_name": "Zainab Mustapha Umara",
+      "primary_role": "Panelist",
+      "roles": ["Panelist", "Assistant Director, Environmental Quality Control, NESREA"],
+      "short_bio": "Environmental professional and Assistant Director in the Environmental Quality Control Department at NESREA HQ, Abuja (BSc Geology, MSc Environmental Engineering); works on air quality, GHG mitigation, ozone protection, and environmental compliance.",
+      "organizations": ["nesrea"],
+      "founding_council": ["key_collaborator"],
+      "consent_status": "pending",
+      "verified": true
+    },
+    {
+      "slug": "christianah-imoleayo-owoeye",
+      "full_name": "Christianah Imoleayo Owoeye",
+      "primary_role": "Panelist",
+      "roles": ["Panelist", "CEO, Trash Monger Limited"],
+      "short_bio": "CEO of Trash Monger Limited, a social enterprise that has diverted over 6,500 tonnes of waste and empowered women and young people through recycling, environmental education, and circular-economy initiatives.",
+      "organizations": ["trash-monger"],
+      "founding_council": ["key_collaborator"],
+      "consent_status": "pending",
+      "verified": true
+    }
+  ]
+}

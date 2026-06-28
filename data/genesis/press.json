@@ -1,0 +1,30 @@
+{
+  "chapter": "abuja-2026",
+  "_note": "Press coverage. Snapshot each URL to guard against link rot (preservation task).",
+  "items": [
+    {
+      "outlet": "The Nation",
+      "title": "World Environment Day: Durodola leads artists to reimagine found objects",
+      "url": "https://thenationonlineng.net/world-environment-day-durodola-leads-artists-to-reimagine-found-objects/",
+      "topic": "exhibition",
+      "snapshot": null,
+      "verified": true
+    },
+    {
+      "outlet": "Nigerian Tribune",
+      "title": "Norway pushes for greater investment in waste-to-wealth initiatives",
+      "url": "https://tribuneonlineng.com/norway-pushes-for-greater-investment-in-waste-to-wealth-initiatives/",
+      "topic": "policy",
+      "snapshot": null,
+      "verified": true
+    },
+    {
+      "outlet": "The Punch",
+      "title": "Norway urges Nigerian businesses to swap diesel generators for solar power",
+      "url": "https://punchng.com/norway-urges-nigerian-businesses-to-swap-diesel-generators-for-solar-power/",
+      "topic": "policy",
+      "snapshot": null,
+      "verified": true
+    }
+  ]
+}

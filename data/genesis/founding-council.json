@@ -1,0 +1,39 @@
+{
+  "_note": "Principle V: a HISTORICAL record of those who established the movement — not a website governing body. Charter members = the Genesis cohort. Expandable over time; the Genesis cohort is never removed.",
+  "chapter": "abuja-2026",
+  "charter_cohort": true,
+  "members": [
+    { "person": "ajayi-elijah-snoz", "categories": ["founding_artist", "key_collaborator"], "citation": "Founding artist (The Watchful Eye, the brand-seed work), founding narrator, and creative technologist of the Planet B platform." },
+
+    { "person": "udie-undie", "categories": ["founding_artist"], "citation": "Founding artist — Reframing Rubbish." },
+    { "person": "abel-naomi-ufedo-ojo", "categories": ["founding_artist"], "citation": "Founding artist — Survival Spoon." },
+    { "person": "abduljabbar-hasheem-saidu", "categories": ["founding_artist"], "citation": "Founding artist — The Only Address." },
+    { "person": "jesse-ojatta-ameje", "categories": ["founding_artist"], "citation": "Founding artist — The Treasure Found; co-performer in Òdàlè Dà'lẹ̀." },
+    { "person": "kaynan-peter", "categories": ["founding_artist"], "citation": "Founding artist — Adorn Her, Grass to Grace." },
+    { "person": "ngozi-akande", "categories": ["founding_artist"], "citation": "Founding artist — Starrs Everywhere." },
+    { "person": "ahmed-michael", "categories": ["founding_artist"], "citation": "Founding artist — Man, and His Environment." },
+    { "person": "sadiq-abimbola-rukayat", "categories": ["founding_artist"], "citation": "Founding artist — The Sum of Us." },
+    { "person": "joel-friday", "categories": ["founding_artist"], "citation": "Founding artist — Safe House." },
+    { "person": "samuel-ilori", "categories": ["founding_artist"], "citation": "Founding artist — A Call to Build." },
+    { "person": "olowa-emmanuel-akorede", "categories": ["founding_artist"], "citation": "Founding artist — Mai Kayan Marmari; co-performer in Òdàlè Dà'lẹ̀." },
+    { "person": "buhari-sani-junaid", "categories": ["founding_artist"], "citation": "Founding artist — Garbage to Grace." },
+    { "person": "mbaya-aisha", "categories": ["founding_artist"], "citation": "Founding artist — Gwarzo." },
+
+    { "person": "nike-okundaye", "categories": ["gallery_leadership"], "citation": "Founder/Director of Nike Art Gallery & Foundation; host of the workshop and exhibition." },
+    { "person": "katurag-chinyio", "categories": ["gallery_leadership", "organizer", "curator"], "citation": "Assistant Workshop Director and Nike Art Gallery representative." },
+
+    { "person": "svein-baera", "categories": ["embassy_representative"], "citation": "Ambassador of Norway to Nigeria; championed the initiative." },
+    { "person": "solveig-andresen", "categories": ["embassy_representative", "organizer"], "citation": "Counsellor for Trade & Cultural Affairs; organizing committee." },
+    { "person": "ingrid-rollag-fosker", "categories": ["embassy_representative", "organizer"], "citation": "Royal Norwegian Embassy organizing committee." },
+
+    { "person": "yusuf-durodola", "categories": ["key_collaborator", "curator"], "citation": "Lead Facilitator/Workshop Director; curator; performance lead; founding artist (Top Up)." },
+    { "person": "temitope-oladeji", "categories": ["organizer", "curator"], "citation": "Co-Facilitator/Workshop Coordinator; curator; panel moderator." },
+    { "person": "caroline-useh", "categories": ["key_collaborator"], "citation": "Co-Facilitator; exhibited Tomorrow; co-performer." },
+    { "person": "abdullahi-ibrahim", "categories": ["organizer"], "citation": "IT Manager/Logistics Coordinator; built the registration system; catalogue layout." },
+    { "person": "lavender-onyenah", "categories": ["organizer"], "citation": "Organizing committee." },
+    { "person": "benjamin-oladapo", "categories": ["key_collaborator"], "citation": "Performance photographer." }
+  ],
+  "pending": [
+    { "what": "15th founding artist", "status": "INTENTIONALLY_INCOMPLETE", "note": "Reserved seat in the founding-artist cohort until verified from official documentation." }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "_note": "Founding artworks of the Genesis Chapter. All 'Discarded items assemblage, 61cm x 61cm, 2026' unless noted. Statements are excerpted from the catalogue. 14 founding-artist works confirmed; the 15th is intentionally pending (Principle VI).",
+  "_defaults": { "medium": "Discarded items assemblage", "dimensions": "61cm x 61cm", "year": 2026, "chapter": "abuja-2026" },
+  "artworks": [
+    {
+      "slug": "the-watchful-eye",
+      "title": "The Watchful Eye",
+      "artist": "ajayi-elijah-snoz",
+      "materials": ["discarded plastics", "electronic components", "reclaimed materials", "damaged watch"],
+      "statement": "An eye created from discarded plastics, electronic components and reclaimed materials to represent awareness and humanity's relationship with nature. The damaged watch within the piece symbolises the urgency of addressing environmental issues before it is too late — transforming waste into art to show that discarded materials still have value and can be renewed.",
+      "significance": "Brand-seed work: the philosophical source of the Planet B identity — the planet watches us, we watch over the planet.",
+      "primary_media": "plate.snoz.primary",
+      "verified": true
+    },
+    {
+      "slug": "reframing-rubbish",
+      "title": "Reframing Rubbish",
+      "artist": "udie-undie",
+      "materials": ["discarded plastics", "drink cans", "electrical wires"],
+      "statement": "A mixed-media relief sculpture made entirely from discarded plastics, drink cans and electrical wires that challenges the perception of waste by transforming it into a meaningful visual form, encouraging viewers to reconsider the hidden value in materials often thrown away.",
+      "primary_media": "plate.udie",
+      "verified": true
+    },
+    {
+      "slug": "survival-spoon",
+      "title": "Survival Spoon",
+      "artist": "abel-naomi-ufedo-ojo",
+      "materials": ["burnt papers", "drink cans", "discarded plastic"],
+      "statement": "A heavy but hopeful story representing children who never get the chance to be children — those who must work to find their next meal. The spoon they hold is not just for eating; it is their only tool for survival in a world that often ignores their struggle.",
+      "primary_media": "plate.naomi",
+      "verified": true
+    },
+    {
+      "slug": "the-only-address",
+      "title": "The Only Address",
+      "artist": "abduljabbar-hasheem-saidu",
+      "materials": ["discarded items"],
+      "statement": "Centred on the belief that art can educate, inspire and create awareness, the work gives new value and purpose to materials considered waste — a reminder that the Earth is the only address we have.",
+      "primary_media": "plate.abduljabbar",
+      "verified": true
+    },
+    {
+      "slug": "the-treasure-found",
+      "title": "The Treasure Found",
+      "artist": "jesse-ojatta-ameje",
+      "materials": ["discarded fabrics", "Coca-Cola cans", "plastics", "PVC packing strips"],
+      "statement": "A call to value and protect our environment: materials we often ignore — discarded fabrics, drink cans, plastics and PVC packing strips — transformed into something valuable and beautiful.",
+      "primary_media": "plate.jesse",
+      "verified": true
+    },
+    {
+      "slug": "adorn-her-grass-to-grace",
+      "title": "Adorn Her, Grass to Grace",
+      "artist": "kaynan-peter",
+      "materials": ["discarded materials collected from different communities"],
+      "statement": "Reflects how diverse elements can come together to create something meaningful and beautiful; built from discarded materials collected across communities, a reminder that collaboration and shared effort produce extraordinary results.",
+      "primary_media": "plate.kaynan",
+      "verified": true
+    },
+    {
+      "slug": "starrs-everywhere",
+      "title": "Starrs Everywhere",
+      "artist": "ngozi-akande",
+      "materials": ["discarded materials"],
+      "statement": "Reflects a community shaped by uncertainty yet filled with hidden potential and untapped talent — within challenging environments lie opportunities for growth when individuals are supported and empowered.",
+      "primary_media": "plate.ngozi",
+      "verified": true
+    },
+    {
+      "slug": "man-and-his-environment",
+      "title": "Man, and His Environment",
+      "artist": "ahmed-michael",
+      "materials": ["discarded foam", "plastics"],
+      "statement": "Uses discarded foam and plastics to explore the close relationship between humans and the environment, showing how human actions shape and define the world we live in.",
+      "primary_media": "plate.ahmed",
+      "verified": true
+    },
+    {
+      "slug": "the-sum-of-us",
+      "title": "The Sum of Us",
+      "artist": "sadiq-abimbola-rukayat",
+      "materials": ["acrylic waste peels", "discarded nylons"],
+      "statement": "Human experiences are made of different moments, choices and challenges that shape who we become. Acrylic waste peels and discarded nylons unified into a composition on self-discovery, growth and transformation.",
+      "primary_media": "plate.sadiq",
+      "verified": true
+    },
+    {
+      "slug": "safe-house",
+      "title": "Safe House",
+      "artist": "joel-friday",
+      "materials": ["carton", "discarded fabrics (tailors' waste)"],
+      "statement": "Transforming carton into a house and tailors' fabric waste into form: a clean and peaceful environment where everyone feels protected, highlighting the importance of keeping our surroundings beautiful and free from waste.",
+      "primary_media": "plate.joel",
+      "verified": true
+    },
+    {
+      "slug": "a-call-to-build",
+      "title": "A Call to Build",
+      "artist": "samuel-ilori",
+      "materials": ["waste whiteboard marker refill plastics", "slippers", "plastic strips"],
+      "statement": "Reflects the different roles people play in society — those contributing to progress and those affecting it negatively — encouraging unity and responsibility toward building a better, cleaner nation.",
+      "title_variant": "A Call to Build Our Nation",
+      "primary_media": "plate.samuel",
+      "verified": true
+    },
+    {
+      "slug": "mai-kayan-marmari",
+      "title": "Mai Kayan Marmari",
+      "artist": "olowa-emmanuel-akorede",
+      "materials": ["discarded items"],
+      "statement": "An advocacy for Northern Nigeria challenging negative media narratives: a man pushing a wheel of fruits symbolises labour, abundance and overlooked potential, raising the question of national responsibility — if one region is neglected, the impact is collective.",
+      "primary_media": "plate.olowa",
+      "verified": true
+    },
+    {
+      "slug": "garbage-to-grace",
+      "title": "Garbage to Grace",
+      "artist": "buhari-sani-junaid",
+      "materials": ["discarded materials", "green elements"],
+      "statement": "A hand emerging from discarded materials symbolises humanity's fragile relationship with the environment and the possibility of recovery through conscious action; a butterfly resting on a finger represents transformation and hope, while green elements suggest regeneration.",
+      "primary_media": "plate.buhari",
+      "verified": true
+    },
+    {
+      "slug": "gwarzo",
+      "title": "Gwarzo",
+      "artist": "mbaya-aisha",
+      "materials": ["fractured CD discs", "discarded dustbin leather bag", "carton", "melted plastic bottles"],
+      "statement": "Celebrates the strength, struggles and hope of the northern Nigerian woman: fractured CD discs, a discarded leather bag, carton and melted plastic bottles transformed into a representation of resilience and beauty, balancing vulnerability and strength.",
+      "primary_media": "plate.mbaya",
+      "verified": true
+    },
+
+    {
+      "slug": "tomorrow",
+      "title": "Tomorrow",
+      "artist": "caroline-useh",
+      "medium": "Cotton bias tapes on canvas / board",
+      "materials": ["cotton bias tapes"],
+      "exhibitor_role": "facilitator",
+      "verified": true
+    },
+    {
+      "slug": "top-up",
+      "title": "Top Up",
+      "artist": "yusuf-durodola",
+      "medium": "Discarded items assemblage and ink on board",
+      "materials": ["discarded items", "ink"],
+      "exhibitor_role": "facilitator",
+      "verified": true
+    }
+  ],
+  "_pending": [
+    {
+      "what": "15th founding artist & artwork",
+      "status": "INTENTIONALLY_INCOMPLETE",
+      "reason": "The catalogue states 15 selected artists; 14 founding-artist plates are confirmed. The 15th is unconfirmed and left blank until verified from official documentation (Principle VI: accuracy over completeness). Do not guess.",
+      "confirmed_count": 14
+    }
+  ]
+}

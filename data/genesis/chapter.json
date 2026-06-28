@@ -1,0 +1,32 @@
+{
+  "slug": "abuja-2026",
+  "name": "Abuja",
+  "city": "Abuja",
+  "country": "Nigeria",
+  "status": "genesis",
+  "is_genesis": true,
+  "immutable": true,
+  "_immutable_note": "Principle II: the Genesis Chapter is sacred — never overwrite, replace, or demote. Future chapters are additions.",
+  "movement": "Because There Is No Planet B",
+  "theme": "From Waste to Resource: Art that Changes Perspectives",
+  "event_name": "2026 World Environment Day — Upcycling Art Workshop & Exhibition",
+  "opened_on": "2026-06-05",
+  "world_environment_day": true,
+  "venue": "Nike Art Gallery, Abuja",
+  "duration": "5-day upcycling art masterclass + exhibition",
+  "summary": "The inaugural chapter of Planet B: a five-day upcycling art masterclass and exhibition in which 15 selected artists transformed discarded materials into 61×61cm assemblages, opened on World Environment Day at Nike Art Gallery, Abuja. Sponsored by the Royal Norwegian Embassy and hosted by Nike Art Gallery, the chapter culminated in a panel discussion and the performance Òdàlè Dà'lẹ̀.",
+  "yoruba_proverbs": [
+    { "yoruba": "Bi ilu baa baje, ti onilu lo n da", "english": "When the community falls into disrepair, its restoration lies in the hands of those who inhabit it." },
+    { "yoruba": "Òdàlè dà'lẹ̀", "english": "He who litters the land is a betrayer of the land." }
+  ],
+  "partners": [
+    { "organization": "royal-norwegian-embassy", "role": "sponsor" },
+    { "organization": "nike-art-foundation", "role": "host" },
+    { "organization": "yd-studio", "role": "partner" },
+    { "organization": "the-art-exential", "role": "partner" },
+    { "organization": "edge-media", "role": "media" },
+    { "organization": "nta", "role": "media" }
+  ],
+  "hero_media": "media.keyart.cover",
+  "verified": true
+}

@@ -1,0 +1,46 @@
+{
+  "_note": "Contribution-based certificates to be issued for the Genesis Chapter (Principle III). One certificate per verified contribution role; a person may hold several. verification_hash is computed at issuance from the canonical record; soulbound_ref stays null until/if minted (Principle VII). status 'draft' until consent granted and issuance ceremony confirmed.",
+  "chapter": "abuja-2026",
+  "id_format": "PB-ABJ-2026-NNN",
+  "certificates": [
+    { "public_id": "PB-ABJ-2026-001", "person": "ajayi-elijah-snoz", "role_at_issue": "Founding Artist", "artwork": "the-watchful-eye", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-002", "person": "udie-undie", "role_at_issue": "Founding Artist", "artwork": "reframing-rubbish", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-003", "person": "abel-naomi-ufedo-ojo", "role_at_issue": "Founding Artist", "artwork": "survival-spoon", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-004", "person": "abduljabbar-hasheem-saidu", "role_at_issue": "Founding Artist", "artwork": "the-only-address", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-005", "person": "jesse-ojatta-ameje", "role_at_issue": "Founding Artist", "artwork": "the-treasure-found", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-006", "person": "kaynan-peter", "role_at_issue": "Founding Artist", "artwork": "adorn-her-grass-to-grace", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-007", "person": "ngozi-akande", "role_at_issue": "Founding Artist", "artwork": "starrs-everywhere", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-008", "person": "ahmed-michael", "role_at_issue": "Founding Artist", "artwork": "man-and-his-environment", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-009", "person": "sadiq-abimbola-rukayat", "role_at_issue": "Founding Artist", "artwork": "the-sum-of-us", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-010", "person": "joel-friday", "role_at_issue": "Founding Artist", "artwork": "safe-house", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-011", "person": "samuel-ilori", "role_at_issue": "Founding Artist", "artwork": "a-call-to-build", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-012", "person": "olowa-emmanuel-akorede", "role_at_issue": "Founding Artist", "artwork": "mai-kayan-marmari", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-013", "person": "buhari-sani-junaid", "role_at_issue": "Founding Artist", "artwork": "garbage-to-grace", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-014", "person": "mbaya-aisha", "role_at_issue": "Founding Artist", "artwork": "gwarzo", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-015", "person": null, "role_at_issue": "Founding Artist", "artwork": null, "status": "reserved", "_note": "Reserved for the 15th founding artist — INTENTIONALLY_INCOMPLETE until verified." },
+
+    { "public_id": "PB-ABJ-2026-016", "person": "yusuf-durodola", "role_at_issue": "Lead Facilitator / Workshop Director", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-017", "person": "temitope-oladeji", "role_at_issue": "Co-Facilitator / Workshop Coordinator & Curator", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-018", "person": "caroline-useh", "role_at_issue": "Co-Facilitator", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-019", "person": "katurag-chinyio", "role_at_issue": "Assistant Workshop Director", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-020", "person": "abdullahi-ibrahim", "role_at_issue": "IT Manager / Logistics Coordinator", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-021", "person": "lavender-onyenah", "role_at_issue": "Organizing Committee", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-022", "person": "benjamin-oladapo", "role_at_issue": "Photographer", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-023", "person": "shedrach-gabriel", "role_at_issue": "Co-Performer", "status": "draft" },
+
+    { "public_id": "PB-ABJ-2026-024", "person": "nike-okundaye", "role_at_issue": "Host — Founder/Director, Nike Art Gallery & Foundation", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-025", "person": "svein-baera", "role_at_issue": "Embassy Representative — Ambassador", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-026", "person": "solveig-andresen", "role_at_issue": "Embassy Representative — Counsellor", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-027", "person": "ingrid-rollag-fosker", "role_at_issue": "Embassy Representative — Organizing Committee", "status": "draft" },
+
+    { "public_id": "PB-ABJ-2026-028", "person": "ikechi-chris-ebuka", "role_at_issue": "Guest Speaker / Environmental Advocate", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-029", "person": "zainab-mustapha-umara", "role_at_issue": "Guest Speaker / Environmental Advocate", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-030", "person": "christianah-imoleayo-owoeye", "role_at_issue": "Guest Speaker / Environmental Advocate", "status": "draft" }
+  ],
+  "organization_certificates": [
+    { "public_id": "PB-ABJ-2026-ORG-01", "organization": "royal-norwegian-embassy", "role_at_issue": "Sponsor", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-ORG-02", "organization": "nike-art-foundation", "role_at_issue": "Host", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-ORG-03", "organization": "edge-media", "role_at_issue": "Media Team", "status": "draft" },
+    { "public_id": "PB-ABJ-2026-ORG-04", "organization": "nta", "role_at_issue": "Media / Broadcast", "status": "draft" }
+  ]
+}

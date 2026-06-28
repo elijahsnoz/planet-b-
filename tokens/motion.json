@@ -1,0 +1,31 @@
+{
+  "$description": "Planet B motion tokens — from docs/06-motion-principles.md. Animate only transform & opacity (60fps). Every value has a reduced-motion path.",
+  "duration": {
+    "instant": { "$value": "120ms", "$type": "duration", "$description": "hover, focus, small state" },
+    "base":    { "$value": "240ms", "$type": "duration", "$description": "most UI transitions" },
+    "slow":    { "$value": "480ms", "$type": "duration", "$description": "section reveals, image entrances" },
+    "cine":    { "$value": "900ms", "$type": "duration", "$description": "threshold / cinematic beats" },
+    "breath":  { "$value": "6000ms", "$type": "duration", "$description": "the breathing eye loop" }
+  },
+  "easing": {
+    "standard": { "$value": "cubic-bezier(0.2, 0.0, 0.0, 1.0)", "$type": "cubicBezier", "$description": "enter" },
+    "exit":     { "$value": "cubic-bezier(0.4, 0.0, 1.0, 1.0)", "$type": "cubicBezier" },
+    "breath":   { "$value": "ease-in-out", "$type": "cubicBezier", "$description": "loops" }
+  },
+  "transform": {
+    "reveal-rise": { "$value": "24px", "$type": "dimension", "$description": "enter-once rise distance" },
+    "breath-scale-from": { "$value": "1.0", "$type": "number" },
+    "breath-scale-to":   { "$value": "1.03", "$type": "number" }
+  },
+  "stagger": { "children": { "$value": "50ms", "$type": "duration" } },
+  "signatures": {
+    "the-breath": "Earth/eye scales 1.0→1.03 over breath duration, ease-in-out, infinite. The heartbeat.",
+    "waste-to-art": "Scroll-linked convergence of material fragments into an artwork; static before/after fallback under reduced-motion.",
+    "the-reveal": "rise(24px)+fade, once on enter; stagger children 50ms.",
+    "the-watch": "single tick on the Reflection beat, then still."
+  },
+  "reduced_motion": {
+    "policy": "When prefers-reduced-motion: reduce — disable loops & scroll-scenes, replace with cross-fades/instant states. The emotional arc still reads as a quiet sequence.",
+    "duration-cap": "240ms"
+  }
+}

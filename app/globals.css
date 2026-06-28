@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Planet B design tokens (canonical spec: tokens/tokens.css).
+ * Inlined here so the Next build has no external @import dependency.
+ * Keep in sync with tokens/tokens.css.
+ */
+:root {
+  --pb-ink: #0b0b0c;
+  --pb-paper: #f6f3ec;
+  --pb-oxblood: #6e1414;
+  --pb-clay: #7a5c3e;
+  --pb-stone: #9b978e;
+  --pb-mist: #e7e2d7;
+  --pb-signal: #2fa36b;
+
+  --pb-bg: var(--pb-paper);
+  --pb-bg-inverse: var(--pb-ink);
+  --pb-text: var(--pb-ink);
+  --pb-text-muted: var(--pb-stone);
+  --pb-accent: var(--pb-oxblood);
+  --pb-border: var(--pb-mist);
+  --pb-verified: var(--pb-signal);
+  --pb-focus-ring: var(--pb-oxblood);
+
+  --pb-font-display: var(--font-display), Canela, "Times New Roman", serif;
+  --pb-font-text: var(--font-text), Söhne, system-ui, sans-serif;
+  --pb-font-mono: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+  --pb-measure: 66ch;
+  --pb-container: 1200px;
+  --pb-container-wide: 1440px;
+
+  --pb-shadow-museum-soft: 0 1px 2px rgba(11, 11, 12, 0.04), 0 8px 24px rgba(11, 11, 12, 0.06);
+
+  --pb-dur-instant: 120ms;
+  --pb-dur-base: 240ms;
+  --pb-dur-slow: 480ms;
+  --pb-dur-cine: 900ms;
+  --pb-dur-breath: 6000ms;
+  --pb-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --pb-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --pb-ease-breath: ease-in-out;
+}
+
+[data-theme="ink"] {
+  --pb-bg: var(--pb-ink);
+  --pb-text: var(--pb-paper);
+  --pb-text-muted: #b7b2a7;
+  --pb-accent: #9b2b2b;
+  --pb-border: #2a2a2c;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--pb-bg);
+    color: var(--pb-text);
+    font-family: var(--pb-font-text);
+    line-height: 1.5;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--pb-font-display);
+    line-height: 1.1;
+    font-weight: 400;
+  }
+  ::selection {
+    background: var(--pb-oxblood);
+    color: var(--pb-paper);
+  }
+  :where(a, button, [tabindex]):focus-visible {
+    outline: 2px solid var(--pb-focus-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+/* The Breath — the heartbeat of the threshold */
+@keyframes pb-breath {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.03); opacity: 1; }
+}
+.pb-breath {
+  animation: pb-breath var(--pb-dur-breath) var(--pb-ease-breath) infinite;
+  transform-origin: center;
+}
+
+/* The blink — the eye opening (logo / hero) */
+@keyframes pb-blink {
+  0% { transform: scaleY(0.04); }
+  60% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
+}
+
+/* Accessibility: every animation yields. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,96 @@
+/*
+ * Planet B — design tokens as CSS custom properties.
+ * Generated from tokens/tokens.json + tokens/motion.json (docs/05, docs/06).
+ * This is the runtime contract; components reference var(--pb-*), never raw values.
+ */
+:root {
+  /* color — quiet chrome; artworks supply the color */
+  --pb-ink: #0B0B0C;
+  --pb-paper: #F6F3EC;
+  --pb-oxblood: #6E1414;
+  --pb-clay: #7A5C3E;
+  --pb-stone: #9B978E;
+  --pb-mist: #E7E2D7;
+  --pb-signal: #2FA36B; /* semantic only: verified / impact */
+
+  /* semantic */
+  --pb-bg: var(--pb-paper);
+  --pb-bg-inverse: var(--pb-ink);
+  --pb-text: var(--pb-ink);
+  --pb-text-muted: var(--pb-stone);
+  --pb-accent: var(--pb-oxblood);
+  --pb-border: var(--pb-mist);
+  --pb-verified: var(--pb-signal);
+  --pb-focus-ring: var(--pb-oxblood);
+
+  /* type */
+  --pb-font-display: Canela, Fraunces, "Times New Roman", serif;
+  --pb-font-text: Söhne, Inter, system-ui, sans-serif;
+  --pb-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --pb-fs-display-1: clamp(2.75rem, 6vw, 7rem);
+  --pb-fs-display-2: clamp(2rem, 4vw, 3rem);
+  --pb-fs-h1: clamp(1.6rem, 2.5vw, 2rem);
+  --pb-fs-h2: 1.5rem;
+  --pb-fs-h3: 1.25rem;
+  --pb-fs-body: 1.125rem;
+  --pb-fs-small: 0.9rem;
+  --pb-fs-caption: 0.8rem;
+  --pb-lh-display: 1.1;
+  --pb-lh-body: 1.5;
+  --pb-measure: 66ch;
+
+  /* space (8px base) */
+  --pb-space-1: 4px;  --pb-space-2: 8px;  --pb-space-3: 12px; --pb-space-4: 16px;
+  --pb-space-5: 24px; --pb-space-6: 32px; --pb-space-7: 48px; --pb-space-8: 64px;
+  --pb-space-9: 96px; --pb-space-10: 128px;
+
+  /* radius / shadow / layout */
+  --pb-radius-none: 0; --pb-radius-sm: 2px; --pb-radius-md: 8px;
+  --pb-shadow-museum-soft: 0 1px 2px rgba(11,11,12,.04), 0 8px 24px rgba(11,11,12,.06);
+  --pb-container: 1200px;
+  --pb-container-wide: 1440px;
+
+  /* motion */
+  --pb-dur-instant: 120ms;
+  --pb-dur-base: 240ms;
+  --pb-dur-slow: 480ms;
+  --pb-dur-cine: 900ms;
+  --pb-dur-breath: 6000ms;
+  --pb-ease-standard: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+  --pb-ease-exit: cubic-bezier(0.4, 0.0, 1.0, 1.0);
+  --pb-ease-breath: ease-in-out;
+  --pb-reveal-rise: 24px;
+  --pb-stagger: 50ms;
+}
+
+/* Dark threshold surface */
+[data-theme="ink"] {
+  --pb-bg: var(--pb-ink);
+  --pb-text: var(--pb-paper);
+  --pb-text-muted: #B7B2A7;
+  --pb-accent: #9B2B2B; /* oxblood brightened for contrast on ink */
+  --pb-border: #2A2A2C;
+}
+
+/* Accessibility: every animation must yield. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --pb-dur-instant: 1ms;
+    --pb-dur-base: 1ms;
+    --pb-dur-slow: 1ms;
+    --pb-dur-cine: 1ms;
+    --pb-dur-breath: 1ms;
+    --pb-reveal-rise: 0px;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--pb-focus-ring);
+  outline-offset: 2px;
+}

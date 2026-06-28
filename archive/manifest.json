@@ -1,0 +1,92 @@
+{
+  "$schema": "./manifest.schema (informal) — see archive/README.md",
+  "manifest_version": "1.0.0",
+  "generated_for": "Planet B — Genesis Chapter (Abuja 2026)",
+  "preservation_policy": {
+    "masters_are_immutable": true,
+    "note": "Files under archive/source/ are ORIGINAL masters. Never edit, rename, or overwrite them. Derivatives (web images, transcoded video, captions) are generated elsewhere and are regenerable. Integrity is proven by sha256 below; re-verify periodically (fixity check).",
+    "hash_algorithm": "sha256"
+  },
+  "chapter": "abuja-2026",
+  "items": [
+    {
+      "id": "media.catalogue",
+      "type": "document",
+      "subtype": "exhibition-catalogue",
+      "path": "archive/source/catalogue/2026 WED CATALOGUE 2.pdf",
+      "sha256": "27edd1ec4df7ab42830f76ea5a705090a2a0abf5a101b5455b190e11c079a5ff",
+      "bytes": 3823280,
+      "pages": 55,
+      "title": "Because There Is No Planet B — 2026 World Environment Day Catalogue",
+      "publisher": "Integral Visual Ltd.",
+      "isbn": "978-978-68-8003-7",
+      "source": "catalogue",
+      "license": "© 2026 Royal Norwegian Embassy & Nike Art Gallery — all rights reserved; used by permission of the founding partners",
+      "significance": "Primary textual DNA of the Genesis Chapter: artist statements, partner notes, panelist & team bios, performance text."
+    },
+    {
+      "id": "media.exhibition-video",
+      "type": "video",
+      "path": "archive/source/exhibition-video/VIDEO-2026-06-19-12-03-07 2.mp4",
+      "sha256": "6bb4df55672c21fa86eac902ab0b125636b7adaeb686c253d8878924cfde522a",
+      "bytes": 29861285,
+      "source": "edge media (to confirm)",
+      "license": "pending confirmation",
+      "needs": ["captions_vtt", "transcript", "transcode_av1"],
+      "significance": "Exhibition documentation."
+    },
+    {
+      "id": "media.upcycle-workshop-video",
+      "type": "video",
+      "path": "archive/source/upcycle-workshop/UPCYCLE WORKSHOP 2.mp4",
+      "sha256": "ee3d16c885ab9afb656ad3ccb1553a6bce7828208e0d9283d0ead65744c8c4a4",
+      "bytes": 371643739,
+      "source": "edge media (to confirm)",
+      "license": "pending confirmation",
+      "needs": ["captions_vtt", "transcript", "transcode_av1", "web_proxy"],
+      "significance": "The 5-day upcycling masterclass — creation footage; richest behind-the-scenes record."
+    },
+    {
+      "id": "media.press-urls",
+      "type": "document",
+      "subtype": "press-links",
+      "path": "archive/source/press/blog",
+      "sha256": "104e49074ba65652ad7628ee388c50252b57d8a15ed221ad7d202f4b79a16b6e",
+      "bytes": 296,
+      "links": [
+        "https://thenationonlineng.net/world-environment-day-durodola-leads-artists-to-reimagine-found-objects/",
+        "https://tribuneonlineng.com/norway-pushes-for-greater-investment-in-waste-to-wealth-initiatives/",
+        "https://punchng.com/norway-urges-nigerian-businesses-to-swap-diesel-generators-for-solar-power/"
+      ],
+      "needs": ["archive_snapshots (avoid link rot)"]
+    },
+
+    { "id": "plate.snoz.primary", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/IMG_0225 2.jpg", "sha256": "b9c81d946a5fcbc843133481562944cfafd6bd893706c78495e0c88212b668a6", "bytes": 213876, "depicts": { "person": "ajayi-elijah-snoz", "artwork": "the-watchful-eye" }, "note": "Primary spread for the brand-seed artwork." },
+    { "id": "plate.snoz.variant", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/0857c878-c547-4595-a431-0873651ef826 2.JPG", "sha256": "59f5f35c100a1e3353ca652cbb8785113a26d89cab248d1c6e83aa5660f8e79c", "bytes": 139901, "depicts": { "person": "ajayi-elijah-snoz", "artwork": "the-watchful-eye" }, "note": "Variant export of the Snoz spread." },
+    { "id": "plate.olowa", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/1b03285b-4015-49e6-8755-f321e6ddf623 2.JPG", "sha256": "bf29614ba0ff1a68f590814804aa71d7c5a25b559339543979bd7a9d68ccf153", "bytes": 125717, "depicts": { "person": "olowa-emmanuel-akorede", "artwork": "mai-kayan-marmari" } },
+    { "id": "plate.udie", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/20e60f3b-ed80-4513-a745-d72ea55203cd 2.JPG", "sha256": "b16d2db12ab89156c68594bb54d925b762aad354eae48ee8352228d7d54d0c77", "bytes": 125859, "depicts": { "person": "udie-undie", "artwork": "reframing-rubbish" } },
+    { "id": "plate.joel", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/2e6938c3-29c0-4472-82df-f79ab2260c39 2.JPG", "sha256": "a1ff77956682e2dd43eb6fb6fcd5c63dfb4cba27ab27394cc2318db03588b7bc", "bytes": 155908, "depicts": { "person": "joel-friday", "artwork": "safe-house" } },
+    { "id": "plate.kaynan", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/3cac333a-b7fc-40b7-8e9a-d46de196a0dc 2.JPG", "sha256": "6025b057eb67f3f65e0f8511bb5807fe32ebb214196fb918cbcb6e479f3f261c", "bytes": 103970, "depicts": { "person": "kaynan-peter", "artwork": "adorn-her-grass-to-grace" } },
+    { "id": "plate.sadiq", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/620cd182-6303-43d8-8b1b-82a108222f2f 2.JPG", "sha256": "a15807a9d2ff5fbd935746168d56102479c68163f5c40b7889ecf745c81d20fb", "bytes": 138651, "depicts": { "person": "sadiq-abimbola-rukayat", "artwork": "the-sum-of-us" } },
+    { "id": "plate.buhari", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/6fa5caaa-5928-46f3-8b80-9df28b6a3510 2.JPG", "sha256": "3ec668833bbf30debeee9d9e5d6e16edcbbbd109ae26d222b8bc9d2ac1eb2d0c", "bytes": 133013, "depicts": { "person": "buhari-sani-junaid", "artwork": "garbage-to-grace" } },
+    { "id": "plate.naomi", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/752b01ac-9931-4a28-a1ec-e268179929e9 2.JPG", "sha256": "48f9b6c9fdd37a351fcabbe410688979f774acb802530a18bc3e56a07a07b056", "bytes": 147076, "depicts": { "person": "abel-naomi-ufedo-ojo", "artwork": "survival-spoon" } },
+    { "id": "plate.samuel", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/b9f28417-49c8-451d-b4f3-ad057bdc92c9 2.JPG", "sha256": "607891253b4276b51ae1ada15ccb76d58b995d294e2932cb581fc6bc274e7752", "bytes": 123831, "depicts": { "person": "samuel-ilori", "artwork": "a-call-to-build" } },
+    { "id": "plate.jesse", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/bb12daa4-9171-41d1-ad4a-4db3894a413c 2.JPG", "sha256": "138636173bf970788bd7bbd23bdec13a431c1c257eb67dcdbca390caf3c78159", "bytes": 109528, "depicts": { "person": "jesse-ojatta-ameje", "artwork": "the-treasure-found" } },
+    { "id": "plate.ngozi", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/c255df04-68aa-47ff-be04-cbb1bba08f33 2.JPG", "sha256": "738034636f1ce4d0133a3dd0573c43776448387fce4bea8564cbaef39d7840e3", "bytes": 133043, "depicts": { "person": "ngozi-akande", "artwork": "starrs-everywhere" } },
+    { "id": "plate.mbaya", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/d1d24188-9450-4b54-8dbb-3affc8f9b6ed 2.JPG", "sha256": "af365e6091e40d99a4675832075a78ddefe1e40b2b56bdaa35e7782c9c3c6531", "bytes": 135226, "depicts": { "person": "mbaya-aisha", "artwork": "gwarzo" } },
+    { "id": "plate.ahmed", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/d6a59782-1f1a-4e6d-b952-32070f227380 2.JPG", "sha256": "a6c03e746754a0eee04fd4a19117ce3f6ca2ffa37d9ef18aa211e6f8e9650ec7", "bytes": 112359, "depicts": { "person": "ahmed-michael", "artwork": "man-and-his-environment" } },
+    { "id": "plate.abduljabbar", "type": "image", "subtype": "catalogue-spread", "path": "archive/source/plates/da5e0834-8bf8-4f2d-8ac5-4c25058d6096 2.JPG", "sha256": "f67c8ba655a0bd51213ed9dc6faeffdf156b06bee6504218c325ba10bc5d7809", "bytes": 128325, "depicts": { "person": "abduljabbar-hasheem-saidu", "artwork": "the-only-address" } },
+
+    { "id": "media.divider.road-walk", "type": "image", "subtype": "section-divider", "path": "archive/source/plates/1f824bfe-0b06-41b9-b5da-1aaa15b90785 2.JPG", "sha256": "58ac93b440ac6881582c4b1275fe9232154c535501dc115917efd66cb6e89d3d", "bytes": 150698, "depicts": { "event": "road-walk-sensitization" }, "caption": "Workshop Participants — 'and their exhibits' divider; group at the Nike Art Gallery sign during the Road Walk community sensitization." },
+    { "id": "media.keyart.meet-the-team", "type": "image", "subtype": "key-art", "path": "archive/source/plates/deb73764-ca9c-4d2a-8dfd-f855c4b9e2f7 2.JPG", "sha256": "af17cf0910b4967fa1461b3af89df21cdf412d0115840a431a0f289612d322e0", "bytes": 112804, "caption": "'Upcycling Art Workshop with Yusuf Durodola — Meet the Team': Yusuf Durodola, Katurag Chinyio, Temitope Oladeji, Caroline Useh, Abdullahi Ibrahim." },
+    { "id": "media.keyart.cover", "type": "image", "subtype": "key-art", "path": "archive/source/plates/e83a1480-3d7d-452e-a8fe-840fbe00a45a 2.JPG", "sha256": "03cd2b849a76bf61b24b942b9bd2d7e8062b04f6cfe0db083dcc9ec0447398ec", "bytes": 155843, "caption": "Event key art: 'Because There Is No Planet B — From Waste to Resource', Earth wrapped in the Norwegian flag, Norwegian Embassy Abuja + Nike Art Gallery Abuja lockups. Source of the event's blue/ochre promotional palette (distinct from the institutional palette in docs/05)." }
+  ],
+  "pending_records": [
+    {
+      "what": "15th founding artist",
+      "status": "INTENTIONALLY_INCOMPLETE",
+      "policy": "Do not guess. 14 founding-artist spreads are confirmed by plate. The 15th selected artist (the catalogue states 15) is unconfirmed by name/work and is left blank until verified from official documentation. Historical accuracy over completeness.",
+      "confirmed_artist_count": 14
+    }
+  ]
+}

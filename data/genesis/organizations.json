@@ -1,0 +1,95 @@
+{
+  "organizations": [
+    {
+      "slug": "royal-norwegian-embassy",
+      "name": "Royal Norwegian Embassy, Abuja",
+      "type": "embassy",
+      "role": "sponsor",
+      "about": "The official representation of the Kingdom of Norway in Nigeria, advancing cooperation across energy, maritime affairs, economic development, governance, climate action, and cultural exchange. For World Environment Day it embraced art as a tool for environmental awareness and advocacy, initiating and sponsoring the Upcycle Art Workshop & Exhibition.",
+      "ministry": "Ministry of Foreign Affairs, Norway",
+      "verified": true
+    },
+    {
+      "slug": "nike-art-foundation",
+      "name": "Nike Art Foundation / Nike Art Gallery, Abuja",
+      "type": "foundation",
+      "role": "host",
+      "about": "Founded and led by Chief Mrs. Nike Monica Okundaye, established 1983 in Osogbo. A world-renowned institution for artistic education, cultural preservation, and creative empowerment, providing free training in painting, wood sculpture, beadwork, mosaic, batik, adire, appliqué, quilting and more — teaching art in continuity with indigenous African culture. Hosted the workshop and exhibition.",
+      "established": "1983",
+      "verified": true
+    },
+    {
+      "slug": "yd-studio",
+      "name": "YD Studio, Lagos",
+      "type": "company",
+      "role": "partner",
+      "about": "Yusuf Durodola's studio; partner on the workshop and art installation, and home of the Trash To Treasure Movement.",
+      "verified": true
+    },
+    {
+      "slug": "the-art-exential",
+      "name": "The Art Exential, Lagos",
+      "type": "company",
+      "role": "partner",
+      "about": "A 360-degree art firm founded 2020 by Temitope Oladeji; offerings include art advisory, collection management, installation/restoration, valuation, and project management. Co-delivered curation and installation.",
+      "established": "2020",
+      "verified": true
+    },
+    {
+      "slug": "edge-media",
+      "name": "Edge Media",
+      "type": "media",
+      "role": "media",
+      "about": "Media team documenting the workshop and exhibition.",
+      "verified": true
+    },
+    {
+      "slug": "nta",
+      "name": "NTA (Nigerian Television Authority)",
+      "type": "media",
+      "role": "media",
+      "about": "Provided broadcast documentation of the process.",
+      "verified": true
+    },
+    {
+      "slug": "plogging-nigeria",
+      "name": "Plogging Nigeria",
+      "type": "ngo",
+      "role": "community-partner",
+      "about": "Environmental organization; represented on the panel by Ikechi Chris Ebuka.",
+      "verified": true
+    },
+    {
+      "slug": "nesrea",
+      "name": "NESREA — National Environmental Standards and Regulations Enforcement Agency",
+      "type": "govt",
+      "role": "community-partner",
+      "about": "Nigerian environmental regulator; represented on the panel by Zainab Mustapha Umara (Environmental Quality Control).",
+      "verified": true
+    },
+    {
+      "slug": "trash-monger",
+      "name": "Trash Monger Limited",
+      "type": "company",
+      "role": "community-partner",
+      "about": "A Nigerian recycling and circular-economy social enterprise (CEO Christianah Imoleayo Owoeye) that has diverted over 6,500 tonnes of waste and empowered women and young people through green skills.",
+      "verified": true
+    },
+    {
+      "slug": "artegun-foundation",
+      "name": "Artegun Foundation",
+      "type": "foundation",
+      "role": "affiliated",
+      "about": "Founded by Yusuf Durodola to nurture emerging artists and advance curatorial practice.",
+      "verified": true
+    },
+    {
+      "slug": "integral-visual",
+      "name": "Integral Visual Ltd.",
+      "type": "company",
+      "role": "publisher",
+      "about": "Publisher of the exhibition catalogue (Ikorodu, Lagos). ISBN 978-978-68-8003-7.",
+      "verified": true
+    }
+  ]
+}
