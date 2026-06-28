@@ -8,7 +8,7 @@
  * Timestamps are ISO text (human-readable in the archive file); booleans are 0/1 integers.
  */
 import { sql } from "drizzle-orm";
-import { integer, primaryKey, sqliteTable, text, uniqueIndex, index } from "drizzle-orm/sqlite-core";
+import { integer, primaryKey, real, sqliteTable, text, uniqueIndex, index } from "drizzle-orm/sqlite-core";
 
 const now = sql`(strftime('%Y-%m-%dT%H:%M:%fZ','now'))`;
 
@@ -296,3 +296,91 @@ export const foundingCouncil = sqliteTable("founding_council", {
   sortOrder: integer("sort_order").default(0),
   notes: text("notes"),
 });
+
+/* ── trust layer: verification, claims, anchoring (Phase 2B) ──────────────────
+ * Additive, Postgres-ready (ADR-0001), and matching docs/phase-2/02-database-erd.
+ * Certificates stay immutable; these tables hold the *digital relationships*
+ * (verification, claiming, on-chain proof) that evolve around them.
+ */
+
+/** Certificate claim/verification workflow (doc 05, ADR-0008). */
+export const claimRequests = sqliteTable(
+  "claim_requests",
+  {
+    id: text("id").primaryKey(),
+    fileRef: text("file_ref"), // uploaded image/pdf storage key
+    ocrText: text("ocr_text"),
+    ocrConfidence: real("ocr_confidence"), // 0..1, null until OCR runs
+    parsedFields: text("parsed_fields", { mode: "json" }),
+    submittedPublicId: text("submitted_public_id"), // what the claimant/OCR asserts
+    matchedCertificateId: text("matched_certificate_id").references(() => certificates.id),
+    confidence: real("confidence"), // match score 0..1
+    status: text("status").notNull().default("uploaded"), // uploaded|ocr_done|matched|needs_review|claimed|rejected
+    submittedBy: text("submitted_by").references(() => users.id),
+    reviewer: text("reviewer").references(() => users.id),
+    reviewNote: text("review_note"),
+    decidedAt: text("decided_at"),
+    createdAt: text("created_at").notNull().default(now),
+    updatedAt: text("updated_at").notNull().default(now),
+  },
+  (t) => ({
+    statusIdx: index("ix_claimreq_status").on(t.status),
+    certIdx: index("ix_claimreq_cert").on(t.matchedCertificateId),
+    userIdx: index("ix_claimreq_user").on(t.submittedBy),
+  })
+);
+
+/** Merkle batch anchoring (doc 06) — populated only when the chain flag is on. */
+export const chainAnchors = sqliteTable(
+  "chain_anchors",
+  {
+    id: text("id").primaryKey(),
+    anchorId: text("anchor_id").unique().notNull(), // PB-ANCHOR-000001
+    merkleRoot: text("merkle_root").notNull(),
+    memberCount: integer("member_count").notNull(),
+    provider: text("provider"),
+    txRef: text("tx_ref"),
+    status: text("status").notNull().default("pending"), // pending|committed|failed
+    anchoredAt: text("anchored_at"),
+    createdAt: text("created_at").notNull().default(now),
+  },
+  (t) => ({ statusIdx: index("ix_anchor_status").on(t.status) })
+);
+
+/** Generic on-chain pointer — generalizes certificates.soulbound_ref. */
+export const onchainRefs = sqliteTable(
+  "onchain_refs",
+  {
+    id: text("id").primaryKey(),
+    entityType: text("entity_type").notNull(), // certificate|artwork|chapter|passport|…
+    entityId: text("entity_id").notNull(),
+    provider: text("provider"),
+    tokenRef: text("token_ref"),
+    kind: text("kind").notNull(), // sbt|anchor|attestation
+    anchorId: text("anchor_id").references(() => chainAnchors.anchorId),
+    mintedAt: text("minted_at"),
+    createdAt: text("created_at").notNull().default(now),
+  },
+  (t) => ({
+    entityIdx: index("ix_onchain_entity").on(t.entityType, t.entityId),
+    anchorIdx: index("ix_onchain_anchor").on(t.anchorId),
+  })
+);
+
+/** Append-only log of every verify/claim/anchor/mint — feeds /verify + audit. */
+export const verificationEvents = sqliteTable(
+  "verification_events",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    eventType: text("event_type").notNull(), // verify|claim|anchor|mint
+    entityType: text("entity_type"),
+    entityId: text("entity_id"),
+    actor: text("actor"), // user id or "system"/"public"
+    result: text("result", { mode: "json" }),
+    createdAt: text("created_at").notNull().default(now),
+  },
+  (t) => ({
+    entIdx: index("ix_vev_entity").on(t.entityType, t.entityId),
+    typeIdx: index("ix_vev_type").on(t.eventType, t.createdAt),
+  })
+);
