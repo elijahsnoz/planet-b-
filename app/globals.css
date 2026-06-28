@@ -52,6 +52,28 @@
   --pb-border: #2a2a2c;
 }
 
+/*
+ * Admin console — a working tool, not the museum. The public site's quiet
+ * stone-on-paper chrome is intentional there, but in the CMS it fell below the
+ * WCAG AA 4.5:1 minimum and read as washed out. Scope a higher-contrast,
+ * standard palette to the panel so labels, table text, and hints are legible.
+ */
+.pb-admin {
+  --pb-text-muted: #57534b; /* labels, table headers, secondary cells — ~7:1 on paper */
+  --pb-stone: #6b665d;      /* hints, timestamps — ~5:1 on paper */
+  --pb-border: #d8d2c4;     /* a touch more defined than mist for table/field edges */
+}
+.pb-admin input,
+.pb-admin textarea,
+.pb-admin select {
+  background: #fff;
+  color: var(--pb-text);
+}
+.pb-admin input::placeholder,
+.pb-admin textarea::placeholder {
+  color: #8a857b;
+}
+
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;

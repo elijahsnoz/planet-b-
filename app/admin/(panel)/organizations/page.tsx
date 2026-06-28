@@ -1,25 +1,25 @@
 import Link from "next/link";
-import { listPeople } from "@/lib/admin";
+import { listOrganizations } from "@/lib/admin";
 import { requirePermission } from "@/lib/auth";
 import { GhostLink, PageHeader, StatusPill } from "@/components/admin/ui";
 import { RowActions } from "@/components/admin/RowActions";
-import { deletePersonAction } from "./actions";
+import { deleteOrganizationAction } from "./actions";
 
-export default async function ArtistsList({
+export default async function OrganizationsList({
   searchParams,
 }: {
   searchParams: { q?: string; archived?: string };
 }) {
-  await requirePermission("artist.read");
+  await requirePermission("organization.read");
   const includeArchived = searchParams.archived === "1";
-  const rows = listPeople({ q: searchParams.q, includeArchived });
+  const rows = listOrganizations({ q: searchParams.q, includeArchived });
 
   return (
     <div>
       <PageHeader
-        title="Artists & People"
+        title="Organizations & Partners"
         subtitle={`${rows.length} record(s)`}
-        action={<GhostLink href="/admin/artists/new">+ New person</GhostLink>}
+        action={<GhostLink href="/admin/organizations/new">+ New organization</GhostLink>}
       />
 
       <form className="mb-4 flex items-center gap-3 text-sm">
@@ -40,34 +40,39 @@ export default async function ArtistsList({
           <tr className="border-b border-border text-left text-text-muted">
             <th className="py-2 pr-4 font-normal">Registry ID</th>
             <th className="py-2 pr-4 font-normal">Name</th>
+            <th className="py-2 pr-4 font-normal">Type</th>
             <th className="py-2 pr-4 font-normal">Role</th>
-            <th className="py-2 pr-4 font-normal">Consent</th>
             <th className="py-2 pr-4 font-normal">Status</th>
             <th className="py-2 pr-4 text-right font-normal">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((p) => (
-            <tr key={p.id} className="border-b border-border/60 hover:bg-mist/40">
-              <td className="py-2 pr-4 font-mono text-xs">{p.registryId}</td>
+          {rows.length === 0 && (
+            <tr>
+              <td colSpan={6} className="py-6 text-center text-text-muted">No organizations yet.</td>
+            </tr>
+          )}
+          {rows.map((o) => (
+            <tr key={o.id} className="border-b border-border/60 hover:bg-mist/40">
+              <td className="py-2 pr-4 font-mono text-xs">{o.registryId}</td>
               <td className="py-2 pr-4">
-                <Link href={`/admin/artists/${p.id}`} className="hover:text-accent">
-                  {p.fullName}
+                <Link href={`/admin/organizations/${o.id}`} className="hover:text-accent">
+                  {o.name}
                 </Link>
               </td>
-              <td className="py-2 pr-4 text-text-muted">{p.primaryRole ?? "—"}</td>
-              <td className="py-2 pr-4 text-text-muted">{p.consentStatus}</td>
+              <td className="py-2 pr-4 text-text-muted">{o.type ?? "—"}</td>
+              <td className="py-2 pr-4 text-text-muted">{o.role ?? "—"}</td>
               <td className="py-2 pr-4">
-                <StatusPill status={p.status} archived={!!p.archivedAt} />
+                <StatusPill status={o.status} archived={!!o.archivedAt} />
               </td>
               <td className="py-2 pl-4">
                 <div className="flex justify-end">
                   <RowActions
-                    id={p.id}
-                    name={p.fullName}
-                    editHref={`/admin/artists/${p.id}`}
-                    viewHref={p.status === "published" && !p.archivedAt ? `/artists/${p.slug}` : null}
-                    deleteAction={deletePersonAction}
+                    id={o.id}
+                    name={o.name}
+                    editHref={`/admin/organizations/${o.id}`}
+                    viewHref={o.status === "published" && !o.archivedAt ? "/partners" : null}
+                    deleteAction={deleteOrganizationAction}
                   />
                 </div>
               </td>

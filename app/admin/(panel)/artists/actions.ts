@@ -3,7 +3,7 @@
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { and, eq, or, sql } from "drizzle-orm";
 import { db, schema as t } from "@/db/client";
 import { requirePermission } from "@/lib/auth";
 import { mintRegistryId } from "@/lib/registry";
@@ -73,6 +73,27 @@ export async function updatePersonAction(fd: FormData) {
   writeAudit({ actor: user.id, action: "artist.update", entityType: "person", entityId: id, registryId: before.registryId, before, after: data });
   revalidate(before.slug);
   redirect(`/admin/artists/${id}`);
+}
+
+const countRefs = (tbl: any, where: any) => db.select({ n: sql<number>`count(*)` }).from(tbl).where(where).get()?.n ?? 0;
+
+export async function deletePersonAction(fd: FormData) {
+  const user = await requirePermission("artist.manage");
+  const id = String(fd.get("id"));
+  const before = db.select().from(t.people).where(eq(t.people.id, id)).get();
+  if (!before) throw new Error("Not found.");
+  const refs =
+    countRefs(t.artworks, eq(t.artworks.artistId, id)) +
+    countRefs(t.certificates, eq(t.certificates.personId, id)) +
+    countRefs(t.foundingCouncil, eq(t.foundingCouncil.personId, id));
+  if (refs > 0) throw new Error(`Cannot delete “${before.fullName}” — still referenced by ${refs} record(s) (artworks, certificates or council). Archive it instead.`);
+  db.delete(t.entityLinks)
+    .where(or(and(eq(t.entityLinks.fromType, "person"), eq(t.entityLinks.fromId, id)), and(eq(t.entityLinks.toType, "person"), eq(t.entityLinks.toId, id))))
+    .run();
+  db.delete(t.people).where(eq(t.people.id, id)).run();
+  writeAudit({ actor: user.id, action: "artist.delete", entityType: "person", entityId: id, registryId: before.registryId, before });
+  revalidate(before.slug);
+  redirect("/admin/artists");
 }
 
 export async function archivePersonAction(fd: FormData) {

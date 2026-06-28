@@ -8,6 +8,7 @@ const NAV: { href: string; label: string; perm?: string; star?: boolean }[] = [
   { href: "/admin/chapters", label: "Genesis Chapter", perm: "chapter.read", star: true },
   { href: "/admin/artists", label: "Artists", perm: "artist.read" },
   { href: "/admin/artworks", label: "Artworks", perm: "artwork.read" },
+  { href: "/admin/organizations", label: "Organizations", perm: "organization.read" },
   { href: "/admin/media", label: "Media Library", perm: "media.read" },
   { href: "/admin/certificates", label: "Certificates", perm: "certificate.read" },
   { href: "/admin/audit", label: "System Logs", perm: "audit.read" },
@@ -18,7 +19,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
   const items = NAV.filter((i) => !i.perm || can(user, i.perm));
 
   return (
-    <div className="grid min-h-screen grid-cols-[240px_1fr] bg-bg text-text">
+    <div className="pb-admin grid min-h-screen grid-cols-[240px_1fr] bg-bg text-text">
       <aside className="border-r border-border bg-ink/[0.02] p-4">
         <Link href="/admin" className="mb-6 flex items-center gap-2 text-accent">
           <PlanetBMark size={26} />

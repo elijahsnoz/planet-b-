@@ -9,7 +9,7 @@ export default function AdminDashboard() {
     { label: "Artists", value: c.artists, href: "/admin/artists" },
     { label: "Artworks", value: c.artworks, href: "/admin/artworks" },
     { label: "Media", value: c.media, href: "/admin/media" },
-    { label: "Organizations", value: c.organizations, href: "/admin/artists" },
+    { label: "Organizations", value: c.organizations, href: "/admin/organizations" },
     { label: "Certificates", value: c.certificates, href: "/admin/certificates" },
   ];
 

@@ -32,6 +32,17 @@ export function artistOptions() {
   return db.select({ id: t.people.id, name: t.people.fullName }).from(t.people).orderBy(t.people.fullName).all();
 }
 
+export function listOrganizations(opts: { q?: string; includeArchived?: boolean } = {}) {
+  const rows = db.select().from(t.organizations).orderBy(desc(t.organizations.updatedAt)).all();
+  return rows
+    .filter((r) => opts.includeArchived || !r.archivedAt)
+    .filter((r) => !opts.q || r.name.toLowerCase().includes(opts.q.toLowerCase()) || (r.registryId ?? "").includes(opts.q));
+}
+
+export function getOrganizationById(id: string) {
+  return db.select().from(t.organizations).where(eq(t.organizations.id, id)).get();
+}
+
 export function listMedia() {
   return db.select().from(t.media).orderBy(desc(t.media.updatedAt)).all();
 }

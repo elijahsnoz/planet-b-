@@ -2,6 +2,8 @@ import Link from "next/link";
 import { listArtworks } from "@/lib/admin";
 import { requirePermission } from "@/lib/auth";
 import { GhostLink, PageHeader, StatusPill } from "@/components/admin/ui";
+import { RowActions } from "@/components/admin/RowActions";
+import { deleteArtworkAction } from "./actions";
 
 export default async function ArtworksList({
   searchParams,
@@ -41,6 +43,7 @@ export default async function ArtworksList({
             <th className="py-2 pr-4 font-normal">Artist</th>
             <th className="py-2 pr-4 font-normal">Year</th>
             <th className="py-2 pr-4 font-normal">Status</th>
+            <th className="py-2 pr-4 text-right font-normal">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -56,6 +59,17 @@ export default async function ArtworksList({
               <td className="py-2 pr-4 text-text-muted">{a.year}</td>
               <td className="py-2 pr-4">
                 <StatusPill status={a.status} archived={!!a.archivedAt} />
+              </td>
+              <td className="py-2 pl-4">
+                <div className="flex justify-end">
+                  <RowActions
+                    id={a.id}
+                    name={a.title}
+                    editHref={`/admin/artworks/${a.id}`}
+                    viewHref={a.status === "published" && !a.archivedAt ? `/artworks/${a.slug}` : null}
+                    deleteAction={deleteArtworkAction}
+                  />
+                </div>
               </td>
             </tr>
           ))}

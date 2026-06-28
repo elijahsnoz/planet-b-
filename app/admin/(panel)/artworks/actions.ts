@@ -3,7 +3,7 @@
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { and, eq, or, sql } from "drizzle-orm";
 import { db, schema as t } from "@/db/client";
 import { requirePermission } from "@/lib/auth";
 import { mintRegistryId } from "@/lib/registry";
@@ -61,6 +61,24 @@ export async function updateArtworkAction(fd: FormData) {
   writeAudit({ actor: user.id, action: "artwork.update", entityType: "artwork", entityId: id, registryId: before.registryId, before, after: data });
   revalidate(before.slug);
   redirect(`/admin/artworks/${id}`);
+}
+
+const countRefs = (tbl: any, where: any) => db.select({ n: sql<number>`count(*)` }).from(tbl).where(where).get()?.n ?? 0;
+
+export async function deleteArtworkAction(fd: FormData) {
+  const user = await requirePermission("artwork.manage");
+  const id = String(fd.get("id"));
+  const before = db.select().from(t.artworks).where(eq(t.artworks.id, id)).get();
+  if (!before) throw new Error("Not found.");
+  const refs = countRefs(t.certificates, eq(t.certificates.artworkId, id));
+  if (refs > 0) throw new Error(`Cannot delete “${before.title}” — still referenced by ${refs} certificate(s). Archive it instead.`);
+  db.delete(t.entityLinks)
+    .where(or(and(eq(t.entityLinks.fromType, "artwork"), eq(t.entityLinks.fromId, id)), and(eq(t.entityLinks.toType, "artwork"), eq(t.entityLinks.toId, id))))
+    .run();
+  db.delete(t.artworks).where(eq(t.artworks.id, id)).run();
+  writeAudit({ actor: user.id, action: "artwork.delete", entityType: "artwork", entityId: id, registryId: before.registryId, before });
+  revalidate(before.slug);
+  redirect("/admin/artworks");
 }
 
 export async function archiveArtworkAction(fd: FormData) {
