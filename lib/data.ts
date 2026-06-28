@@ -145,10 +145,34 @@ const KEYART: Record<string, string> = {
   "media.keyart.meet-the-team": "/media/keyart/meet-the-team.jpg",
   "media.divider.road-walk": "/media/keyart/road-walk.jpg",
 };
-export function artworkImage(slug: string): string { return `/media/artworks/${slug}.jpg`; }
+/** Web image for an artwork, or null if no derivative exists (e.g. facilitator works). */
+export function artworkImage(slug: string): string | null {
+  const row = db.select({ pm: t.artworks.primaryMedia }).from(t.artworks).where(eq(t.artworks.slug, slug)).get();
+  return row?.pm ? `/media/artworks/${slug}.jpg` : null;
+}
 export function personImage(person: Person): string | null {
-  if (person.artworks?.length) return artworkImage(person.artworks[0]);
+  if (person.portrait_media?.startsWith("/")) return person.portrait_media; // real portrait derivative
+  if (person.artworks?.length) {
+    const ai = artworkImage(person.artworks[0]);
+    if (ai) return ai;
+  }
   if (person.portrait_media && KEYART[person.portrait_media]) return KEYART[person.portrait_media];
   return null;
 }
 export function keyArt(id: string) { return KEYART[id]; }
+
+/** Genesis key art (derivatives in /public/media/keyart). */
+export const TEAM_IMAGE = "/media/keyart/meet-the-team.jpg";
+export const COVER_IMAGE = "/media/keyart/cover.jpg";
+export const ROAD_WALK_IMAGE = "/media/keyart/road-walk.jpg";
+
+/** Published videos (exhibition, workshop) from the DAM. */
+export function getVideos(): { title: string; src: string }[] {
+  return db
+    .select()
+    .from(t.media)
+    .where(and(eq(t.media.kind, "video"), eq(t.media.status, "published"), isNull(t.media.archivedAt)))
+    .all()
+    .map((m) => ({ title: m.title ?? "", src: m.storagePath ?? "" }))
+    .filter((v) => v.src);
+}

@@ -17,6 +17,7 @@ export function ExhibitLayout({
   related,
   backHref,
   backLabel,
+  fit = "contain",
 }: {
   eyebrow?: string;
   title: string;
@@ -27,6 +28,7 @@ export function ExhibitLayout({
   related?: ReactNode;
   backHref?: string;
   backLabel?: string;
+  fit?: "cover" | "contain";
 }) {
   return (
     <article className="mx-auto max-w-container px-5 py-12">
@@ -38,7 +40,7 @@ export function ExhibitLayout({
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr]">
         <Reveal>
           <div className="relative aspect-square overflow-hidden rounded-sm bg-mist shadow-museum-soft">
-            <Plate src={image} alt={imageAlt} className="aspect-square" priority sizes="(max-width: 1024px) 100vw, 55vw" />
+            <Plate src={image} alt={imageAlt} className="aspect-square" priority sizes="(max-width: 1024px) 100vw, 55vw" fit={fit} />
           </div>
         </Reveal>
         <Reveal delay={0.08}>

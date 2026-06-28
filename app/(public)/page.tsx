@@ -29,9 +29,9 @@ export default function Home() {
       <Threshold />
 
       {/* ── WONDER · waste becomes art ──────────────────────────────────── */}
-      {eye && (
+      {eye && artworkImage(eye.slug) && (
         <WasteToArt
-          image={artworkImage(eye.slug)}
+          image={artworkImage(eye.slug)!}
           alt={`${eye.title} by ${eyeArtist?.full_name ?? "a founding artist"}`}
           title={eye.title}
           artist={eyeArtist?.full_name}
@@ -43,7 +43,7 @@ export default function Home() {
         <section data-theme="ink" className="flex min-h-[100svh] flex-col items-center justify-center bg-bg px-5 text-text">
           <Reveal>
             <div className="relative aspect-square w-[min(82vw,40rem)] overflow-hidden rounded-sm shadow-museum-soft">
-              <Plate src={artworkImage(silence.slug)} alt={silence.title} className="aspect-square" sizes="(max-width:768px) 82vw, 40rem" />
+              <Plate src={artworkImage(silence.slug)} alt={silence.title} className="aspect-square" sizes="(max-width:768px) 82vw, 40rem" fit="contain" />
             </div>
           </Reveal>
         </section>
@@ -72,7 +72,7 @@ export default function Home() {
           <div className="mx-auto grid max-w-container items-center gap-10 px-5 py-32 lg:grid-cols-2">
             <Reveal>
               <div className="relative aspect-square overflow-hidden rounded-sm shadow-museum-soft">
-                <Plate src={artworkImage(hope.slug)} alt={hope.title} className="aspect-square" sizes="(max-width:1024px) 100vw, 40rem" />
+                <Plate src={artworkImage(hope.slug)} alt={hope.title} className="aspect-square" sizes="(max-width:1024px) 100vw, 40rem" fit="contain" />
               </div>
             </Reveal>
             <Reveal delay={0.08}>
@@ -112,7 +112,7 @@ export default function Home() {
           {founders.slice(0, 10).map((p, i) => (
             <Reveal as="li" key={p.slug} delay={(i % 5) * 0.04}>
               <Link href={`/artists/${p.slug}`} className="group block">
-                <Plate src={p.artworks ? artworkImage(p.artworks[0]) : null} alt={p.full_name} sizes="(max-width:768px) 50vw, 20vw" />
+                <Plate src={p.artworks ? artworkImage(p.artworks[0]) : null} alt={p.full_name} sizes="(max-width:768px) 50vw, 20vw" fit="contain" />
                 <p className="mt-2 font-display text-base group-hover:text-accent">{p.full_name}</p>
               </Link>
             </Reveal>

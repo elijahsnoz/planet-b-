@@ -27,7 +27,7 @@ export default function ArtistProfile({ params }: { params: { slug: string } }) 
 
   const primaryArtwork = person.artworks?.[0] ? getArtwork(person.artworks[0]) : undefined;
   const cert = getCertificateForPerson(person.slug);
-  const image = primaryArtwork ? artworkImage(primaryArtwork.slug) : personImage(person);
+  const image = (primaryArtwork && artworkImage(primaryArtwork.slug)) || personImage(person);
 
   return (
     <ExhibitLayout
@@ -35,6 +35,7 @@ export default function ArtistProfile({ params }: { params: { slug: string } }) 
       backLabel="Artist Registry"
       eyebrow={person.primary_role}
       title={person.full_name}
+      fit={primaryArtwork ? "contain" : "cover"}
       image={image}
       imageAlt={
         primaryArtwork

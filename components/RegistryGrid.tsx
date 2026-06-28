@@ -21,7 +21,7 @@ export function RegistryGrid({ items }: { items: RegistryItem[] }) {
       {items.map((item, i) => (
         <Reveal as="li" key={item.href} delay={(i % 3) * 0.06}>
           <Link href={item.href} className="group block">
-            <Plate src={item.image} alt={item.imageAlt} />
+            <Plate src={item.image} alt={item.imageAlt} fit="contain" />
             <div className="mt-3">
               {item.eyebrow && (
                 <p className="text-xs uppercase tracking-wide text-text-muted">{item.eyebrow}</p>

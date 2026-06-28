@@ -42,7 +42,7 @@ export function WasteToArt({ image, alt, title, artist }: { image: string; alt: 
     return (
       <section className="mx-auto max-w-container px-5 py-24 text-center">
         <div className="relative mx-auto aspect-square max-w-xl overflow-hidden rounded-sm shadow-museum-soft">
-          <Image src={image} alt={alt} fill sizes="(max-width:768px) 100vw, 36rem" className="object-cover" />
+          <Image src={image} alt={alt} fill sizes="(max-width:768px) 100vw, 36rem" className="object-contain" />
         </div>
         <p className="mt-5 font-display text-2xl">{title}</p>
         {artist && <p className="text-sm text-text-muted">{artist}</p>}
@@ -64,7 +64,7 @@ export function WasteToArt({ image, alt, title, artist }: { image: string; alt: 
           style={{ opacity: artOpacity, scale: artScale }}
           className="relative aspect-square w-[min(80vw,34rem)] overflow-hidden rounded-sm shadow-museum-soft"
         >
-          <Image src={image} alt={alt} fill sizes="(max-width:768px) 80vw, 34rem" className="object-cover" />
+          <Image src={image} alt={alt} fill sizes="(max-width:768px) 80vw, 34rem" className="object-contain" />
         </motion.div>
 
         <motion.div style={{ opacity: captionOpacity }} className="relative mt-6 text-center">

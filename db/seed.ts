@@ -83,6 +83,7 @@ const tx = sqlite.transaction(() => {
       id, registryId: mint("artist"), slug: p.slug, status: "published", verified: !!p.verified,
       fullName: p.full_name, displayName: p.display_name ?? null, honorific: p.honorific ?? null,
       primaryRole: p.primary_role ?? null, roles: p.roles ?? [], shortBio: p.short_bio ?? null,
+      portraitMedia: p.portrait_media ?? null,
       consentStatus: p.consent_status ?? "pending", foundingCouncil: p.founding_council ?? null,
       evolves: !!p.evolves, note: p.note ?? null,
     }).run();
@@ -183,6 +184,25 @@ const tx = sqlite.transaction(() => {
   for (const p of pressData) {
     db.insert(s.press).values({
       id: randomUUID(), chapterId, outlet: p.outlet, title: p.title, url: p.url, topic: p.topic ?? null,
+    }).run();
+  }
+
+  // ── key art & videos (so they are in the system + admin Media) ──
+  const extraMedia = [
+    { slug: "keyart-cover", kind: "image", path: "/media/keyart/cover.jpg", title: "Because There Is No Planet B — key art" },
+    { slug: "keyart-meet-the-team", kind: "image", path: "/media/keyart/meet-the-team.jpg", title: "Meet the Team" },
+    { slug: "keyart-road-walk", kind: "image", path: "/media/keyart/road-walk.jpg", title: "Road Walk — Community Sensitization" },
+    { slug: "portrait-svein-baera", kind: "image", path: "/media/people/svein-baera.jpg", title: "H.E. Mr. Svein Bæra — Ambassador" },
+    { slug: "portrait-solveig-andresen", kind: "image", path: "/media/people/solveig-andresen.jpg", title: "Ms. Solveig Andresen — Counsellor" },
+    { slug: "portrait-nike-okundaye", kind: "image", path: "/media/people/nike-okundaye.jpg", title: "Chief Nike Okundaye — Mama Nike" },
+    { slug: "video-exhibition", kind: "video", path: "/media/video/exhibition.mp4", title: "Exhibition — documentation" },
+    { slug: "video-workshop", kind: "video", path: "/media/video/workshop.mp4", title: "The Upcycle Workshop" },
+  ];
+  for (const m of extraMedia) {
+    db.insert(s.media).values({
+      id: randomUUID(), registryId: mint("media"), slug: m.slug, status: "published", verified: true,
+      kind: m.kind, title: m.title, storagePath: m.path, source: "catalogue / Edge Media",
+      credit: "Catalogue / Edge Media", altText: m.title,
     }).run();
   }
 
