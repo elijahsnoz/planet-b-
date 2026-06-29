@@ -4,6 +4,7 @@ import { artistOptions, getArtworkById, revisionsFor } from "@/lib/admin";
 import { can, requirePermission } from "@/lib/auth";
 import { Field, PageHeader, PrimaryButton, STATUS_OPTIONS, Select, StatusPill, TextArea } from "@/components/admin/ui";
 import { archiveArtworkAction, restoreArtworkAction, updateArtworkAction } from "../actions";
+import { artworkService, addProvenanceAction, archiveProvenanceAction, PROVENANCE_KINDS } from "@domains/artwork";
 
 export default async function EditArtwork({ params }: { params: { id: string } }) {
   const user = await requirePermission("artwork.read");
@@ -12,6 +13,7 @@ export default async function EditArtwork({ params }: { params: { id: string } }
   const artists = artistOptions();
   const revisions = revisionsFor("artwork", a.id);
   const canUpdate = can(user, "artwork.update");
+  const provenance = artworkService.listProvenance(a.id);
 
   return (
     <div className="max-w-3xl">
@@ -60,6 +62,48 @@ export default async function EditArtwork({ params }: { params: { id: string } }
           </Link>
         )}
       </div>
+
+      <section className="mt-10">
+        <h2 className="font-display text-lg">Provenance</h2>
+        <p className="text-xs text-text-muted">The accumulating life of this object — never overwritten, only added to.</p>
+        <ol className="mt-3 space-y-2">
+          {provenance.length === 0 && <li className="text-stone text-sm">No provenance recorded yet.</li>}
+          {provenance.map((e) => (
+            <li key={e.id} className="flex items-start justify-between gap-3 border-b border-border/50 py-1 text-sm">
+              <span>
+                <span className="uppercase text-xs tracking-wide text-stone">{e.kind}</span>
+                {e.occurredOn ? <span className="text-text-muted"> · {e.occurredOn.slice(0, 10)}</span> : null} · {e.title}
+                {e.description ? <span className="block text-xs text-text-muted">{e.description}</span> : null}
+              </span>
+              {canUpdate && (
+                <form action={archiveProvenanceAction}>
+                  <input type="hidden" name="id" value={e.id} />
+                  <input type="hidden" name="artworkId" value={a.id} />
+                  <button type="submit" className="text-xs text-stone hover:text-accent">remove</button>
+                </form>
+              )}
+            </li>
+          ))}
+        </ol>
+        {canUpdate && (
+          <form action={addProvenanceAction} className="mt-4 grid grid-cols-2 gap-2 rounded-sm border border-border p-4 text-sm">
+            <input type="hidden" name="artworkId" value={a.id} />
+            <label><span className="text-text-muted">Kind</span>
+              <select name="kind" className="mt-1 w-full rounded-sm border border-border bg-transparent px-2 py-1.5 outline-none focus:border-accent">
+                {PROVENANCE_KINDS.map((k) => <option key={k} value={k}>{k}</option>)}
+              </select></label>
+            <label><span className="text-text-muted">Date (optional)</span>
+              <input name="occurredOn" type="date" className="mt-1 w-full rounded-sm border border-border bg-transparent px-2 py-1.5 outline-none focus:border-accent" /></label>
+            <label className="col-span-2"><span className="text-text-muted">Title</span>
+              <input name="title" required className="mt-1 w-full rounded-sm border border-border bg-transparent px-2 py-1.5 outline-none focus:border-accent" /></label>
+            <label className="col-span-2"><span className="text-text-muted">Description</span>
+              <textarea name="description" rows={2} className="mt-1 w-full rounded-sm border border-border bg-transparent px-2 py-1.5 outline-none focus:border-accent" /></label>
+            <label className="col-span-2"><span className="text-text-muted">Source (provenance of the fact)</span>
+              <input name="source" className="mt-1 w-full rounded-sm border border-border bg-transparent px-2 py-1.5 outline-none focus:border-accent" /></label>
+            <div className="col-span-2"><button type="submit" className="rounded-sm border border-border px-3 py-1.5 hover:border-accent">Add provenance event</button></div>
+          </form>
+        )}
+      </section>
 
       <section className="mt-10">
         <h2 className="font-display text-lg">Version history</h2>

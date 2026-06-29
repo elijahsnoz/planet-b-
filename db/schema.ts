@@ -470,6 +470,39 @@ export const stories = sqliteTable(
   })
 );
 
+/* ── Artwork provenance: the accumulating life-history of a cultural object ────
+ * (Phase 2F) History ACCUMULATES and is never overwritten — creation, workshop,
+ * exhibition, publication, research, collection, verification, future blockchain
+ * anchoring, restoration, ownership. Soft-delete only; designed for museum-grade
+ * provenance long before blockchain exists.
+ */
+export const provenanceEvents = sqliteTable(
+  "provenance_events",
+  {
+    id: text("id").primaryKey(),
+    artworkId: text("artwork_id").notNull().references(() => artworks.id),
+    kind: text("kind").notNull(), // creation|workshop|exhibition|publication|research|collection|verification|anchoring|restoration|ownership
+    title: text("title").notNull(),
+    description: text("description"),
+    occurredOn: text("occurred_on"),
+    chapterId: text("chapter_id").references(() => chapters.id),
+    organizationId: text("organization_id").references(() => organizations.id),
+    actorPersonId: text("actor_person_id").references(() => people.id),
+    source: text("source"), // provenance of the fact
+    verified: integer("verified", { mode: "boolean" }).notNull().default(false),
+    sortOrder: integer("sort_order").default(0),
+    createdAt: text("created_at").notNull().default(now),
+    updatedAt: text("updated_at").notNull().default(now),
+    createdBy: text("created_by"),
+    updatedBy: text("updated_by"),
+    archivedAt: text("archived_at"), // soft-delete only; provenance is never erased
+  },
+  (t) => ({
+    artworkIdx: index("ix_provenance_artwork").on(t.artworkId, t.occurredOn),
+    kindIdx: index("ix_provenance_kind").on(t.kind),
+  })
+);
+
 /** Append-only log of every verify/claim/anchor/mint — feeds /verify + audit. */
 export const verificationEvents = sqliteTable(
   "verification_events",
