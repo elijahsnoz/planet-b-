@@ -6,13 +6,17 @@ import { Threshold } from "@/components/experience/Threshold";
 import { WasteToArt } from "@/components/experience/WasteToArt";
 import { HopeShift } from "@/components/experience/HopeShift";
 import { TickingWatch } from "@/components/experience/TickingWatch";
+import { PassportInvitation } from "@/components/passport/PassportInvitation";
 import {
   artworkImage,
   getArtwork,
   getChapter,
   getFoundingArtists,
+  getPassportCount,
   getPerson,
 } from "@/lib/data";
+
+const FOUNDER_ID = "PB-ID-000001";
 
 export default function Home() {
   const eye = getArtwork("the-watchful-eye");
@@ -22,6 +26,28 @@ export default function Home() {
   const chapter = getChapter();
   const proverb = chapter?.yoruba_proverbs?.[0];
   const founders = getFoundingArtists();
+
+  // The founding Passport (PB-ID-000001) — the reference for every future one.
+  const passportsIssued = getPassportCount();
+  const passportHolder = {
+    passportId: FOUNDER_ID,
+    name: "Ajayi Elijah Snoz",
+    line: "Founder · Genesis Contributor",
+    genesis: true,
+  };
+  const passportStats = [
+    {
+      label: "Planet Passports Issued",
+      value: String(passportsIssued).padStart(6, "0"),
+      sub: "and counting",
+    },
+    {
+      label: "Genesis Collection",
+      value: String(founders.length).padStart(2, "0"),
+      sub: "Founding Artists",
+    },
+    { label: "Federation Origin", value: "2026", sub: "Abuja, Nigeria" },
+  ];
 
   return (
     <>
@@ -124,6 +150,13 @@ export default function Home() {
           ))}
         </ul>
       </section>
+
+      {/* ── IDENTITY · the Planet Passport (curiosity, not disclosure) ──── */}
+      <PassportInvitation
+        holder={passportHolder}
+        href={`/passport/${FOUNDER_ID}`}
+        stats={passportStats}
+      />
 
       {/* ── INVITATION · the end that is a beginning ────────────────────── */}
       <section data-theme="ink" className="flex min-h-[90svh] flex-col items-center justify-center gap-10 bg-bg px-5 text-center text-text">

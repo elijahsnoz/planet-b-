@@ -75,6 +75,12 @@ export function getFoundingArtists(): Person[] {
   return getPeople().filter((p) => p.primary_role === "Founding Artist");
 }
 
+// ── passport (institutional statistics for the homepage indicator) ───────────
+/** How many permanent Planet Passports have been issued (grows with the movement). */
+export function getPassportCount(): number {
+  return db.select({ id: t.passports.id }).from(t.passports).all().length;
+}
+
 // ── artworks ────────────────────────────────────────────────────────────────
 export function getArtworks(): Artwork[] {
   const sp = personSlugById();
