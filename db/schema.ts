@@ -446,6 +446,30 @@ export const contributions = sqliteTable(
   })
 );
 
+/* ── Story: the narrative layer (Phase 2E, ADR-0003) ─────────────────────────
+ * A Story is a curated narrative COMPOSED FROM connected records, not duplicated
+ * content. `body` holds an ordered array of sections (prose/quote/heading +
+ * record references); every record reference is mirrored as an `entity_links`
+ * edge (relation 'features') so Stories participate in the knowledge graph.
+ */
+export const stories = sqliteTable(
+  "stories",
+  {
+    ...governance(), // id, registryId (PB-STORY-…), slug, status, verified, timestamps, archivedAt
+    title: text("title").notNull(),
+    subtitle: text("subtitle"),
+    dek: text("dek"), // standfirst / summary
+    body: text("body", { mode: "json" }).$type<unknown>(), // StorySection[]
+    coverMedia: text("cover_media"),
+    chapterId: text("chapter_id").references(() => chapters.id),
+    kind: text("kind").notNull().default("feature"), // feature|exhibition|profile|dispatch|essay
+  },
+  (t) => ({
+    statusIdx: index("ix_story_status").on(t.status),
+    kindIdx: index("ix_story_kind").on(t.kind),
+  })
+);
+
 /** Append-only log of every verify/claim/anchor/mint — feeds /verify + audit. */
 export const verificationEvents = sqliteTable(
   "verification_events",

@@ -9,6 +9,7 @@ const NAV: { href: string; label: string; perm?: string; star?: boolean }[] = [
   { href: "/admin/passports", label: "Planet Passports", perm: "passport.read" },
   { href: "/admin/artists", label: "Artists", perm: "artist.read" },
   { href: "/admin/artworks", label: "Artworks", perm: "artwork.read" },
+  { href: "/admin/stories", label: "Stories", perm: "story.read" },
   { href: "/admin/organizations", label: "Organizations", perm: "organization.read" },
   { href: "/admin/media", label: "Media Library", perm: "media.read" },
   { href: "/admin/certificates", label: "Certificates", perm: "certificate.read" },
