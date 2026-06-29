@@ -11,6 +11,8 @@ import { db, schema as t } from "@/db/client";
 import performanceJson from "@/data/genesis/performance.json";
 import panelJson from "@/data/genesis/panel.json";
 import artworksJson from "@/data/genesis/artworks.json";
+import councilJson from "@/data/genesis/founding-council.json";
+import peopleJson from "@/data/genesis/people.json";
 
 const PUBLISHED = (tbl: any) => and(eq(tbl.status, "published"), isNull(tbl.archivedAt));
 const u = <T,>(v: T | null | undefined): T | undefined => v ?? undefined;
@@ -138,6 +140,38 @@ export function getPress() {
 // ── still from seed JSON (no admin module yet) ──────────────────────────────
 export const performance = performanceJson;
 export const panel = panelJson;
+
+// ── founding council (Principle V: a historical record, not a governing body) ─
+// Names resolve from the people archive (all contributors, incl. those without a
+// public artist page); the linkable flag marks the ones a visitor can open.
+const PERSON_NAME = new Map<string, string>(
+  (peopleJson as any).people.map((p: any) => [p.slug, p.full_name as string]),
+);
+/** Resolve a contributor's display name from the archive; prettifies the slug if unlisted. */
+export function personName(slug: string): string {
+  return PERSON_NAME.get(slug) ?? slug.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
+}
+const COUNCIL_GROUPS = [
+  { key: "founding_artist", label: "Founding Artists" },
+  { key: "gallery_leadership", label: "Gallery Leadership" },
+  { key: "embassy_representative", label: "Royal Norwegian Embassy" },
+  { key: "_rest", label: "Collaborators & Organizers" },
+] as const;
+export type CouncilMember = { slug: string; name: string; categories: string[]; citation: string; linkable: boolean };
+export function getFoundingCouncil() {
+  const pub = new Set(getPeople().map((p) => p.slug));
+  const members: (CouncilMember & { group: string })[] = (councilJson as any).members.map((m: any) => {
+    const group = COUNCIL_GROUPS.find((g) => g.key !== "_rest" && m.categories.includes(g.key))?.key ?? "_rest";
+    return {
+      slug: m.person, name: PERSON_NAME.get(m.person) ?? m.person,
+      categories: m.categories, citation: m.citation, linkable: pub.has(m.person), group,
+    };
+  });
+  const groups = COUNCIL_GROUPS
+    .map((g) => ({ label: g.label, members: members.filter((m) => m.group === g.key) }))
+    .filter((g) => g.members.length > 0);
+  return { groups, pending: (councilJson as any).pending ?? [], isCharter: !!(councilJson as any).charter_cohort };
+}
 
 // ── media resolution (Phase 1 derivatives in /public/media) ─────────────────
 const KEYART: Record<string, string> = {
