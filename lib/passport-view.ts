@@ -7,12 +7,19 @@ import "server-only";
  */
 import { passportService } from "@domains/passport";
 import { passportQrSvg } from "@/lib/qr";
+import { getStoriesFeaturingCount } from "@/lib/data";
 import type { PassportView } from "@/components/passport/PassportDocument";
 
 const FOUNDER_ID = "PB-ID-000001";
 
+/**
+ * Verification base. Intentionally a placeholder until the production domain is
+ * finalised — `.example` is the RFC 2606 reserved placeholder TLD (and matches
+ * the app's metadataBase), so no temporary production value is ever baked in.
+ * Set NEXT_PUBLIC_SITE_URL at deploy time to point QR codes at the real host.
+ */
 function siteBase(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://planetb.earth").replace(/\/$/, "");
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://planetb.example").replace(/\/$/, "");
 }
 
 /** A path is a usable portrait; a bare media id (PB-MEDIA-…) has no derivative yet. */
@@ -52,6 +59,7 @@ export async function buildPassportView(idOrKey: string): Promise<PassportView |
       artworks: a.artworks.filter((w) => w.status === "published").length,
       contributions: a.counts.contributions,
       chapters: a.counts.chapters,
+      storiesFeatured: getStoriesFeaturingCount(a.person.id),
     },
     certificates: a.certificates.map((c) => ({
       id: c.id,

@@ -18,7 +18,7 @@ export type PassportView = {
   genesis: boolean;
   issuedOn: string;
   verified: boolean;
-  counts: { certificates: number; artworks: number; contributions: number; chapters: number };
+  counts: { certificates: number; artworks: number; contributions: number; chapters: number; storiesFeatured: number };
   certificates: { id: string; role: string; artwork?: string | null; publicId: string; genesis?: boolean }[];
   artworks: { id: string; title: string; slug?: string | null; year?: number | null }[];
   contributions: { id: string; date?: string | null; kind: string; title: string; description?: string | null }[];
@@ -155,25 +155,46 @@ export function PassportDocument({ v }: { v: PassportView }) {
         className={opened ? "" : "pointer-events-none"}
       >
         <div className="mx-auto max-w-3xl px-5 py-24">
-          <p className="max-w-measure text-pretty text-lg leading-relaxed text-text">
-            This is a record of <em>contribution</em> — not a profile, not an account. It does not
-            expire and nothing is ever replaced. Every verified act of contribution extends it, for a
-            lifetime.
-          </p>
+          {/* The philosophy — a permanent statement on every Passport */}
+          <blockquote className="border-l-2 border-accent pl-6">
+            <p className="max-w-measure text-pretty font-display text-2xl leading-snug text-text sm:text-[1.7rem]">
+              This Passport records contribution, not popularity.
+            </p>
+            <p className="mt-3 max-w-measure text-pretty text-base leading-relaxed text-text-muted">
+              It exists to preserve a lifetime of creative and environmental impact. It does not
+              expire and nothing is ever replaced — every verified contribution only extends it.
+            </p>
+          </blockquote>
 
-          <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-border bg-border sm:grid-cols-4">
-            {[
-              ["Certificates", v.counts.certificates],
-              ["Artworks", v.counts.artworks],
-              ["Contributions", v.counts.contributions],
-              ["Chapters", v.counts.chapters],
-            ].map(([label, n]) => (
-              <div key={label as string} className="bg-bg p-5 text-center">
-                <dd className="font-mono text-3xl text-text">{String(n).padStart(2, "0")}</dd>
-                <dt className="mt-1 text-[0.6rem] uppercase tracking-[0.22em] text-text-muted">{label}</dt>
+          {/* Legacy Snapshot — the journey at a glance, before the full archive */}
+          <section className="mt-14 overflow-hidden rounded-sm border border-border">
+            <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-text/[0.03] px-5 py-3.5">
+              <h2 className="text-[0.7rem] uppercase tracking-[0.28em] text-text-muted">Legacy Snapshot</h2>
+              <div className="flex items-center gap-4">
+                <span className="font-mono text-xs tracking-[0.12em] text-accent">{v.passportId}</span>
+                {v.verified && (
+                  <span className="inline-flex items-center gap-1.5 text-[0.62rem] uppercase tracking-[0.22em] text-verified">
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-verified" aria-hidden />
+                    Verified
+                  </span>
+                )}
               </div>
-            ))}
-          </dl>
+            </header>
+            <dl className="grid grid-cols-2 gap-px bg-border sm:grid-cols-5">
+              {[
+                ["Chapters", v.counts.chapters],
+                ["Certificates", v.counts.certificates],
+                ["Artworks", v.counts.artworks],
+                ["Stories Featured", v.counts.storiesFeatured],
+                ["Contributions", v.counts.contributions],
+              ].map(([label, n]) => (
+                <div key={label as string} className="bg-bg p-5 text-center">
+                  <dd className="font-mono text-3xl text-text">{String(n).padStart(2, "0")}</dd>
+                  <dt className="mt-1.5 text-[0.58rem] uppercase tracking-[0.18em] text-text-muted">{label}</dt>
+                </div>
+              ))}
+            </dl>
+          </section>
 
           <div className="mt-16 space-y-14">
             <ArchiveSection title="Certificates" count={v.counts.certificates}>
@@ -247,10 +268,10 @@ export function PassportDocument({ v }: { v: PassportView }) {
             <dl className="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2">
               <StatusRow label="Institutional digital signature" value="Active" tone="verified" />
               <StatusRow label="QR verification" value="Active" tone="verified" />
-              <StatusRow label="Solana soulbound credential" value="Reserved" />
-              <StatusRow label="On-chain verification" value="Reserved" />
-              <StatusRow label="Cross-chapter recognition" value="Reserved" />
-              <StatusRow label="Museum & embassy recognition" value="Reserved" />
+              <StatusRow label="Solana Trust Layer" value="Reserved" />
+              <StatusRow label="Soulbound Credential" value="Reserved" />
+              <StatusRow label="Cross-Chapter Recognition" value="Reserved" />
+              <StatusRow label="On-chain Verification" value="Reserved" />
             </dl>
           </section>
 

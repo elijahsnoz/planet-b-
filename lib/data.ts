@@ -81,6 +81,23 @@ export function getPassportCount(): number {
   return db.select({ id: t.passports.id }).from(t.passports).all().length;
 }
 
+/** Published stories that feature this person (knowledge-graph 'features' edges). */
+export function getStoriesFeaturingCount(personId: string): number {
+  return db
+    .select({ id: t.stories.id })
+    .from(t.entityLinks)
+    .innerJoin(t.stories, eq(t.stories.id, t.entityLinks.fromId))
+    .where(
+      and(
+        eq(t.entityLinks.relation, "features"),
+        eq(t.entityLinks.toType, "person"),
+        eq(t.entityLinks.toId, personId),
+        PUBLISHED(t.stories),
+      ),
+    )
+    .all().length;
+}
+
 // ── artworks ────────────────────────────────────────────────────────────────
 export function getArtworks(): Artwork[] {
   const sp = personSlugById();

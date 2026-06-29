@@ -104,6 +104,12 @@ export function PrintablePassport({ v }: { v: PassportView }) {
             </div>
           </header>
 
+          {/* the philosophy — permanent on every Passport */}
+          <p className="mt-5 border-l-2 border-[var(--pb-oxblood)] pl-4 text-[0.82rem] leading-relaxed text-ink/80">
+            <span className="font-medium text-ink">This Passport records contribution, not popularity.</span>{" "}
+            It exists to preserve a lifetime of creative and environmental impact.
+          </p>
+
           {/* identity */}
           <div className="mt-7 grid gap-8 sm:grid-cols-[150px_1fr]">
             <div className="flex flex-col gap-4">
