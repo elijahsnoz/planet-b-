@@ -1,16 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Plate } from "@/components/Plate";
+import { Reveal } from "@/components/Reveal";
+import { artworkImage } from "@/lib/data";
 import { storyService } from "@domains/story";
-import type { ResolvedSection } from "@domains/story";
+import type { ResolvedSection, StoryRefType } from "@domains/story";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const story = storyService.getView(params.slug);
   if (!story || story.status !== "published") return { title: "Story" };
-  return { title: `${story.title} — Planet B`, description: story.dek ?? story.subtitle ?? undefined };
+  return {
+    title: `${story.title} — Planet B`,
+    description: story.dek ?? story.subtitle ?? undefined,
+  };
 }
 
-const REF_LABEL: Record<string, string> = {
+/** The institutional name for each kind of connected record. */
+const REF_LABEL: Record<StoryRefType, string> = {
   chapter: "Chapter",
   person: "Contributor",
   artwork: "Artwork",
@@ -22,73 +33,261 @@ const REF_LABEL: Record<string, string> = {
   impact: "Impact",
 };
 
-function RecordCard({ s }: { s: ResolvedSection }) {
+/** The verb that invites the reader onward from a referenced record. */
+const REF_VERB: Partial<Record<StoryRefType, string>> = {
+  chapter: "Enter the chapter",
+  artwork: "View in the registry",
+  certificate: "Verify this record",
+  person: "Open the record",
+  organization: "Meet the partners",
+  media: "Open media",
+  press: "Read the coverage",
+};
+
+function artworkSlugFromHref(href: string | null): string | null {
+  const m = href?.match(/^\/artworks\/(.+)$/);
+  return m ? m[1] : null;
+}
+
+/** A quiet eyebrow label (shared with the Passport / Artwork experiences). */
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="text-[0.7rem] uppercase tracking-[0.28em] text-text-muted">{children}</span>
+  );
+}
+
+/** The "let it land" plate — an artwork given a wall of its own, with a catalogue caption. */
+function ArtworkExhibit({ s, fig }: { s: ResolvedSection; fig: number }) {
+  const r = s.resolved!;
+  const slug = artworkSlugFromHref(r.href);
+  return (
+    <Reveal as="div" className="mx-auto max-w-container px-5">
+      <figure className="mx-auto max-w-2xl">
+        <Link href={r.href ?? "#"} className="group block">
+          <div className="overflow-hidden rounded-sm transition-shadow duration-300 group-hover:shadow-museum-soft">
+            <Plate
+              src={slug ? artworkImage(slug) : null}
+              alt={r.label}
+              sizes="(max-width: 768px) 100vw, 66vw"
+              fit="contain"
+              className="aspect-square"
+            />
+          </div>
+        </Link>
+        <figcaption className="mx-auto mt-5 max-w-measure">
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-text-muted">
+            Fig. {String(fig).padStart(2, "0")} · {r.label}
+            {r.sub ? ` · ${r.sub}` : ""}
+          </p>
+          {s.caption && <p className="mt-2 text-sm leading-relaxed text-text-muted">{s.caption}</p>}
+          {r.href && (
+            <Link href={r.href} className="mt-2 inline-block text-sm text-accent hover:underline">
+              {REF_VERB.artwork} ↗
+            </Link>
+          )}
+        </figcaption>
+      </figure>
+    </Reveal>
+  );
+}
+
+/** A single impact figure — the one place signal-green is earned. */
+function ImpactStat({ s }: { s: ResolvedSection }) {
+  const r = s.resolved!;
+  return (
+    <Reveal as="div" className="mx-auto max-w-measure px-5 text-center">
+      <p className="font-display text-5xl leading-none text-signal sm:text-6xl">{r.label}</p>
+      {r.sub && (
+        <p className="mt-3 text-xs uppercase tracking-[0.22em] text-text-muted">{r.sub}</p>
+      )}
+      {s.caption && <p className="mt-3 text-sm text-text-muted">{s.caption}</p>}
+    </Reveal>
+  );
+}
+
+/** Every other referenced record, presented as a quiet museum wall-label. */
+function RecordLabel({ s }: { s: ResolvedSection }) {
+  const r = s.resolved!;
+  const verb = REF_VERB[r.refType];
+  const external = !!r.href && /^https?:\/\//.test(r.href);
+  return (
+    <Reveal as="div" className="mx-auto max-w-measure px-5">
+      <div className="border-l-2 border-accent pl-6">
+        <Eyebrow>{REF_LABEL[r.refType] ?? r.refType}</Eyebrow>
+        <p className="mt-1.5 font-display text-2xl leading-snug text-text">{r.label}</p>
+        {r.sub && <p className="mt-0.5 text-sm text-text-muted">{r.sub}</p>}
+        {s.caption && <p className="mt-2 text-sm leading-relaxed text-text-muted">{s.caption}</p>}
+        {r.href && verb && (
+          <Link
+            href={r.href}
+            className="mt-3 inline-block text-sm text-accent hover:underline"
+            {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+          >
+            {verb} ↗
+          </Link>
+        )}
+      </div>
+    </Reveal>
+  );
+}
+
+function StoryRecord({ s, fig }: { s: ResolvedSection; fig: number | null }) {
   const r = s.resolved;
   if (!r || !r.found) return null;
-  const inner = (
-    <div className="rounded-sm border border-border p-5 transition-colors hover:border-accent">
-      <span className="text-xs uppercase tracking-widest text-accent">{REF_LABEL[r.refType] ?? r.refType}</span>
-      <div className="mt-1 font-display text-2xl">{r.label}</div>
-      {r.sub && <div className="text-sm text-text-muted">{r.sub}</div>}
-      {s.caption && <p className="mt-2 text-sm text-text-muted">{s.caption}</p>}
-      {r.href && <span className="mt-2 inline-block text-xs text-accent">Explore ↗</span>}
-    </div>
-  );
-  return r.href ? (
-    <Link href={r.href} className="block">{inner}</Link>
-  ) : (
-    inner
-  );
+  if (r.refType === "artwork" && fig !== null) return <ArtworkExhibit s={s} fig={fig} />;
+  if (r.refType === "impact") return <ImpactStat s={s} />;
+  return <RecordLabel s={s} />;
 }
 
 export default async function StoryPage({ params }: { params: { slug: string } }) {
   const story = storyService.getView(params.slug);
   if (!story || story.status !== "published") notFound();
 
-  return (
-    <main id="main" className="mx-auto max-w-2xl px-5 py-16">
-      <p className="text-xs uppercase tracking-widest text-accent">{story.kind}</p>
-      <h1 className="mt-2 font-display text-5xl leading-tight">{story.title}</h1>
-      {story.subtitle && <p className="mt-2 text-xl text-text-muted">{story.subtitle}</p>}
-      {story.dek && <p className="mt-6 text-lg leading-relaxed">{story.dek}</p>}
-      {story.chapterSlug && (
-        <p className="mt-3 text-sm text-text-muted">
-          From the{" "}
-          <Link href={`/chapters/${story.chapterSlug}`} className="text-accent hover:underline">
-            {story.chapterName}
-          </Link>{" "}
-          chapter
-        </p>
-      )}
+  // Monotonic figure numbers across the artwork plates (catalogue convention).
+  let figCounter = 0;
+  const numbered = story.sections.map((s) => {
+    const isPlate = s.kind === "record" && s.resolved?.found && s.resolved.refType === "artwork";
+    return { s, fig: isPlate ? ++figCounter : null };
+  });
 
-      <article className="mt-10 space-y-6">
-        {story.sections.map((s) => {
+  // The graph this story is woven from — grouped, de-duplicated, for the coda.
+  const connections = new Map<StoryRefType, ResolvedSection["resolved"][]>();
+  const seen = new Set<string>();
+  for (const { s } of numbered) {
+    const r = s.resolved;
+    if (s.kind !== "record" || !r?.found) continue;
+    const key = `${r.refType}:${r.refId}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const arr = connections.get(r.refType) ?? [];
+    arr.push(r);
+    connections.set(r.refType, arr);
+  }
+  const connectionCount = seen.size;
+
+  return (
+    <article className="pb-24">
+      {/* ── Header ─────────────────────────────────────────────────────── */}
+      <header className="mx-auto max-w-measure px-5 pt-16">
+        <Eyebrow>{story.kind}</Eyebrow>
+        <h1 className="mt-3 text-pretty font-display text-4xl leading-[1.08] text-text sm:text-6xl">
+          {story.title}
+        </h1>
+        {story.subtitle && (
+          <p className="mt-3 font-display text-xl text-text-muted sm:text-2xl">{story.subtitle}</p>
+        )}
+        {story.dek && (
+          <p className="mt-6 max-w-measure text-pretty text-lg leading-relaxed text-text">
+            {story.dek}
+          </p>
+        )}
+        {story.chapterSlug && (
+          <p className="mt-5 text-sm text-text-muted">
+            From the{" "}
+            <Link href={`/chapters/${story.chapterSlug}`} className="text-accent hover:underline">
+              {story.chapterName}
+            </Link>{" "}
+            chapter
+          </p>
+        )}
+      </header>
+
+      {/* ── The narrative ──────────────────────────────────────────────── */}
+      <div className="mt-16 space-y-20 sm:mt-24 sm:space-y-28">
+        {numbered.map(({ s, fig }) => {
           switch (s.kind) {
             case "heading":
-              return <h2 key={s.id} className="font-display text-3xl">{s.text}</h2>;
+              return (
+                <Reveal key={s.id} as="div" className="mx-auto max-w-measure px-5">
+                  <h2 className="font-display text-3xl leading-tight text-text sm:text-4xl">
+                    {s.text}
+                  </h2>
+                </Reveal>
+              );
             case "prose":
-              return <p key={s.id} className="text-lg leading-relaxed text-text">{s.text}</p>;
+              return (
+                <Reveal key={s.id} as="div" className="mx-auto max-w-measure px-5">
+                  <p className="text-pretty text-lg leading-relaxed text-text">{s.text}</p>
+                </Reveal>
+              );
             case "quote":
               return (
-                <blockquote key={s.id} className="border-l-2 border-accent pl-5 font-display text-2xl leading-snug">
-                  “{s.text}”
-                  {s.attribution && <footer className="mt-2 text-sm font-sans text-text-muted">— {s.attribution}</footer>}
-                </blockquote>
+                <Reveal key={s.id} as="div" className="mx-auto max-w-measure px-5">
+                  <blockquote>
+                    <p className="text-pretty font-display text-3xl leading-snug text-text sm:text-4xl">
+                      &ldquo;{s.text}&rdquo;
+                    </p>
+                    {s.attribution && (
+                      <footer className="mt-4 text-sm uppercase tracking-[0.18em] text-text-muted">
+                        — {s.attribution}
+                      </footer>
+                    )}
+                  </blockquote>
+                </Reveal>
               );
             case "record":
-              return <RecordCard key={s.id} s={s} />;
+              return <StoryRecord key={s.id} s={s} fig={fig} />;
             default:
               return null;
           }
         })}
-      </article>
+      </div>
 
-      <p className="mt-14 border-t border-border pt-6 text-sm text-text-muted">
+      {/* ── Connections — the graph this story is woven from ───────────── */}
+      {connectionCount > 0 && (
+        <Reveal as="section" className="mx-auto mt-28 max-w-measure border-t border-border px-5 pt-10">
+          <Eyebrow>Connections</Eyebrow>
+          <p className="mt-3 text-pretty text-base leading-relaxed text-text-muted">
+            Nothing here exists in isolation. This story is woven from {connectionCount} living{" "}
+            {connectionCount === 1 ? "record" : "records"} in the Planet B archive — none of it
+            duplicated, each one verifiable at its source.
+          </p>
+          <dl className="mt-6 space-y-4">
+            {[...connections.entries()].map(([refType, items]) => (
+              <div key={refType} className="grid gap-1 sm:grid-cols-[10rem_1fr]">
+                <dt className="text-xs uppercase tracking-[0.18em] text-text-muted">
+                  {REF_LABEL[refType]}
+                  {items.length > 1 ? ` (${items.length})` : ""}
+                </dt>
+                <dd className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
+                  {items.map((r, i) =>
+                    r!.href ? (
+                      <Link
+                        key={`${r!.refId}-${i}`}
+                        href={r!.href}
+                        className="text-accent hover:underline"
+                      >
+                        {r!.label}
+                      </Link>
+                    ) : (
+                      <span key={`${r!.refId}-${i}`} className="text-text">
+                        {r!.label}
+                      </span>
+                    )
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      )}
+
+      {/* ── Coda ───────────────────────────────────────────────────────── */}
+      <div className="mx-auto mt-16 max-w-measure px-5 text-sm text-text-muted">
         Explore more{" "}
-        <Link href="/stories" className="text-accent hover:underline">stories</Link>, the{" "}
-        <Link href="/chapters" className="text-accent hover:underline">chapters</Link>, or{" "}
-        <Link href="/verify" className="text-accent hover:underline">verify a certificate</Link>.
-      </p>
-    </main>
+        <Link href="/stories" className="text-accent hover:underline">
+          stories
+        </Link>
+        , the{" "}
+        <Link href="/chapters" className="text-accent hover:underline">
+          chapters
+        </Link>
+        , or{" "}
+        <Link href="/verify" className="text-accent hover:underline">
+          verify a certificate
+        </Link>
+        .
+      </div>
+    </article>
   );
 }
