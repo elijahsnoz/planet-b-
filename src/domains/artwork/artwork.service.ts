@@ -17,6 +17,7 @@ import type {
   ArtworkSummary,
   NewProvenanceEvent,
   ProvenanceEvent,
+  RelatedArtwork,
 } from "./artwork.types";
 
 export class ArtworkService {
@@ -48,6 +49,16 @@ export class ArtworkService {
 
   listProvenance(artworkId: string): ProvenanceEvent[] {
     return this.repo.listProvenance(artworkId);
+  }
+
+  /**
+   * Graph-neighbours of an artwork — works sharing its reclaimed materials
+   * and/or chapter, most-related first. The knowledge graph, surfaced.
+   */
+  relatedArtworks(slugOrId: string, limit?: number): RelatedArtwork[] {
+    const artwork = this.repo.getById(slugOrId) ?? this.repo.getBySlug(slugOrId);
+    if (!artwork) return [];
+    return this.repo.relatedArtworks(artwork.id, limit);
   }
 
   /** Record an event in an artwork's life. History accumulates. */

@@ -19,6 +19,7 @@ export type {
   ArtworkStoryRef,
   ArtworkProfile,
   NewProvenanceEvent,
+  RelatedArtwork,
 } from "./artwork.types";
 
 /** The wired Artwork service (SQLite backend today). */

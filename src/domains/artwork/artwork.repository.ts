@@ -12,6 +12,7 @@ import type {
   ArtworkSummary,
   NewProvenanceEvent,
   ProvenanceEvent,
+  RelatedArtwork,
 } from "./artwork.types";
 
 export interface ArtworkRepository {
@@ -23,6 +24,8 @@ export interface ArtworkRepository {
   chapterFor(chapterId: string | null): ArtworkRefLite | null;
   certificatesFor(artworkId: string): ArtworkCertificate[];
   storiesFeaturing(artworkId: string): ArtworkStoryRef[];
+  /** Published graph-neighbours by shared materials / same chapter, most-related first. */
+  relatedArtworks(artworkId: string, limit?: number): RelatedArtwork[];
 
   listProvenance(artworkId: string, includeArchived?: boolean): ProvenanceEvent[];
   getProvenance(id: string): ProvenanceEvent | null;

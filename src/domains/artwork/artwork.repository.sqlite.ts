@@ -3,7 +3,7 @@ import "server-only";
  * SqliteArtworkRepository — better-sqlite3 implementation. Swapped for Postgres
  * later (ADR-0001).
  */
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, isNull } from "drizzle-orm";
 import { db, schema as t } from "@platform/db";
 import type { ArtworkRepository } from "./artwork.repository";
 import type {
@@ -15,6 +15,7 @@ import type {
   NewProvenanceEvent,
   ProvenanceEvent,
   ProvenanceKind,
+  RelatedArtwork,
 } from "./artwork.types";
 import type { LifecycleStatus } from "@shared/index";
 
@@ -147,6 +148,54 @@ export class SqliteArtworkRepository implements ArtworkRepository {
       .all()
       .filter((s) => s.status === "published")
       .map((s) => ({ slug: s.slug, title: s.title, dek: s.dek }));
+  }
+
+  relatedArtworks(artworkId: string, limit = 8): RelatedArtwork[] {
+    const self = db.select().from(t.artworks).where(eq(t.artworks.id, artworkId)).get();
+    if (!self) return [];
+    const selfMaterials = new Set(
+      (Array.isArray(self.materials) ? (self.materials as string[]) : []).map((m) => m.toLowerCase())
+    );
+
+    const rows = db
+      .select({
+        id: t.artworks.id,
+        slug: t.artworks.slug,
+        title: t.artworks.title,
+        year: t.artworks.year,
+        chapterId: t.artworks.chapterId,
+        materials: t.artworks.materials,
+        artistName: t.people.fullName,
+      })
+      .from(t.artworks)
+      .leftJoin(t.people, eq(t.people.id, t.artworks.artistId))
+      .where(and(eq(t.artworks.status, "published"), isNull(t.artworks.archivedAt)))
+      .all();
+
+    const scored = rows
+      .filter((r) => r.id !== artworkId)
+      .map((r) => {
+        const mats = Array.isArray(r.materials) ? (r.materials as string[]) : [];
+        const sharedMaterials = mats.filter((m) => selfMaterials.has(m.toLowerCase()));
+        const sameChapter = !!self.chapterId && r.chapterId === self.chapterId;
+        // Shared materials are the stronger, more meaningful tie; chapter is context.
+        const score = sharedMaterials.length * 2 + (sameChapter ? 1 : 0);
+        return {
+          id: r.id,
+          slug: r.slug,
+          title: r.title,
+          year: r.year,
+          artistName: r.artistName,
+          sharedMaterials,
+          sameChapter,
+          score,
+        };
+      })
+      .filter((r) => r.score > 0)
+      .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
+      .slice(0, limit);
+
+    return scored.map(({ score: _score, ...rest }) => rest);
   }
 
   listProvenance(artworkId: string, includeArchived = false): ProvenanceEvent[] {

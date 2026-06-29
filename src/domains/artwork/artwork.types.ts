@@ -104,6 +104,22 @@ export interface ArtworkStoryRef {
   dek: string | null;
 }
 
+/**
+ * A graph-neighbour artwork, surfaced by the connections it shares with the
+ * subject — reclaimed materials it is made from, and/or the chapter it belongs
+ * to. The shared evidence travels with the ref so the UI can *reveal* the
+ * connection, not merely list a thumbnail.
+ */
+export interface RelatedArtwork {
+  id: string;
+  slug: string | null;
+  title: string;
+  year: number | null;
+  artistName: string | null;
+  sharedMaterials: string[];
+  sameChapter: boolean;
+}
+
 /** The full Artwork — preserved object + its accumulating provenance + graph. */
 export interface ArtworkProfile {
   artwork: ArtworkRow;

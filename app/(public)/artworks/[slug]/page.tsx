@@ -5,9 +5,14 @@ import { Plate } from "@/components/Plate";
 import { Reveal } from "@/components/Reveal";
 import { PlanetBMark } from "@/components/PlanetBMark";
 import { AliveEye } from "@/components/experience/AliveEye";
-import { artworkImage, getArtworks } from "@/lib/data";
+import { artworkImage } from "@/lib/data";
 import { artworkService } from "@domains/artwork";
-import type { ArtworkProfile, ProvenanceEvent, ProvenanceKind } from "@domains/artwork";
+import type {
+  ArtworkProfile,
+  ProvenanceEvent,
+  ProvenanceKind,
+  RelatedArtwork,
+} from "@domains/artwork";
 
 // Dynamic so the accumulating provenance record is always current (Principle II).
 export const dynamic = "force-dynamic";
@@ -55,6 +60,13 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
+/** Name the tie that surfaced this neighbour — reveal the connection, don't just list. */
+function connectionLabel(r: RelatedArtwork): string {
+  if (r.sharedMaterials.length === 1) return `Shares ${r.sharedMaterials[0]}`;
+  if (r.sharedMaterials.length > 1) return `Shares ${r.sharedMaterials.length} materials`;
+  return "Same chapter";
+}
+
 /** A quiet section label, shared across the reading column (matches the Passport). */
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -71,12 +83,11 @@ export default function ArtworkRecord({ params }: { params: { slug: string } }) 
   const alt = `${artwork.title}${artist ? ` by ${artist.name}` : ""}`;
   const provenance = chronological(profile.provenance);
 
-  // Region G — "More by this artist" (blueprint Open Q3, option a; within current data).
-  const siblings = artist
-    ? getArtworks()
-        .filter((a) => a.artist === artist.slug && a.slug !== artwork.slug)
-        .slice(0, 6)
-    : [];
+  // Region G — graph-revealed neighbours (blueprint Open Q3, option b): works
+  // connected by shared reclaimed materials and/or the same chapter.
+  const related = artworkService
+    .relatedArtworks(params.slug)
+    .filter((r): r is RelatedArtwork & { slug: string } => !!r.slug);
 
   return (
     <article className="mx-auto max-w-container px-5 py-12">
@@ -275,27 +286,36 @@ export default function ArtworkRecord({ params }: { params: { slug: string } }) 
         )}
       </div>
 
-      {/* ── Region G · More by this artist (the graph, gently revealed) ───── */}
-      {siblings.length > 0 && artist && (
+      {/* ── Region G · Connected works (the graph, gently revealed) ──────── */}
+      {related.length > 0 && (
         <Reveal as="section" className="mt-24">
-          <SectionLabel>More by {artist.name}</SectionLabel>
+          <SectionLabel>Connected works</SectionLabel>
+          <p className="mt-2 max-w-measure text-sm text-text-muted">
+            Surfaced through the archive&rsquo;s knowledge graph — works that share this
+            object&rsquo;s reclaimed materials or its chapter.
+          </p>
           <ul className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-            {siblings.map((a) => (
-              <li key={a.slug}>
-                <Link href={`/artworks/${a.slug}`} className="group block">
+            {related.map((r) => (
+              <li key={r.id}>
+                <Link href={`/artworks/${r.slug}`} className="group block">
                   <div className="overflow-hidden rounded-sm transition-shadow duration-300 group-hover:shadow-museum-soft">
                     <Plate
-                      src={artworkImage(a.slug)}
-                      alt={`${a.title} by ${artist.name}`}
+                      src={artworkImage(r.slug)}
+                      alt={`${r.title}${r.artistName ? ` by ${r.artistName}` : ""}`}
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       fit="contain"
                       className="transition-transform duration-300 group-hover:scale-[1.02]"
                     />
                   </div>
                   <p className="mt-2 text-sm text-text transition-colors group-hover:text-accent">
-                    {a.title}
+                    {r.title}
                   </p>
-                  {a.year && <p className="text-xs text-text-muted">{a.year}</p>}
+                  <p className="text-xs text-text-muted">
+                    {[r.artistName, r.year].filter(Boolean).join(" · ")}
+                  </p>
+                  <p className="mt-1 text-[0.7rem] uppercase tracking-[0.16em] text-accent/80">
+                    {connectionLabel(r)}
+                  </p>
                 </Link>
               </li>
             ))}
