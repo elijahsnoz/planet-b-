@@ -165,6 +165,12 @@ export default async function StoryPage({ params }: { params: { slug: string } }
   }
   const connectionCount = seen.size;
 
+  // One hop further: the graph surfaces related works, their makers, and sibling
+  // stories — discovery the reader never had to ask for.
+  const discovery = storyService.discover(params.slug);
+  const hasDiscovery =
+    discovery.artworks.length > 0 || discovery.people.length > 0 || discovery.stories.length > 0;
+
   return (
     <article className="pb-24">
       {/* ── Header ─────────────────────────────────────────────────────── */}
@@ -269,6 +275,108 @@ export default async function StoryPage({ params }: { params: { slug: string } }
               </div>
             ))}
           </dl>
+        </Reveal>
+      )}
+
+      {/* ── Further into the archive — the graph, one hop out ──────────── */}
+      {hasDiscovery && (
+        <Reveal as="section" className="mx-auto mt-28 max-w-container border-t border-border px-5 pt-10">
+          <div className="mx-auto max-w-measure">
+            <Eyebrow>Further into the archive</Eyebrow>
+            <p className="mt-3 text-pretty text-base leading-relaxed text-text-muted">
+              The graph keeps going. Following the threads this story is woven from leads to
+              other works, the hands that made them, and — as the archive grows — other stories.
+            </p>
+          </div>
+
+          {/* Related works — small plates, each labelled with the thread that ties it here. */}
+          {discovery.artworks.length > 0 && (
+            <div className="mt-12">
+              <h3 className="text-xs uppercase tracking-[0.22em] text-text-muted">Related works</h3>
+              <ul className="mt-6 grid grid-cols-2 gap-x-5 gap-y-9 sm:grid-cols-3 lg:grid-cols-4">
+                {discovery.artworks.map((a) => {
+                  const slug = artworkSlugFromHref(a.href);
+                  return (
+                    <li key={a.refId}>
+                      <Link href={a.href ?? "#"} className="group block">
+                        <div className="overflow-hidden rounded-sm transition-shadow duration-300 group-hover:shadow-museum-soft">
+                          <Plate
+                            src={slug ? artworkImage(slug) : null}
+                            alt={a.label}
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                            fit="contain"
+                            className="aspect-square"
+                          />
+                        </div>
+                        <p className="mt-2.5 font-display text-base leading-snug text-text transition-colors group-hover:text-accent">
+                          {a.label}
+                        </p>
+                        <p className="mt-0.5 text-xs leading-relaxed text-text-muted">{a.reason}</p>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+
+          {/* The makers — artists reached through the works above. */}
+          {discovery.people.length > 0 && (
+            <div className="mt-14">
+              <h3 className="text-xs uppercase tracking-[0.22em] text-text-muted">The makers</h3>
+              <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-4">
+                {discovery.people.map((p) => (
+                  <li key={p.refId}>
+                    {p.href ? (
+                      <Link href={p.href} className="group block">
+                        <p className="font-display text-lg leading-tight text-text transition-colors group-hover:text-accent">
+                          {p.label}
+                        </p>
+                        <p className="mt-0.5 text-xs text-text-muted">{p.reason}</p>
+                      </Link>
+                    ) : (
+                      <div>
+                        <p className="font-display text-lg leading-tight text-text">{p.label}</p>
+                        <p className="mt-0.5 text-xs text-text-muted">{p.reason}</p>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Sibling stories — woven from the same records. Lights up as the archive grows. */}
+          {discovery.stories.length > 0 && (
+            <div className="mt-14">
+              <h3 className="text-xs uppercase tracking-[0.22em] text-text-muted">Continue reading</h3>
+              <ul className="mt-5 space-y-6">
+                {discovery.stories.map((s) => (
+                  <li key={s.slug ?? s.title}>
+                    <Link
+                      href={s.slug ? `/stories/${s.slug}` : "#"}
+                      className="group block border-t border-border pt-5"
+                    >
+                      <span className="text-[0.7rem] uppercase tracking-[0.28em] text-text-muted">
+                        {s.kind}
+                      </span>
+                      <p className="mt-1.5 font-display text-2xl leading-snug text-text transition-colors group-hover:text-accent">
+                        {s.title}
+                      </p>
+                      {s.dek && (
+                        <p className="mt-2 max-w-measure text-pretty text-sm leading-relaxed text-text-muted">
+                          {s.dek}
+                        </p>
+                      )}
+                      <p className="mt-2 font-mono text-xs uppercase tracking-[0.14em] text-text-muted">
+                        Shares {s.via}
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Reveal>
       )}
 

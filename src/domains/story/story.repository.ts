@@ -5,6 +5,8 @@
  * resolves record references for display.
  */
 import type {
+  DiscoveredRecord,
+  RelatedStory,
   ResolvedRef,
   StoryRefType,
   StoryRow,
@@ -50,4 +52,11 @@ export interface StoryRepository {
   resolveRef(refType: StoryRefType, refId: string): ResolvedRef;
   chapterName(chapterId: string | null): string | null;
   chapterSlug(chapterId: string | null): string | null;
+
+  // ── graph discovery (one hop beyond the story's own references) ───────────────
+  /** Records reachable from the story's featured artworks — related artworks and
+   *  the artists behind them — never duplicating what the story already cites. */
+  discoverRecords(storyId: string, limit?: number): { artworks: DiscoveredRecord[]; people: DiscoveredRecord[] };
+  /** Other published stories that share a featured record, most-shared first. */
+  relatedStories(storyId: string, limit?: number): RelatedStory[];
 }

@@ -16,6 +16,7 @@ import type { StoryMetaPatch, StoryRepository } from "./story.repository";
 import type {
   NewStory,
   ResolvedSection,
+  StoryDiscovery,
   StoryRow,
   StorySection,
   StorySummary,
@@ -49,6 +50,18 @@ export class StoryService {
       chapterName: this.repo.chapterName(row.chapterId),
       chapterSlug: this.repo.chapterSlug(row.chapterId),
     };
+  }
+
+  /**
+   * The discovery layer: one hop beyond a story's own references into the
+   * knowledge graph — related artworks, the artists behind them, and sibling
+   * stories woven from the same records. Reading-only; never mutates the graph.
+   */
+  discover(slugOrId: string): StoryDiscovery {
+    const row = this.repo.getById(slugOrId) ?? this.repo.getBySlug(slugOrId);
+    if (!row) return { artworks: [], people: [], stories: [] };
+    const { artworks, people } = this.repo.discoverRecords(row.id);
+    return { artworks, people, stories: this.repo.relatedStories(row.id) };
   }
 
   private uniqueSlug(title: string): string {

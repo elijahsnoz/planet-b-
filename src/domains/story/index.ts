@@ -21,6 +21,9 @@ export type {
   ResolvedSection,
   StoryView,
   NewStory,
+  DiscoveredRecord,
+  RelatedStory,
+  StoryDiscovery,
 } from "./story.types";
 
 /** The wired Story service (SQLite backend today). */

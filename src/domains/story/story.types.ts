@@ -115,6 +115,39 @@ export interface StoryView extends Omit<StoryRow, "body"> {
   chapterSlug: string | null;
 }
 
+/**
+ * A record discovered ONE HOP beyond a story's own references — the knowledge
+ * graph surfaced. `reason` names the thread that connects it, so discovery stays
+ * editorially honest (the reader is told *why* the archive offered this).
+ */
+export interface DiscoveredRecord {
+  refType: StoryRefType;
+  refId: string;
+  label: string;
+  sub: string | null;
+  href: string | null;
+  reason: string;
+}
+
+/** A sibling story reachable through a shared graph record (story → record ← story). */
+export interface RelatedStory {
+  slug: string | null;
+  title: string;
+  dek: string | null;
+  kind: StoryKind;
+  /** How many graph records the two stories hold in common. */
+  sharedCount: number;
+  /** A human thread, e.g. "Threshold" or "Garbage to Grace, and 2 more". */
+  via: string;
+}
+
+/** Everything the archive opens onto from a single story — the discovery layer. */
+export interface StoryDiscovery {
+  artworks: DiscoveredRecord[];
+  people: DiscoveredRecord[];
+  stories: RelatedStory[];
+}
+
 export interface NewStory {
   title: string;
   dek?: string | null;
