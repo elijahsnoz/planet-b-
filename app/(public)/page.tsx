@@ -78,7 +78,7 @@ export default function Home() {
             <Reveal delay={0.08}>
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] opacity-70">From waste to grace</p>
-                <h2 className="mt-3 font-display text-4xl leading-tight">Waste is not an end, but a beginning.</h2>
+                <h2 className="mt-3 font-display text-4xl leading-tight tracking-[-0.015em]">Waste is not an end, but a beginning.</h2>
                 <p className="mt-5 max-w-measure opacity-80">{hope.statement}</p>
               </div>
             </Reveal>
@@ -112,8 +112,13 @@ export default function Home() {
           {founders.slice(0, 10).map((p, i) => (
             <Reveal as="li" key={p.slug} delay={(i % 5) * 0.04}>
               <Link href={`/artists/${p.slug}`} className="group block">
-                <Plate src={p.artworks ? artworkImage(p.artworks[0]) : null} alt={p.full_name} sizes="(max-width:768px) 50vw, 20vw" fit="contain" />
-                <p className="mt-2 font-display text-base group-hover:text-accent">{p.full_name}</p>
+                <div className="overflow-hidden rounded-sm transition-transform duration-500 ease-[cubic-bezier(0.2,0,0,1)] group-hover:-translate-y-1">
+                  <Plate src={p.artworks ? artworkImage(p.artworks[0]) : null} alt={p.full_name} sizes="(max-width:768px) 50vw, 20vw" fit="contain" />
+                </div>
+                <p className="mt-3 font-display text-base transition-colors group-hover:text-accent">{p.full_name}</p>
+                <span className="mt-0.5 block text-[0.65rem] uppercase tracking-[0.25em] text-text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus:opacity-100">
+                  View in archive&nbsp;→
+                </span>
               </Link>
             </Reveal>
           ))}
@@ -124,7 +129,7 @@ export default function Home() {
       <section data-theme="ink" className="flex min-h-[90svh] flex-col items-center justify-center gap-10 bg-bg px-5 text-center text-text">
         <Reveal>
           <p className="text-xs uppercase tracking-[0.4em] text-text-muted">The next chapter</p>
-          <h2 className="mt-6 max-w-3xl font-display text-4xl leading-tight sm:text-6xl">
+          <h2 className="mt-6 max-w-3xl font-display text-4xl leading-tight tracking-[-0.015em] sm:text-6xl">
             has not yet been written.
           </h2>
         </Reveal>

@@ -11,10 +11,10 @@ export function Threshold() {
       data-theme="ink"
       className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-bg px-5 text-center text-text"
     >
-      {/* faint atmospheric depth */}
+      {/* faint atmospheric depth — settles up once on arrival (the room "comes up") */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-70"
+        className="pb-settle pointer-events-none absolute inset-0"
         style={{
           background:
             "radial-gradient(60% 50% at 50% 45%, rgba(123,92,62,0.10), transparent 70%), radial-gradient(40% 30% at 50% 80%, rgba(110,20,20,0.10), transparent 70%)",
@@ -23,7 +23,7 @@ export function Threshold() {
       <AliveEye size={140} className="relative text-accent" />
 
       <Reveal delay={0.9}>
-        <h1 className="relative mt-12 max-w-3xl font-display text-4xl leading-[1.1] sm:text-6xl">
+        <h1 className="relative mt-12 max-w-3xl font-display text-4xl leading-[1.1] tracking-[-0.015em] sm:text-6xl">
           Because there is no Planet&nbsp;B.
         </h1>
       </Reveal>

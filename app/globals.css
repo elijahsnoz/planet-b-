@@ -118,6 +118,15 @@
   100% { transform: scaleY(1); }
 }
 
+/*
+ * The settle — atmosphere "comes up" once on arrival rather than appearing.
+ * Used on the Threshold's ambient depth. fill-mode `both` + the reduced-motion
+ * override below means it snaps to the final 0.7 opacity instantly when motion
+ * is disabled, so the room is always present — it just doesn't fade in.
+ */
+@keyframes pb-settle { from { opacity: 0; } to { opacity: 0.7; } }
+.pb-settle { animation: pb-settle 1200ms var(--pb-ease-standard) both; }
+
 /* Accessibility: every animation yields. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

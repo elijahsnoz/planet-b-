@@ -9,7 +9,10 @@ import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } f
  * descends, scattered fragments converge while the artwork resolves into being.
  * Reduced-motion: a still artwork with its caption (no scroll choreography).
  */
-const SHARD_COLORS = ["#7A5C3E", "#9B978E", "#6E1414", "#2FA36B", "#E7E2D7", "#7A5C3E", "#9B978E", "#6E1414", "#2FA36B", "#E7E2D7", "#7A5C3E", "#9B978E"];
+// Discarded fragments — neutral material tones only (clay / stone / oxblood / mist).
+// Signal green is intentionally absent: canon reserves it for verified/impact, and a
+// "verified" cue would be wrong on debris that has not yet become art.
+const SHARD_COLORS = ["#7A5C3E", "#9B978E", "#6E1414", "#E7E2D7", "#7A5C3E", "#9B978E", "#6E1414", "#E7E2D7", "#7A5C3E", "#9B978E", "#6E1414", "#E7E2D7"];
 
 function Shard({ progress, index, total, color }: { progress: MotionValue<number>; index: number; total: number; color: string }) {
   const angle = (index / total) * Math.PI * 2;
