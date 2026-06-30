@@ -25,8 +25,8 @@ export default function ArtworksPage() {
     <div className="mx-auto max-w-container-wide px-5 py-14">
       <Reveal>
         <p className="text-xs uppercase tracking-widest text-text-muted">Genesis Chapter · Abuja 2026</p>
-        <h1 className="mt-2 font-display text-5xl">Artwork Registry</h1>
-        <p className="mt-3 max-w-measure text-text-muted">
+        <h1 className="mt-2 pb-display-2 font-display">Artwork Registry</h1>
+        <p className="pb-read mt-3 max-w-measure text-text-muted">
           Discarded plastics, drink cans, dead electronics, tailors&rsquo; offcuts — given new
           meaning. Every work is a 61×61cm assemblage made in 2026.
         </p>

@@ -91,12 +91,12 @@ export default function ArtworkRecord({ params }: { params: { slug: string } }) 
 
   return (
     <article className="mx-auto max-w-container px-5 py-12">
-      <Link href="/artworks" className="text-sm text-text-muted hover:text-accent">
+      <Link href="/artworks" className="-ml-2 inline-flex min-h-[44px] items-center rounded px-2 text-sm text-text-muted hover:text-accent">
         ← Artwork Registry
       </Link>
 
       {/* ── Region A · The work (hero) ───────────────────────────────────── */}
-      <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:items-center">
+      <div className="mt-4 grid gap-8 sm:gap-10 lg:grid-cols-[1.15fr_1fr] lg:items-center">
         <Reveal>
           <div className="relative aspect-square overflow-hidden rounded-sm bg-mist shadow-museum-soft">
             <Plate
@@ -114,7 +114,7 @@ export default function ArtworkRecord({ params }: { params: { slug: string } }) 
             {artwork.medium && (
               <p className="text-xs uppercase tracking-widest text-text-muted">{artwork.medium}</p>
             )}
-            <h1 className="mt-2 font-display text-4xl leading-tight text-text sm:text-5xl">
+            <h1 className="mt-2 pb-display-2 font-display leading-tight text-text">
               {artwork.title}
             </h1>
             {artwork.titleVariant && (
@@ -140,7 +140,7 @@ export default function ArtworkRecord({ params }: { params: { slug: string } }) 
       </div>
 
       {/* ── The reading column (B–F) ─────────────────────────────────────── */}
-      <div className="mx-auto mt-20 max-w-measure space-y-16">
+      <div className="mx-auto mt-14 max-w-measure space-y-12 sm:mt-20 sm:space-y-16">
         {/* Region B · The artist's statement */}
         {(artwork.statement || artwork.significance) && (
           <Reveal as="section">
@@ -288,7 +288,7 @@ export default function ArtworkRecord({ params }: { params: { slug: string } }) 
 
       {/* ── Region G · Connected works (the graph, gently revealed) ──────── */}
       {related.length > 0 && (
-        <Reveal as="section" className="mt-24">
+        <Reveal as="section" className="mt-16 sm:mt-24">
           <SectionLabel>Connected works</SectionLabel>
           <p className="mt-2 max-w-measure text-sm text-text-muted">
             Surfaced through the archive&rsquo;s knowledge graph — works that share this
