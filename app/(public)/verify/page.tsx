@@ -254,8 +254,9 @@ export default async function VerifyPage({ searchParams }: { searchParams: { q?:
   const q = (searchParams.q ?? "").trim();
   const result = q ? await verificationService.verify(q) : null;
 
+  // The (public) layout already provides the <main> landmark.
   return (
-    <main id="main">
+    <>
       {/* ── ARRIVAL ─────────────────────────────────────────────────────────── */}
       <section
         data-theme="ink"
@@ -277,7 +278,7 @@ export default async function VerifyPage({ searchParams }: { searchParams: { q?:
             </p>
           </Reveal>
           <Reveal delay={0.9}>
-            <h1 className="mt-4 font-display text-4xl leading-[1.1] tracking-[-0.015em] sm:text-5xl">
+            <h1 className="mt-4 pb-display-2 font-display leading-[1.1] tracking-[-0.015em]">
               Examine the record.
             </h1>
           </Reveal>
@@ -299,7 +300,7 @@ export default async function VerifyPage({ searchParams }: { searchParams: { q?:
           >
             Enter a record's mark
           </label>
-          <div className="mt-3 flex items-end gap-4 border-b border-border pb-3 transition-colors focus-within:border-accent">
+          <div className="mt-3 flex items-stretch gap-3 border-b border-border pb-2 transition-colors focus-within:border-accent">
             <input
               id="verify-q"
               name="q"
@@ -308,13 +309,13 @@ export default async function VerifyPage({ searchParams }: { searchParams: { q?:
               autoComplete="off"
               spellCheck={false}
               aria-label="Certificate public ID or registry ID"
-              className="flex-1 bg-transparent font-mono text-lg outline-none placeholder:text-stone/60"
+              className="min-h-[44px] flex-1 bg-transparent font-mono text-lg outline-none placeholder:text-stone/60"
             />
             <button
               type="submit"
-              className="shrink-0 text-sm uppercase tracking-[0.18em] text-accent transition-opacity hover:opacity-70"
+              className="inline-flex min-h-[44px] shrink-0 items-center px-1 text-sm uppercase tracking-[0.18em] text-accent transition-opacity hover:opacity-70"
             >
-              Examine →
+              Examine&nbsp;→
             </button>
           </div>
           <p className="mt-3 text-sm text-text-muted">
@@ -347,6 +348,6 @@ export default async function VerifyPage({ searchParams }: { searchParams: { q?:
           </Reveal>
         )}
       </section>
-    </main>
+    </>
   );
 }
