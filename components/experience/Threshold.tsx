@@ -23,7 +23,7 @@ export function Threshold() {
       <AliveEye size={140} className="relative text-accent" />
 
       <Reveal delay={0.9}>
-        <h1 className="relative mt-12 max-w-3xl font-display text-4xl leading-[1.1] tracking-[-0.015em] sm:text-6xl">
+        <h1 className="relative mt-12 max-w-3xl pb-display-1 font-display leading-[1.1] tracking-[-0.015em]">
           Because there is no Planet&nbsp;B.
         </h1>
       </Reveal>

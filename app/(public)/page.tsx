@@ -77,12 +77,12 @@ export default function Home() {
 
       {/* ── REFLECTION · the artist's own words ─────────────────────────── */}
       {eye?.statement && (
-        <section className="mx-auto max-w-container px-5 py-28">
+        <section className="mx-auto max-w-container px-5 py-20 sm:py-28">
           <Reveal>
             <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
               <TickingWatch />
               <blockquote className="mt-8">
-                <p className="font-display text-2xl leading-snug sm:text-[2rem]">&ldquo;{eye.statement}&rdquo;</p>
+                <p className="pb-display-4 font-display leading-snug">&ldquo;{eye.statement}&rdquo;</p>
                 <footer className="mt-6 text-sm text-text-muted">
                   {eyeArtist?.full_name ?? "A founding artist"} — <cite className="not-italic">{eye.title}</cite>
                 </footer>
@@ -95,7 +95,7 @@ export default function Home() {
       {/* ── HOPE · dark becomes light ───────────────────────────────────── */}
       {hope && (
         <HopeShift>
-          <div className="mx-auto grid max-w-container items-center gap-10 px-5 py-32 lg:grid-cols-2">
+          <div className="mx-auto grid max-w-container items-center gap-10 px-5 py-24 sm:py-32 lg:grid-cols-2">
             <Reveal>
               <div className="relative aspect-square overflow-hidden rounded-sm shadow-museum-soft">
                 <Plate src={artworkImage(hope.slug)} alt={hope.title} className="aspect-square" sizes="(max-width:1024px) 100vw, 40rem" fit="contain" />
@@ -104,8 +104,8 @@ export default function Home() {
             <Reveal delay={0.08}>
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] opacity-70">From waste to grace</p>
-                <h2 className="mt-3 font-display text-4xl leading-tight tracking-[-0.015em]">Waste is not an end, but a beginning.</h2>
-                <p className="mt-5 max-w-measure opacity-80">{hope.statement}</p>
+                <h2 className="mt-3 pb-display-3 font-display leading-tight tracking-[-0.015em]">Waste is not an end, but a beginning.</h2>
+                <p className="pb-read mt-5 max-w-measure opacity-80">{hope.statement}</p>
               </div>
             </Reveal>
           </div>
@@ -124,11 +124,11 @@ export default function Home() {
       )}
 
       {/* ── BELONGING · the founders ────────────────────────────────────── */}
-      <section className="mx-auto max-w-container-wide px-5 py-28">
+      <section className="mx-auto max-w-container-wide px-5 py-20 sm:py-28">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-3xl">Ordinary people began this.</h2>
-            <p className="mt-3 text-text-muted">
+            <h2 className="pb-display-3 font-display">Ordinary people began this.</h2>
+            <p className="pb-read mt-3 text-text-muted">
               Fifteen artists, a gallery that has nurtured talent since 1983, and an embassy that crossed
               an ocean — one World Environment Day in Abuja.
             </p>
@@ -138,11 +138,13 @@ export default function Home() {
           {founders.slice(0, 10).map((p, i) => (
             <Reveal as="li" key={p.slug} delay={(i % 5) * 0.04}>
               <Link href={`/artists/${p.slug}`} className="group block">
-                <div className="overflow-hidden rounded-sm transition-transform duration-500 ease-[cubic-bezier(0.2,0,0,1)] group-hover:-translate-y-1">
+                <div className="overflow-hidden rounded-sm transition-transform duration-500 ease-[cubic-bezier(0.2,0,0,1)] group-hover:-translate-y-1 group-active:-translate-y-0.5">
                   <Plate src={p.artworks ? artworkImage(p.artworks[0]) : null} alt={p.full_name} sizes="(max-width:768px) 50vw, 20vw" fit="contain" />
                 </div>
                 <p className="mt-3 font-display text-base transition-colors group-hover:text-accent">{p.full_name}</p>
-                <span className="mt-0.5 block text-[0.65rem] uppercase tracking-[0.25em] text-text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus:opacity-100">
+                {/* On touch there is no hover — the cue is visible by default; desktop
+                    keeps the quieter fade-in on hover/focus. */}
+                <span className="mt-0.5 block text-[0.65rem] uppercase tracking-[0.25em] text-text-muted transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus:opacity-100">
                   View in archive&nbsp;→
                 </span>
               </Link>
@@ -162,19 +164,22 @@ export default function Home() {
       <section data-theme="ink" className="flex min-h-[90svh] flex-col items-center justify-center gap-10 bg-bg px-5 text-center text-text">
         <Reveal>
           <p className="text-xs uppercase tracking-[0.4em] text-text-muted">The next chapter</p>
-          <h2 className="mt-6 max-w-3xl font-display text-4xl leading-tight tracking-[-0.015em] sm:text-6xl">
+          <h2 className="mt-6 max-w-3xl pb-display-2 font-display leading-tight tracking-[-0.015em]">
             has not yet been written.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex w-full max-w-xs flex-col items-stretch gap-3 sm:max-w-none sm:items-center">
             <Link
               href="/chapters/abuja-2026"
-              className="rounded-sm bg-accent px-6 py-3 text-sm text-paper transition-transform hover:-translate-y-0.5"
+              className="inline-flex min-h-[52px] items-center justify-center rounded-sm bg-accent px-6 text-sm text-paper transition-transform hover:-translate-y-0.5 active:translate-y-0"
             >
               Enter the Genesis Chapter
             </Link>
-            <Link href="/origin" className="text-sm text-text-muted underline-offset-4 hover:text-text hover:underline">
+            <Link
+              href="/origin"
+              className="inline-flex min-h-[44px] items-center justify-center text-sm text-text-muted underline-offset-4 hover:text-text hover:underline"
+            >
               Become part of the story
             </Link>
           </div>
