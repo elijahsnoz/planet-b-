@@ -16,8 +16,8 @@ export default async function StoriesIndex() {
     <div className="mx-auto max-w-measure px-5 py-16 sm:py-24">
       <header>
         <p className="text-[0.7rem] uppercase tracking-[0.28em] text-text-muted">Planet B</p>
-        <h1 className="mt-3 font-display text-5xl leading-tight text-text sm:text-6xl">Stories</h1>
-        <p className="mt-5 max-w-measure text-pretty text-lg leading-relaxed text-text-muted">
+        <h1 className="mt-3 pb-display-1 font-display leading-tight text-text">Stories</h1>
+        <p className="mt-5 max-w-measure text-pretty pb-read leading-relaxed text-text-muted">
           Planet B is an archive of transformation. These are narratives — woven from chapters,
           people, artworks, certificates, and impact — meant to be read slowly, not browsed.
         </p>

@@ -180,14 +180,14 @@ export default async function StoryPage({ params }: { params: { slug: string } }
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <header className="mx-auto max-w-measure px-5 pt-16">
         <Eyebrow>{story.kind}</Eyebrow>
-        <h1 className="mt-3 text-pretty font-display text-4xl leading-[1.08] text-text sm:text-6xl">
+        <h1 className="mt-3 text-pretty pb-display-1 font-display leading-[1.08] text-text">
           {story.title}
         </h1>
         {story.subtitle && (
           <p className="mt-3 font-display text-xl text-text-muted sm:text-2xl">{story.subtitle}</p>
         )}
         {story.dek && (
-          <p className="mt-6 max-w-measure text-pretty text-lg leading-relaxed text-text">
+          <p className="mt-6 max-w-measure text-pretty pb-read leading-relaxed text-text">
             {story.dek}
           </p>
         )}
@@ -203,7 +203,7 @@ export default async function StoryPage({ params }: { params: { slug: string } }
       </header>
 
       {/* ── The narrative ──────────────────────────────────────────────── */}
-      <div className="mt-16 space-y-20 sm:mt-24 sm:space-y-28">
+      <div className="mt-12 space-y-16 sm:mt-24 sm:space-y-28">
         {numbered.map(({ s, fig }) => {
           switch (s.kind) {
             case "heading":
@@ -217,7 +217,7 @@ export default async function StoryPage({ params }: { params: { slug: string } }
             case "prose":
               return (
                 <Reveal key={s.id} as="div" className="mx-auto max-w-measure px-5">
-                  <p className="text-pretty text-lg leading-relaxed text-text">{s.text}</p>
+                  <p className="text-pretty pb-read leading-relaxed text-text">{s.text}</p>
                 </Reveal>
               );
             case "quote":
@@ -245,7 +245,7 @@ export default async function StoryPage({ params }: { params: { slug: string } }
 
       {/* ── Connections — the graph this story is woven from ───────────── */}
       {connectionCount > 0 && (
-        <Reveal as="section" className="mx-auto mt-28 max-w-measure border-t border-border px-5 pt-10">
+        <Reveal as="section" className="mx-auto mt-20 max-w-measure border-t border-border px-5 pt-10 sm:mt-28">
           <Eyebrow>Connections</Eyebrow>
           <p className="mt-3 text-pretty text-base leading-relaxed text-text-muted">
             Nothing here exists in isolation. This story is woven from {connectionCount} living{" "}
@@ -284,7 +284,7 @@ export default async function StoryPage({ params }: { params: { slug: string } }
 
       {/* ── Further into the archive — the graph, one hop out ──────────── */}
       {hasDiscovery && (
-        <Reveal as="section" className="mx-auto mt-28 max-w-container border-t border-border px-5 pt-10">
+        <Reveal as="section" className="mx-auto mt-20 max-w-container border-t border-border px-5 pt-10 sm:mt-28">
           <div className="mx-auto max-w-measure">
             <Eyebrow>Further into the archive</Eyebrow>
             <p className="mt-3 text-pretty text-base leading-relaxed text-text-muted">
