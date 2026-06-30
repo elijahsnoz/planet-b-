@@ -96,7 +96,7 @@ export function PassportDocument({ v }: { v: PassportView }) {
       {/* ── THE CEREMONY · closed cover → identity spread ──────────────── */}
       <section
         data-theme="ink"
-        className="relative grid min-h-[92svh] place-items-center overflow-hidden bg-bg px-5 py-24 text-text"
+        className="relative grid min-h-[92svh] place-items-center overflow-hidden bg-bg px-5 py-16 text-text sm:py-24"
         style={{ perspective: "1600px" }}
       >
         {/* the vitrine light */}
@@ -134,7 +134,7 @@ export function PassportDocument({ v }: { v: PassportView }) {
               <button
                 type="button"
                 onClick={() => setOpened(true)}
-                className="mt-8 inline-flex items-center gap-2 rounded-sm border border-paper/30 px-6 py-3 text-sm tracking-wide text-paper transition-all duration-300 hover:-translate-y-0.5 hover:border-paper/70"
+                className="mt-8 inline-flex min-h-[48px] items-center gap-2 rounded-sm border border-paper/30 px-7 text-sm tracking-wide text-paper transition-all duration-300 hover:-translate-y-0.5 hover:border-paper/70 active:translate-y-0"
               >
                 Open Passport <span aria-hidden>→</span>
               </button>
@@ -154,10 +154,10 @@ export function PassportDocument({ v }: { v: PassportView }) {
         aria-hidden={!opened}
         className={opened ? "" : "pointer-events-none"}
       >
-        <div className="mx-auto max-w-3xl px-5 py-24">
+        <div className="mx-auto max-w-3xl px-5 py-16 sm:py-24">
           {/* The philosophy — a permanent statement on every Passport */}
-          <blockquote className="border-l-2 border-accent pl-6">
-            <p className="max-w-measure text-pretty font-display text-2xl leading-snug text-text sm:text-[1.7rem]">
+          <blockquote className="border-l-2 border-accent pl-5 sm:pl-6">
+            <p className="max-w-measure text-pretty pb-display-4 font-display leading-snug text-text">
               This Passport records contribution, not popularity.
             </p>
             <p className="mt-3 max-w-measure text-pretty text-base leading-relaxed text-text-muted">
@@ -180,7 +180,7 @@ export function PassportDocument({ v }: { v: PassportView }) {
                 )}
               </div>
             </header>
-            <dl className="grid grid-cols-2 gap-px bg-border sm:grid-cols-5">
+            <dl className="grid grid-cols-2 gap-px bg-border sm:grid-cols-5 [&>div:last-child]:col-span-2 sm:[&>div:last-child]:col-span-1">
               {[
                 ["Chapters", v.counts.chapters],
                 ["Certificates", v.counts.certificates],
@@ -275,14 +275,14 @@ export function PassportDocument({ v }: { v: PassportView }) {
             </dl>
           </section>
 
-          <div className="mt-14 flex flex-wrap items-center gap-4">
+          <div className="mt-14 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <Link
               href={v.printHref}
-              className="inline-flex items-center gap-2 rounded-sm bg-accent px-6 py-3 text-sm text-paper transition-transform hover:-translate-y-0.5"
+              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-sm bg-accent px-6 text-sm text-paper transition-transform hover:-translate-y-0.5 active:translate-y-0"
             >
               Generate printable Passport <span aria-hidden>↗</span>
             </Link>
-            <Link href="/verify" className="text-sm text-text-muted underline-offset-4 hover:text-text hover:underline">
+            <Link href="/verify" className="inline-flex min-h-[44px] items-center justify-center text-sm text-text-muted underline-offset-4 hover:text-text hover:underline">
               Verify a certificate
             </Link>
           </div>
@@ -306,11 +306,12 @@ function IdentitySpread({ v, mrz: [l1, l2] }: { v: PassportView; mrz: [string, s
           <PassportSeal size={260} ring={false} />
         </div>
 
-        {/* left rail — portrait, QR, status */}
-        <div className="relative flex flex-col gap-5">
+        {/* left rail — portrait, QR, status. On a phone it is a contained passport
+            photo (not a full-bleed stretch); from sm up it becomes the 200px rail. */}
+        <div className="relative flex max-w-[13rem] flex-col gap-5 sm:max-w-none">
           <div className="relative aspect-[3/4] overflow-hidden rounded-sm border border-border bg-mist">
             {v.portrait ? (
-              <Image src={v.portrait} alt={v.name} fill sizes="200px" className="object-cover" />
+              <Image src={v.portrait} alt={v.name} fill sizes="(min-width:640px) 200px, 13rem" className="object-cover" />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-ink/35">
                 <PassportSeal size={120} ring={false} />

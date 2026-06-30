@@ -27,7 +27,7 @@ export function PassportInvitation({
   return (
     <section
       data-theme="ink"
-      className="relative overflow-hidden bg-bg px-5 py-32 text-text sm:py-40"
+      className="relative overflow-hidden bg-bg px-5 py-24 text-text sm:py-40"
     >
       {/* the museum light — a soft pool that resolves behind the vitrine */}
       <motion.div
@@ -54,7 +54,7 @@ export function PassportInvitation({
           The Planet Passport
         </motion.p>
         <motion.h2
-          className="mt-6 max-w-3xl font-display text-4xl leading-[1.06] tracking-[-0.015em] sm:text-6xl"
+          className="mt-6 max-w-3xl pb-display-2 font-display leading-[1.06] tracking-[-0.015em]"
           initial={reduce ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
