@@ -1,4 +1,3 @@
-/*
  * Planet B — design tokens as CSS custom properties.
  * Generated from tokens/tokens.json + tokens/motion.json (docs/05, docs/06).
  * This is the runtime contract; components reference var(--pb-*), never raw values.
