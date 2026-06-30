@@ -42,6 +42,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   // Reveal-on-descent on the Threshold; always present on inner pages.
   useEffect(() => {
@@ -59,6 +60,12 @@ export function SiteHeader() {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // When closed, the sheet must leave the tab order and the a11y tree entirely —
+  // `inert` removes its links from focus and screen readers (fixes aria-hidden-focus).
+  useEffect(() => {
+    if (overlayRef.current) overlayRef.current.inert = !open;
+  }, [open]);
 
   // While open: lock body scroll, trap focus, ESC to close, restore focus on close.
   useEffect(() => {
@@ -167,8 +174,8 @@ export function SiteHeader() {
 
       {/* Mobile sheet — full-height, focus-trapped, scroll-locked. */}
       <div
+        ref={overlayRef}
         className={`fixed inset-0 z-50 md:hidden ${open ? "" : "pointer-events-none"}`}
-        aria-hidden={!open}
       >
         {/* Backdrop */}
         <button

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PlanetBMark } from "@/components/PlanetBMark";
 
 type Item = { href: string; label: string; star?: boolean };
@@ -33,10 +33,16 @@ export function AdminShell({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // Closed drawer leaves the tab order + a11y tree (fixes aria-hidden-focus).
+  useEffect(() => {
+    if (overlayRef.current) overlayRef.current.inert = !open;
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -121,8 +127,8 @@ export function AdminShell({
 
       {/* Drawer — below lg */}
       <div
+        ref={overlayRef}
         className={`fixed inset-0 z-50 lg:hidden ${open ? "" : "pointer-events-none"}`}
-        aria-hidden={!open}
       >
         <button
           type="button"

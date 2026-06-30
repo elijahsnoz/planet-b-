@@ -12,7 +12,12 @@
   --pb-paper: #f6f3ec;
   --pb-oxblood: #6e1414;
   --pb-clay: #7a5c3e;
-  --pb-stone: #9b978e;
+  /* Muted/secondary tone. On paper the old #9b978e was only 2.62:1 — below the
+     WCAG AA 4.5:1 floor and genuinely hard to read in sunlight. Darkened to the
+     lightest value that clears AA (#6f6a61 = 4.85:1) so it stays the quiet stone
+     of the museum chrome while becoming legible. The ink theme pins it back to
+     the original light value (legible on near-black) below. */
+  --pb-stone: #6f6a61;
   --pb-mist: #e7e2d7;
   --pb-signal: #2fa36b;
 
@@ -48,6 +53,9 @@
   --pb-bg: var(--pb-ink);
   --pb-text: var(--pb-paper);
   --pb-text-muted: #b7b2a7;
+  /* Pin stone back to the original light value on near-black (~6:1, legible);
+     the paper-theme darkening above would be unreadable here. */
+  --pb-stone: #9b978e;
   --pb-accent: #9b2b2b;
   --pb-border: #2a2a2c;
 }
