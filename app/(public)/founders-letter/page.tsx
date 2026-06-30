@@ -48,7 +48,7 @@ export default function FoundersLetterPage() {
             <p className="text-xs uppercase tracking-[0.3em] text-text-muted">A Founding Document</p>
           </Reveal>
           <Reveal delay={0.15}>
-            <h1 className="mt-6 font-display text-4xl leading-[1.1] tracking-[-0.015em] sm:text-6xl">
+            <h1 className="mt-6 pb-display-1 font-display leading-[1.1] tracking-[-0.015em]">
               Why Planet&nbsp;B Exists
             </h1>
           </Reveal>
@@ -191,8 +191,8 @@ export default function FoundersLetterPage() {
 
         {/* Pull quote */}
         <Reveal className="my-14 sm:my-20">
-          <blockquote className="border-l-2 border-accent pl-6 sm:pl-8">
-            <p className="font-display text-3xl leading-[1.2] tracking-[-0.01em] text-text sm:text-[2.75rem]">
+          <blockquote className="border-l-2 border-accent pl-5 sm:pl-8">
+            <p className="pb-display-2 font-display leading-[1.2] tracking-[-0.01em] text-text">
               Artists notice what others overlook.
             </p>
           </blockquote>
@@ -268,7 +268,7 @@ export default function FoundersLetterPage() {
           <p className="text-sm text-text-muted">Continue into the archive</p>
           <Link
             href="/chapters/abuja-2026"
-            className="group mt-3 inline-block font-display text-xl text-text transition-colors hover:text-accent"
+            className="group mt-2 inline-flex min-h-[44px] items-center font-display text-xl text-text transition-colors hover:text-accent"
           >
             The Genesis Chapter
             <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
