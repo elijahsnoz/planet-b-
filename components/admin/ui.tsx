@@ -58,7 +58,7 @@ export function Field({
         type={type}
         required={required}
         defaultValue={defaultValue ?? undefined}
-        className="mt-1 w-full rounded-sm border border-border bg-transparent px-3 py-2 outline-none focus:border-accent"
+        className="mt-1 min-h-[44px] w-full rounded-sm border border-border bg-transparent px-3 py-2 outline-none focus:border-accent"
       />
       {hint && <span className="mt-1 block text-xs text-stone">{hint}</span>}
     </label>
@@ -83,7 +83,7 @@ export function TextArea({
         name={name}
         rows={rows}
         defaultValue={defaultValue ?? undefined}
-        className="mt-1 w-full rounded-sm border border-border bg-transparent px-3 py-2 outline-none focus:border-accent"
+        className="mt-1 min-h-[44px] w-full rounded-sm border border-border bg-transparent px-3 py-2 outline-none focus:border-accent"
       />
     </label>
   );
@@ -120,7 +120,7 @@ export function Select({
 
 export function PrimaryButton({ children }: { children: ReactNode }) {
   return (
-    <button className="rounded-sm bg-accent px-4 py-2 text-sm text-paper transition-transform hover:-translate-y-0.5">
+    <button className="inline-flex min-h-[44px] items-center rounded-sm bg-accent px-4 text-sm text-paper transition-transform hover:-translate-y-0.5 active:translate-y-0">
       {children}
     </button>
   );
@@ -128,7 +128,7 @@ export function PrimaryButton({ children }: { children: ReactNode }) {
 
 export function GhostLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="rounded-sm border border-border px-4 py-2 text-sm transition-colors hover:border-accent hover:text-accent">
+    <Link href={href} className="inline-flex min-h-[44px] items-center rounded-sm border border-border px-4 text-sm transition-colors hover:border-accent hover:text-accent">
       {children}
     </Link>
   );

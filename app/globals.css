@@ -73,6 +73,23 @@
 .pb-admin textarea::placeholder {
   color: #8a857b;
 }
+/*
+ * Tables on iPad portrait & phones (below lg): the sidebar has collapsed to a
+ * drawer, so the data table gets the full width — but wide tables must never
+ * break the layout. Below lg each table becomes its own horizontal scroll
+ * container (cells held on one line) so columns stay aligned and legible; at lg+
+ * the table returns to normal full-width flow beside the permanent sidebar.
+ */
+@media (max-width: 1023.98px) {
+  .pb-admin table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .pb-admin table :is(th, td) {
+    white-space: nowrap;
+  }
+}
 
 @layer base {
   html {
