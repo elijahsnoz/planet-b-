@@ -54,9 +54,18 @@ export interface StoryRepository {
   chapterSlug(chapterId: string | null): string | null;
 
   // ── graph discovery (one hop beyond the story's own references) ───────────────
-  /** Records reachable from the story's featured artworks — related artworks and
-   *  the artists behind them — never duplicating what the story already cites. */
-  discoverRecords(storyId: string, limit?: number): { artworks: DiscoveredRecord[]; people: DiscoveredRecord[] };
+  /** Records reachable from the story's featured records — related artworks and
+   *  their makers, the partners behind its chapter, and the works' public
+   *  certificates — never duplicating what the story already cites. */
+  discoverRecords(
+    storyId: string,
+    limit?: number
+  ): {
+    artworks: DiscoveredRecord[];
+    people: DiscoveredRecord[];
+    organizations: DiscoveredRecord[];
+    certificates: DiscoveredRecord[];
+  };
   /** Other published stories that share a featured record, most-shared first. */
   relatedStories(storyId: string, limit?: number): RelatedStory[];
 }

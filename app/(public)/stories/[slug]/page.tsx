@@ -169,7 +169,11 @@ export default async function StoryPage({ params }: { params: { slug: string } }
   // stories — discovery the reader never had to ask for.
   const discovery = storyService.discover(params.slug);
   const hasDiscovery =
-    discovery.artworks.length > 0 || discovery.people.length > 0 || discovery.stories.length > 0;
+    discovery.artworks.length > 0 ||
+    discovery.people.length > 0 ||
+    discovery.organizations.length > 0 ||
+    discovery.certificates.length > 0 ||
+    discovery.stories.length > 0;
 
   return (
     <article className="pb-24">
@@ -340,6 +344,45 @@ export default async function StoryPage({ params }: { params: { slug: string } }
                         <p className="mt-0.5 text-xs text-text-muted">{p.reason}</p>
                       </div>
                     )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Partners — organizations reached through the story's chapter. */}
+          {discovery.organizations.length > 0 && (
+            <div className="mt-14">
+              <h3 className="text-xs uppercase tracking-[0.22em] text-text-muted">Partners</h3>
+              <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-4">
+                {discovery.organizations.map((o) => (
+                  <li key={o.refId}>
+                    <Link href={o.href ?? "/partners"} className="group block">
+                      <p className="font-display text-lg leading-tight text-text transition-colors group-hover:text-accent">
+                        {o.label}
+                      </p>
+                      <p className="mt-0.5 text-xs text-text-muted">{o.reason}</p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Certificates — the verifiable record behind the featured works. */}
+          {discovery.certificates.length > 0 && (
+            <div className="mt-14">
+              <h3 className="text-xs uppercase tracking-[0.22em] text-text-muted">Verifiable record</h3>
+              <ul className="mt-5 space-y-3">
+                {discovery.certificates.map((c) => (
+                  <li key={c.refId}>
+                    <Link href={c.href ?? "#"} className="group inline-flex flex-wrap items-baseline gap-x-3">
+                      <span className="font-mono text-sm text-text transition-colors group-hover:text-accent">
+                        {c.label}
+                      </span>
+                      <span className="text-xs text-text-muted">{c.reason}</span>
+                      <span className="text-xs text-accent group-hover:underline">Verify ↗</span>
+                    </Link>
                   </li>
                 ))}
               </ul>

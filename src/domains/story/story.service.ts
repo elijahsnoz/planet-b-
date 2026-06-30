@@ -59,9 +59,9 @@ export class StoryService {
    */
   discover(slugOrId: string): StoryDiscovery {
     const row = this.repo.getById(slugOrId) ?? this.repo.getBySlug(slugOrId);
-    if (!row) return { artworks: [], people: [], stories: [] };
-    const { artworks, people } = this.repo.discoverRecords(row.id);
-    return { artworks, people, stories: this.repo.relatedStories(row.id) };
+    if (!row) return { artworks: [], people: [], organizations: [], certificates: [], stories: [] };
+    const records = this.repo.discoverRecords(row.id);
+    return { ...records, stories: this.repo.relatedStories(row.id) };
   }
 
   private uniqueSlug(title: string): string {

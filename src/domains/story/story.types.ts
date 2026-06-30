@@ -145,6 +145,10 @@ export interface RelatedStory {
 export interface StoryDiscovery {
   artworks: DiscoveredRecord[];
   people: DiscoveredRecord[];
+  /** Partners reached through the story's chapter (host / partner / sponsor). */
+  organizations: DiscoveredRecord[];
+  /** Public certificates of the story's featured works (issued only). */
+  certificates: DiscoveredRecord[];
   stories: RelatedStory[];
 }
 

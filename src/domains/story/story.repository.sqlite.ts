@@ -247,10 +247,16 @@ export class SqliteStoryRepository implements StoryRepository {
     return r.slug ? `/artists/${r.slug}` : null;
   }
 
-  discoverRecords(storyId: string, limit = 6): { artworks: DiscoveredRecord[]; people: DiscoveredRecord[] } {
+  discoverRecords(
+    storyId: string,
+    limit = 6
+  ): { artworks: DiscoveredRecord[]; people: DiscoveredRecord[]; organizations: DiscoveredRecord[]; certificates: DiscoveredRecord[] } {
     const edges = this.featuredEdges(storyId);
     const featuredArtworkIds = new Set(edges.filter((e) => e.toType === "artwork").map((e) => e.toId));
-    if (featuredArtworkIds.size === 0) return { artworks: [], people: [] };
+    const featuredChapterIds = [...new Set(edges.filter((e) => e.toType === "chapter").map((e) => e.toId))];
+    const organizations = this.discoverOrganizations(featuredChapterIds);
+    const certificates = this.discoverCertificates([...featuredArtworkIds]);
+    if (featuredArtworkIds.size === 0) return { artworks: [], people: [], organizations, certificates };
 
     // What the featured artworks are made of, and where they live — the threads
     // we follow outward into the rest of the registry.
@@ -354,7 +360,76 @@ export class SqliteStoryRepository implements StoryRepository {
     for (const m of featuredMeta) pushArtist(m, m.title);
     for (const { r } of scored) pushArtist(r, r.title);
 
-    return { artworks, people: people.slice(0, 5) };
+    return { artworks, people: people.slice(0, 5), organizations, certificates };
+  }
+
+  /** Partners reached through the story's chapter(s): host, partner, sponsor. */
+  private discoverOrganizations(chapterIds: string[]): DiscoveredRecord[] {
+    if (chapterIds.length === 0) return [];
+    const RELATION_PRIORITY: Record<string, number> = { hosted_by: 0, partnered_with: 1, sponsored_by: 2 };
+    const RELATION_NOUN: Record<string, string> = { hosted_by: "Host", partnered_with: "Partner", sponsored_by: "Sponsor" };
+
+    const links = db
+      .select({ chapterId: t.entityLinks.fromId, relation: t.entityLinks.relation, orgId: t.entityLinks.toId })
+      .from(t.entityLinks)
+      .where(and(eq(t.entityLinks.fromType, "chapter"), inArray(t.entityLinks.fromId, chapterIds), eq(t.entityLinks.toType, "organization")))
+      .all();
+    if (links.length === 0) return [];
+
+    const orgs = db
+      .select({ id: t.organizations.id, name: t.organizations.name, type: t.organizations.type, status: t.organizations.status })
+      .from(t.organizations)
+      .where(inArray(t.organizations.id, [...new Set(links.map((l) => l.orgId))]))
+      .all();
+    const orgById = new Map(orgs.map((o) => [o.id, o]));
+
+    const seen = new Set<string>();
+    return links
+      .filter((l) => orgById.get(l.orgId)?.status === "published")
+      .sort((a, b) => (RELATION_PRIORITY[a.relation] ?? 9) - (RELATION_PRIORITY[b.relation] ?? 9))
+      .filter((l) => (seen.has(l.orgId) ? false : (seen.add(l.orgId), true)))
+      .map((l) => {
+        const org = orgById.get(l.orgId)!;
+        const noun = RELATION_NOUN[l.relation] ?? "Partner";
+        const chapterName = this.chapterName(l.chapterId);
+        return {
+          refType: "organization" as StoryRefType,
+          refId: org.id,
+          label: org.name,
+          sub: org.type ?? "Organization",
+          href: "/partners",
+          reason: chapterName ? `${noun} of the ${chapterName} chapter` : `${noun} of this chapter`,
+        };
+      })
+      .slice(0, 6);
+  }
+
+  /** Public certificates of the story's featured works — issued ones only, the
+   *  state that is verifiable to a reader. Dormant until a work is certified. */
+  private discoverCertificates(artworkIds: string[]): DiscoveredRecord[] {
+    if (artworkIds.length === 0) return [];
+    const titleByArtwork = new Map(
+      db
+        .select({ id: t.artworks.id, title: t.artworks.title })
+        .from(t.artworks)
+        .where(inArray(t.artworks.id, artworkIds))
+        .all()
+        .map((a) => [a.id, a.title])
+    );
+    return db
+      .select({ id: t.certificates.id, publicId: t.certificates.publicId, role: t.certificates.roleAtIssue, artworkId: t.certificates.artworkId, status: t.certificates.status })
+      .from(t.certificates)
+      .where(and(inArray(t.certificates.artworkId, artworkIds), eq(t.certificates.status, "issued")))
+      .all()
+      .map((c) => ({
+        refType: "certificate" as StoryRefType,
+        refId: c.id,
+        label: c.publicId,
+        sub: c.role,
+        href: `/verify?q=${encodeURIComponent(c.publicId)}`,
+        reason: c.artworkId && titleByArtwork.has(c.artworkId) ? `Certifies ${titleByArtwork.get(c.artworkId)}` : "Verified certificate",
+      }))
+      .slice(0, 4);
   }
 
   relatedStories(storyId: string, limit = 4): RelatedStory[] {
