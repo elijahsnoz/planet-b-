@@ -12,8 +12,8 @@ export default function PartnersPage() {
   return (
     <div className="mx-auto max-w-container px-5 py-14">
       <Reveal>
-        <h1 className="font-display text-5xl">Partners &amp; Sponsors</h1>
-        <p className="mt-3 max-w-measure text-text-muted">
+        <h1 className="pb-display-2 font-display">Partners &amp; Sponsors</h1>
+        <p className="pb-read mt-3 max-w-measure text-text-muted">
           Planet B credits every institution with equal warmth. The Genesis Chapter was sponsored
           by the Royal Norwegian Embassy and hosted by Nike Art Gallery.
         </p>

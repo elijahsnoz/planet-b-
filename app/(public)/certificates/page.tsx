@@ -13,7 +13,7 @@ export default function CertificatesPage() {
   return (
     <div className="mx-auto max-w-container px-5 py-14">
       <Reveal>
-        <h1 className="font-display text-5xl">Certificates</h1>
+        <h1 className="pb-display-2 font-display">Certificates</h1>
         <p className="mt-3 max-w-measure text-text-muted">
           Every verified contributor receives a permanent Planet B identity — honoring contribution,
           not attendance. Certificates are designed to become verifiable digital credentials

@@ -11,7 +11,7 @@ export default function OriginPage() {
     <article className="mx-auto max-w-measure px-5 py-20">
       <Reveal>
         <p className="text-xs uppercase tracking-widest text-text-muted">Origin Story</p>
-        <h1 className="mt-2 font-display text-5xl leading-tight">There is no Planet B.</h1>
+        <h1 className="mt-2 pb-display-2 font-display leading-tight">There is no Planet B.</h1>
       </Reveal>
       <Reveal>
         <div className="prose-pb mt-8 space-y-5 text-lg leading-relaxed">

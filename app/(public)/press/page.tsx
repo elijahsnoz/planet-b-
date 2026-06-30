@@ -12,7 +12,7 @@ export default function PressPage() {
   return (
     <div className="mx-auto max-w-container px-5 py-14">
       <Reveal>
-        <h1 className="font-display text-5xl">Press</h1>
+        <h1 className="pb-display-2 font-display">Press</h1>
         <p className="mt-3 max-w-measure text-text-muted">National coverage of the Genesis Chapter.</p>
       </Reveal>
       <ul className="mt-10 divide-y divide-border border-y border-border">
