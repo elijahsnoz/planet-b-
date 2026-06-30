@@ -108,7 +108,7 @@ export default function GenesisChapter() {
   return (
     <>
       {/* ── A · ESTABLISHING HERO — arrival ───────────────────────────────── */}
-      <section data-theme="ink" className="relative flex min-h-[92svh] flex-col justify-center overflow-hidden bg-bg px-5 py-32 text-text">
+      <section data-theme="ink" className="relative flex min-h-[92svh] flex-col justify-center overflow-hidden bg-bg px-5 py-20 text-text sm:py-32">
         <Image src={COVER_IMAGE} alt="" fill priority sizes="100vw" className="object-cover opacity-[0.16]" />
         <div
           aria-hidden
@@ -123,15 +123,15 @@ export default function GenesisChapter() {
             </p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="mt-6 max-w-4xl font-display text-4xl leading-[1.05] tracking-[-0.02em] sm:text-6xl">
+            <h1 className="mt-6 max-w-4xl pb-display-1 font-display leading-[1.05] tracking-[-0.02em]">
               {chapter.theme}
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-text-muted">{chapter.summary}</p>
+            <p className="pb-read mt-6 max-w-2xl leading-relaxed text-text-muted">{chapter.summary}</p>
           </Reveal>
           <Reveal delay={0.3}>
-            <dl className="mt-12 flex flex-wrap gap-x-12 gap-y-6">
+            <dl className="mt-10 flex flex-wrap gap-x-8 gap-y-6 sm:mt-12 sm:gap-x-12">
               <Fact label="Opened">World Environment Day · 5 June 2026</Fact>
               <Fact label="Venue">{chapter.venue}</Fact>
               <Fact label="Sponsor">Royal Norwegian Embassy</Fact>
@@ -166,10 +166,10 @@ export default function GenesisChapter() {
       </section>
 
       {/* ── the breath — setting the stakes (ink interstitial) ────────────── */}
-      <section data-theme="ink" className="bg-bg px-5 py-28 text-text sm:py-36">
+      <section data-theme="ink" className="bg-bg px-5 py-20 text-text sm:py-36">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <p className="font-display text-3xl leading-[1.3] tracking-[-0.01em] sm:text-[2.5rem] sm:leading-[1.25]">
+            <p className="pb-display-3 font-display leading-[1.3] tracking-[-0.01em] sm:leading-[1.25]">
               Five days. Fifteen artists. A pile of what the world had thrown away — and one question:{" "}
               <span className="text-accent">what if waste is only a resource we have not yet learned to see?</span>
             </p>
@@ -320,11 +320,11 @@ export default function GenesisChapter() {
       )}
 
       {/* ── the performance — Òdàlè Dà'lẹ̀ (the second proverb, enacted) ───── */}
-      <section data-theme="ink" className="bg-bg px-5 py-28 text-text">
+      <section data-theme="ink" className="bg-bg px-5 py-20 text-text sm:py-28">
         <div className="mx-auto max-w-3xl">
           <Reveal>
             <p className="text-xs uppercase tracking-[0.25em] text-text-muted">Performance Art · 5 June 2026</p>
-            <h2 className="mt-4 font-display text-4xl tracking-[-0.01em] sm:text-5xl">{performance.title}</h2>
+            <h2 className="mt-4 pb-display-3 font-display tracking-[-0.01em]">{performance.title}</h2>
             <p className="mt-3 text-lg text-accent">{performance.translation}</p>
             <p className="mt-6 leading-relaxed text-text-muted">{performance.description}</p>
             <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-3">
@@ -437,10 +437,10 @@ export default function GenesisChapter() {
       </section>
 
       {/* ── J · FEDERATION FOOTER — continuation ──────────────────────────── */}
-      <section data-theme="ink" className="bg-bg px-5 py-28 text-text sm:py-36">
+      <section data-theme="ink" className="bg-bg px-5 py-20 text-text sm:py-36">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <p className="font-display text-3xl leading-snug tracking-[-0.01em] sm:text-4xl">
+            <p className="pb-display-3 font-display leading-snug tracking-[-0.01em]">
               This is one chapter of a federation built to hold a hundred chapters over a hundred years.
             </p>
           </Reveal>
@@ -450,14 +450,14 @@ export default function GenesisChapter() {
             </p>
           </Reveal>
           <Reveal delay={0.16}>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Link href="/chapters" className="rounded-sm border border-text-muted px-5 py-2.5 text-sm transition-colors hover:border-text">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <Link href="/chapters" className="inline-flex min-h-[44px] items-center rounded-sm border border-text-muted px-5 text-sm transition-colors hover:border-text">
                 All chapters
               </Link>
-              <Link href="/artists" className="rounded-sm border border-text-muted px-5 py-2.5 text-sm transition-colors hover:border-text">
+              <Link href="/artists" className="inline-flex min-h-[44px] items-center rounded-sm border border-text-muted px-5 text-sm transition-colors hover:border-text">
                 Artist registry
               </Link>
-              <Link href="/origin" className="text-sm text-text-muted underline-offset-4 hover:text-text hover:underline">
+              <Link href="/origin" className="inline-flex min-h-[44px] items-center px-2 text-sm text-text-muted underline-offset-4 hover:text-text hover:underline">
                 Become part of the story
               </Link>
             </div>

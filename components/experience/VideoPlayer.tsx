@@ -7,6 +7,7 @@ export function VideoPlayer({ src, title, poster }: { src: string; title: string
     <figure className="overflow-hidden rounded-sm border border-border bg-ink shadow-museum-soft">
       <video
         controls
+        playsInline
         preload="none"
         poster={poster}
         className="aspect-video w-full bg-ink"
