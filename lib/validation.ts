@@ -69,6 +69,23 @@ export const organizationSchema = z.object({
   status,
 });
 
+/** Media details — the curatorial metadata for a picture (the file is handled separately). */
+export const mediaSchema = z.object({
+  title: optStr(200),
+  description: optStr(5000),
+  altText: optStr(500),
+  caption: optStr(1000),
+  credit: optStr(300),
+  source: optStr(300),
+  license: optStr(200),
+  author: optStr(200),
+  copyright: optStr(200),
+  captureDate: optStr(40),
+  location: optStr(200),
+  tags: csvList(40, 60),
+  status,
+});
+
 export const personSchema = z.object({
   fullName: reqStr(200, "Full name is required."),
   displayName: optStr(200),

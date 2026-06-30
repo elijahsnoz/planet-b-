@@ -47,6 +47,10 @@ export function listMedia() {
   return db.select().from(t.media).orderBy(desc(t.media.updatedAt)).all();
 }
 
+export function getMediaById(id: string) {
+  return db.select().from(t.media).where(eq(t.media.id, id)).get();
+}
+
 export function revisionsFor(entityType: string, entityId: string) {
   return db
     .select()

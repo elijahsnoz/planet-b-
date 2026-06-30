@@ -37,3 +37,6 @@ db/*.db-shm
 
 # NOTE: image plates, the catalogue PDF, and public/media derivatives ARE committed
 # (small, and they are the preserved visual record).
+
+# Runtime picture uploads (admin Media Library) — not committed
+public/media/uploads/
