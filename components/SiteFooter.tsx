@@ -14,6 +14,7 @@ const SECTIONS: { title: string; links: { href: string; label: string }[] }[] = 
   {
     title: "Institution",
     links: [
+      { href: "/founders-letter", label: "Founder’s Letter" },
       { href: "/origin", label: "Origin Story" },
       { href: "/research", label: "Research" },
       { href: "/certificates", label: "Certificates" },
