@@ -78,12 +78,18 @@
   html {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Phones are primary: never let iOS silently inflate body text on rotate. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   body {
     background: var(--pb-bg);
     color: var(--pb-text);
     font-family: var(--pb-font-text);
     line-height: 1.5;
+    /* A safety net against a single wide child forcing the whole page to
+       scroll sideways on a phone. Root causes are still fixed per-gate. */
+    overflow-x: clip;
   }
   h1, h2, h3, .font-display {
     font-family: var(--pb-font-display);
@@ -134,5 +140,41 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+ * Mobile-first primitives.
+ *
+ * Display type is FLUID: one value that scales with the viewport via clamp(),
+ * so a phone never wears a desktop size and a desktop never wears a phone size.
+ * The middle term (preferred) drives the curve; the floor/ceiling pin the ends.
+ * Pair with Tailwind for colour/leading/tracking — these only set size.
+ * ───────────────────────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Hero — the Threshold word, a chapter's name. */
+  .pb-display-1 { font-size: clamp(2.5rem, 8.5vw, 4.75rem); }
+  /* Page titles. */
+  .pb-display-2 { font-size: clamp(2rem, 6vw, 3.5rem); }
+  /* Section headings. */
+  .pb-display-3 { font-size: clamp(1.6rem, 4.2vw, 2.5rem); }
+  /* Sub-headings, large pull quotes inline with text. */
+  .pb-display-4 { font-size: clamp(1.35rem, 3vw, 1.875rem); }
+
+  /* Body reading size — a hair larger on phones for one-handed legibility,
+     settling to the editorial measure on larger screens. */
+  .pb-read { font-size: clamp(1.0625rem, 0.4vw + 1rem, 1.1875rem); }
+
+  /* A guaranteed 44×44 hit area for icon-only controls (WCAG 2.5.5). */
+  .pb-touch {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Honour the home-indicator / notch on full-bleed sticky chrome. */
+  .pb-safe-b { padding-bottom: env(safe-area-inset-bottom); }
+  .pb-safe-x {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 }

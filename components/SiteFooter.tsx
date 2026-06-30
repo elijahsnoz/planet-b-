@@ -25,7 +25,7 @@ const SECTIONS: { title: string; links: { href: string; label: string }[] }[] = 
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-border bg-bg">
+    <footer className="pb-safe-b mt-24 border-t border-border bg-bg">
       <div className="mx-auto grid max-w-container-wide gap-10 px-5 py-14 sm:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2 text-accent">
@@ -40,10 +40,13 @@ export function SiteFooter() {
         {SECTIONS.map((s) => (
           <nav key={s.title} aria-label={s.title}>
             <h2 className="font-display text-sm text-text-muted">{s.title}</h2>
-            <ul className="mt-3 space-y-2 text-sm">
+            <ul className="mt-1 sm:mt-2">
               {s.links.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-text transition-colors hover:text-accent">
+                  <Link
+                    href={l.href}
+                    className="flex min-h-[44px] items-center text-[0.95rem] text-text transition-colors hover:text-accent"
+                  >
                     {l.label}
                   </Link>
                 </li>
