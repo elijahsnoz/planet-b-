@@ -76,7 +76,11 @@ export class SupabaseContributionRepository implements ContributionRepository {
       p_event_idem: creationEvent.idempotencyKey ?? null,
     });
     if (error) throw error;
-    return toContribution(data as ContributionRow);
+    // A function `returns contributions` may come back as an object or a 1-element
+    // array depending on the PostgREST version — accept either.
+    const row = (Array.isArray(data) ? data[0] : data) as ContributionRow | undefined;
+    if (!row) throw new Error("garden_create_contribution returned no row");
+    return toContribution(row);
   }
 
   async byId(id: string): Promise<Contribution | null> {

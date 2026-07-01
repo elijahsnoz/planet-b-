@@ -53,6 +53,13 @@ comment on function garden_create_contribution is
   'Atomic outbox write: contribution + ContributionCreated event + dispatch row in one transaction.';
 
 -- Only the service role may call it; never anon/authenticated directly.
+-- NOTE: revoking from `public` also removes execute from every role that inherits
+-- it (including service_role), so we must grant it back explicitly to the role the
+-- write broker uses — otherwise the call fails with "permission denied for function".
 revoke all on function garden_create_contribution(
   uuid, text, uuid, jsonb, text, text, text, uuid, uuid, int, text, jsonb, text
 ) from public, anon, authenticated;
+
+grant execute on function garden_create_contribution(
+  uuid, text, uuid, jsonb, text, text, text, uuid, uuid, int, text, jsonb, text
+) to service_role;

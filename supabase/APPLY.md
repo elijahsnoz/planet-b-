@@ -45,3 +45,13 @@ confirm `contributions == domain_events == event_dispatch` and that no visitor h
 
 A green run here is the production-grade proof — and, crucially, it required **zero
 changes to the domain or the application**. That is the architecture holding.
+
+## Troubleshooting
+- **"Could not find the function public.garden_create_contribution in the schema
+  cache."** PostgREST caches the schema; after applying `0002` it usually reloads
+  within seconds. If you're quick, wait ~30s and retry, or Settings → API →
+  **Reload schema**.
+- **"permission denied for function garden_create_contribution."** Re-run the two
+  `grant execute … to service_role;` lines at the end of `0002` (already included).
+- **First run creates the visitor but no contribution?** Confirm `vector` and
+  `pgcrypto` extensions are enabled (step 2) — `0001` needs them.
