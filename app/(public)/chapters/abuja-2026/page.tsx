@@ -201,7 +201,7 @@ export default function GenesisChapter() {
           <Reveal delay={0.05}>
             <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
               <h2 className="max-w-2xl font-display text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">
-                Fourteen works. Each 61×61cm. Each made entirely from discard.
+                Fourteen works. Each made entirely from discard.
               </h2>
               <Link href="/artworks" className="text-sm text-text-muted underline-offset-4 hover:text-text hover:underline">
                 All works →

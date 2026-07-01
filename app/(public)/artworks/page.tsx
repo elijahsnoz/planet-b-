@@ -28,7 +28,7 @@ export default function ArtworksPage() {
         <h1 className="mt-2 pb-display-2 font-display">Artwork Registry</h1>
         <p className="pb-read mt-3 max-w-measure text-text-muted">
           Discarded plastics, drink cans, dead electronics, tailors&rsquo; offcuts — given new
-          meaning. Every work is a 61×61cm assemblage made in 2026.
+          meaning. Every work is an assemblage made in 2026.
         </p>
       </Reveal>
       <div className="mt-12">
