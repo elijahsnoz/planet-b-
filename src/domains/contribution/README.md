@@ -26,3 +26,9 @@ need-and-resonance surfacing, never popularity.
 
 Nothing here is wired into the running app yet. Later PRs add the Supabase adapter,
 the edge-function write broker, the surfacing engine, and the flag-gated UI ritual.
+
+## Rollout
+The whole feature is gated by `flags.garden` (`lib/flags.ts`), OFF unless
+`PLANET_B_GARDEN` is set. Every Garden surface — homepage ritual, garden route, seed
+pages, write endpoint — checks this flag, so the system can be merged to main and
+built continuously while remaining invisible until deliberately enabled.
