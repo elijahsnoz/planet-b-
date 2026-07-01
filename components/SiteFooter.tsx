@@ -25,14 +25,14 @@ const SECTIONS: { title: string; links: { href: string; label: string }[] }[] = 
 
 export function SiteFooter() {
   return (
-    <footer className="pb-safe-b mt-24 border-t border-border bg-bg">
-      <div className="mx-auto grid max-w-container-wide gap-10 px-5 py-14 sm:grid-cols-[1.5fr_1fr_1fr]">
+    <footer className="pb-safe-b mt-32 border-t border-border bg-bg sm:mt-44">
+      <div className="mx-auto grid max-w-container-wide gap-12 px-5 py-20 sm:grid-cols-[1.5fr_1fr_1fr] sm:gap-16 sm:py-28">
         <div>
           <div className="flex items-center gap-2 text-accent">
-            <PlanetBMark size={32} />
-            <span className="font-display text-xl tracking-wide text-text">PLANET&nbsp;B</span>
+            <PlanetBMark size={28} />
+            <span className="font-display text-lg tracking-[0.08em] text-text">PLANET&nbsp;B</span>
           </div>
-          <p className="mt-4 max-w-measure text-sm text-text-muted">
+          <p className="mt-5 max-w-measure text-sm leading-relaxed text-text-muted">
             The living archive of the movement <em>Because There Is No Planet B</em>.
             Planet B is humanity&rsquo;s Plan&nbsp;B for protecting the only planet we have.
           </p>
@@ -56,7 +56,7 @@ export function SiteFooter() {
         ))}
       </div>
       <div className="border-t border-border">
-        <p className="mx-auto max-w-container-wide px-5 py-5 text-xs text-text-muted">
+        <p className="mx-auto max-w-container-wide px-5 py-7 text-xs text-text-muted">
           Genesis Chapter — Abuja, World Environment Day, 5 June 2026 · Royal Norwegian Embassy &amp; Nike Art Gallery
         </p>
       </div>
