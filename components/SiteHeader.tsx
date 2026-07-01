@@ -23,34 +23,52 @@ const NAV_SECONDARY = [
 ];
 
 /**
- * Mobile-first site header.
+ * Site header — navigation that quietly recedes.
+ *
+ * The chrome is a consequence of the visitor's own motion: it withdraws while they
+ * read downward and returns the instant they reach back up, so the institution
+ * guides by curiosity rather than a fixed menu bar. At rest it is transparent and
+ * borderless; only when it floats over a room's content does it take just enough
+ * tint to stay legible. The Threshold (home top) withholds it entirely so the
+ * movement dominates first.
  *
  * Phones get a compact bar (logo + a 44×44 menu button) that opens a full-height
- * sheet with large, comfortably spaced destinations — focus-trapped, scroll-locked,
- * ESC/backdrop dismissable, and closed automatically on navigation. From `md` up the
- * sheet recedes and the nav expands inline; the phone layout is the foundation, the
- * desktop bar is the expansion.
- *
- * The Threshold (home top) still withholds the chrome so the movement dominates; it
- * reveals on descent (docs/experience/07). Safe-area insets keep the bar clear of the
- * notch, and the menu button clear of the home indicator inside the sheet.
+ * sheet — focus-trapped, scroll-locked, ESC/backdrop dismissable, closed on
+ * navigation. The sheet is a sibling of the header (never a descendant) so the
+ * header's recede transform / backdrop blur can never confine it. From `md` up the
+ * inline nav expands. Keyboard focus always summons the header back.
  */
 export function SiteHeader() {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const [shown, setShown] = useState(!isHome);
+  const [visible, setVisible] = useState(!isHome);
+  const [atTop, setAtTop] = useState(true);
   const [open, setOpen] = useState(false);
+  const lastY = useRef(0);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Reveal-on-descent on the Threshold; always present on inner pages.
+  // Recede while reading down; return on reaching up. On the Threshold, stay
+  // withheld until the visitor descends past the first view.
   useEffect(() => {
-    if (!isHome) {
-      setShown(true);
-      return;
-    }
-    const onScroll = () => setShown(window.scrollY > window.innerHeight * 0.6);
+    lastY.current = window.scrollY;
+    const onScroll = () => {
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastY.current;
+      lastY.current = y;
+      setAtTop(y < 8);
+      if (isHome && y < window.innerHeight * 0.6) {
+        setVisible(false);
+        return;
+      }
+      if (y < 8) {
+        setVisible(true);
+        return;
+      }
+      if (Math.abs(delta) < 6) return; // calm: ignore micro-scrolls, hold state
+      setVisible(delta < 0); // reaching up reveals; reading down recedes
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -61,8 +79,7 @@ export function SiteHeader() {
     setOpen(false);
   }, [pathname]);
 
-  // When closed, the sheet must leave the tab order and the a11y tree entirely —
-  // `inert` removes its links from focus and screen readers (fixes aria-hidden-focus).
+  // When closed, the sheet leaves the tab order and the a11y tree entirely.
   useEffect(() => {
     if (overlayRef.current) overlayRef.current.inert = !open;
   }, [open]);
@@ -105,74 +122,82 @@ export function SiteHeader() {
     };
   }, [open]);
 
-  // On the Threshold: a fixed overlay that fades in on descent.
-  // On inner pages: a normal sticky bar that occupies layout (no overlap).
+  const floating = visible || open;
   const position = isHome ? "fixed inset-x-0 top-0" : "sticky top-0";
-  const reveal = shown
-    ? "translate-y-0 border-border bg-bg/80 opacity-100 backdrop-blur"
-    : "pointer-events-none -translate-y-2 border-transparent opacity-0";
+  const state = floating
+    ? "translate-y-0 opacity-100"
+    : "pointer-events-none -translate-y-full opacity-0";
+  // Transparent and borderless at rest; a whisper of tint only when floating over
+  // content (never at the very top of a room, where it sits over its own quiet).
+  const surface = floating && !atTop
+    ? "border-border/50 bg-bg/70 backdrop-blur"
+    : "border-transparent bg-transparent";
 
   return (
-    <header
-      className={`${position} z-40 border-b transition-all duration-500 ${reveal} [padding-top:env(safe-area-inset-top)]`}
-    >
-      <div className="mx-auto flex max-w-container-wide items-center justify-between gap-3 px-4 py-2.5 sm:px-5 sm:py-3">
-        <Link
-          href="/"
-          className="-mx-2 flex min-h-[44px] items-center gap-2 rounded px-2 text-text"
-          aria-label="Planet B home"
-        >
-          <PlanetBMark size={28} className="text-accent" />
-          <span className="font-display text-lg tracking-wide">PLANET&nbsp;B</span>
-        </Link>
+    <>
+      <header
+        onFocus={() => setVisible(true)}
+        className={`${position} z-40 border-b transition-[transform,opacity,background-color,border-color] duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] ${state} ${surface} [padding-top:env(safe-area-inset-top)]`}
+      >
+        <div className="mx-auto flex max-w-container-wide items-center justify-between gap-3 px-4 py-2 sm:px-5 sm:py-2.5">
+          <Link
+            href="/"
+            className="-mx-2 flex min-h-[44px] items-center gap-2 rounded px-2 text-text"
+            aria-label="Planet B home"
+          >
+            <PlanetBMark size={24} className="text-accent" />
+            <span className="font-display text-base tracking-[0.08em]">PLANET&nbsp;B</span>
+          </Link>
 
-        {/* Desktop nav — expands from md up. */}
-        <nav aria-label="Primary" className="hidden md:block">
-          <ul className="flex items-center gap-1 text-sm">
-            {NAV.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="inline-flex min-h-[44px] items-center rounded px-3 text-text-muted transition-colors hover:text-text"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          {/* Desktop nav — a quiet inline row from md up. */}
+          <nav aria-label="Primary" className="hidden md:block">
+            <ul className="flex items-center gap-1 text-sm">
+              {NAV.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="inline-flex min-h-[44px] items-center rounded px-3 text-text-muted transition-colors hover:text-text"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        {/* Mobile menu button — 44×44 tap target. */}
-        <button
-          ref={toggleRef}
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded text-text md:hidden"
-        >
-          <span className="relative block h-4 w-5" aria-hidden>
-            <span
-              className={`absolute left-0 top-0 h-0.5 w-5 bg-current transition-transform duration-300 ${
-                open ? "translate-y-[7px] rotate-45" : ""
-              }`}
-            />
-            <span
-              className={`absolute left-0 top-[7px] h-0.5 w-5 bg-current transition-opacity duration-200 ${
-                open ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute left-0 top-[14px] h-0.5 w-5 bg-current transition-transform duration-300 ${
-                open ? "-translate-y-[7px] -rotate-45" : ""
-              }`}
-            />
-          </span>
-        </button>
-      </div>
+          {/* Mobile menu button — 44×44 tap target. */}
+          <button
+            ref={toggleRef}
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded text-text md:hidden"
+          >
+            <span className="relative block h-4 w-5" aria-hidden>
+              <span
+                className={`absolute left-0 top-0 h-0.5 w-5 bg-current transition-transform duration-300 ${
+                  open ? "translate-y-[7px] rotate-45" : ""
+                }`}
+              />
+              <span
+                className={`absolute left-0 top-[7px] h-0.5 w-5 bg-current transition-opacity duration-200 ${
+                  open ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute left-0 top-[14px] h-0.5 w-5 bg-current transition-transform duration-300 ${
+                  open ? "-translate-y-[7px] -rotate-45" : ""
+                }`}
+              />
+            </span>
+          </button>
+        </div>
+      </header>
 
-      {/* Mobile sheet — full-height, focus-trapped, scroll-locked. */}
+      {/* Mobile sheet — a viewport overlay, sibling of the header so the header's
+          recede transform / backdrop blur can never confine it. */}
       <div
         ref={overlayRef}
         className={`fixed inset-0 z-50 md:hidden ${open ? "" : "pointer-events-none"}`}
@@ -243,6 +268,6 @@ export function SiteHeader() {
           </nav>
         </div>
       </div>
-    </header>
+    </>
   );
 }
