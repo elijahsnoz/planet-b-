@@ -89,6 +89,18 @@ export function PassportDocument({ v }: { v: PassportView }) {
     if (reduce) setOpened(true);
   }, [reduce]);
 
+  // A credential is opened, not scrolled past. If the visitor descends instead of
+  // pressing "Open", open it for them — the lifelong record below must never read
+  // as a blank void beneath the cover.
+  useEffect(() => {
+    if (opened) return;
+    const onScroll = () => {
+      if (window.scrollY > window.innerHeight * 0.35) setOpened(true);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [opened]);
+
   const [l1, l2] = mrz(v.name, v.passportId);
 
   return (
