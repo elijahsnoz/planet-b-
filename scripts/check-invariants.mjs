@@ -34,12 +34,22 @@ const read = (p) => { try { return readFileSync(p, "utf8"); } catch { return "";
 const importLines = (src) => src.split("\n").filter((l) => /^\s*import\b/.test(l));
 const rel = (p) => relative(ROOT, p);
 
-/** Every Garden migration, concatenated — so schema invariants cover all of them. */
-function allMigrationsSql() {
+/** Strip comments so a *mention* ("no popularity columns") never trips a *usage* check. */
+function stripComments(s) {
+  return s
+    .replace(/\/\*[\s\S]*?\*\//g, " ") // /* */ block
+    .replace(/--[^\n]*/g, " ") // -- SQL line
+    .replace(/\/\/[^\n]*/g, " "); // // JS line
+}
+
+/** Every Garden schema (Postgres migrations + the SQLite mirror), comments removed. */
+function allSchemaText() {
   const dir = join(ROOT, "supabase/migrations");
-  let names;
-  try { names = readdirSync(dir); } catch { return ""; }
-  return names.filter((f) => f.endsWith(".sql")).map((f) => read(join(dir, f))).join("\n").toLowerCase();
+  let names = [];
+  try { names = readdirSync(dir); } catch { /* none */ }
+  const migrations = names.filter((f) => f.endsWith(".sql")).map((f) => read(join(dir, f)));
+  const sqlite = read(join(ROOT, "src/platform/contribution/sqlite/schema.ts"));
+  return stripComments([...migrations, sqlite].join("\n")).toLowerCase();
 }
 
 // ── The Constitution is FROZEN. These seven statements are the law, verbatim. ─
@@ -93,7 +103,7 @@ const FROZEN_INVARIANTS = [
 
 // ── Invariant 2: no popularity signal exists in the schema (all migrations) ───
 {
-  const sql = allMigrationsSql();
+  const sql = allSchemaText();
   const forbidden = ["like_count", "likes", "follower", "followers", "upvote", "karma", "trending", "popularity", "view_count", "share_count"];
   const hits = forbidden.filter((w) => new RegExp(`\\b${w}\\b`).test(sql));
   if (hits.length) fail("Invariant 2", `schema contains popularity signal(s): ${hits.join(", ")}`);
@@ -102,7 +112,7 @@ const FROZEN_INVARIANTS = [
 
 // ── Invariant 4: the archive remembers (soft-delete only, no cascade erase) ───
 {
-  const sql = allMigrationsSql();
+  const sql = allSchemaText();
   const problems = [];
   if (/on delete cascade/.test(sql)) problems.push("uses `on delete cascade` (would erase children)");
   if (!/deleted_at/.test(sql)) problems.push("missing soft-delete (`deleted_at`)");

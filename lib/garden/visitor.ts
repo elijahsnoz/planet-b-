@@ -5,31 +5,48 @@ import { visitorService } from "@platform/contribution/container";
 import { hashToken, newRawToken, signToken, verifyToken } from "./anon-token";
 
 /**
- * Transport binding for anonymous identity. Reads (or issues) the durable signed
- * cookie, then asks the domain use-case to resolve the visitor. It depends on the
- * composition root and the domain — never on Supabase directly.
- *
- * MUST be called from a Route Handler or Server Action (it may set a cookie).
- * Identity follows contribution: this involves no auth and no Passport.
+ * Anonymous identity resolution. Depends on the composition root and the domain —
+ * never on Supabase directly. Identity follows contribution: no auth, no Passport.
  */
-const COOKIE = "pb_visitor";
-const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
+export const VISITOR_COOKIE = "pb_visitor";
+export const VISITOR_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
-export async function getOrCreateVisitor(): Promise<Visitor> {
-  const jar = cookies();
-  const present = jar.get(COOKIE)?.value;
-  let raw = present ? verifyToken(present) : null;
-
+/**
+ * Transport-agnostic core: resolve the visitor from a signed cookie value, issuing
+ * a fresh signed token when absent or tampered. Returns the visitor and — only when
+ * a new token was minted — the cookie value the transport should set. This keeps
+ * cookie I/O out of the domain and works from a Route Handler or a Server Action.
+ */
+export async function resolveVisitor(
+  signedCookie: string | undefined,
+): Promise<{ visitor: Visitor; issue?: string }> {
+  let raw = signedCookie ? verifyToken(signedCookie) : null;
+  let issue: string | undefined;
   if (!raw) {
     raw = newRawToken();
-    jar.set(COOKIE, signToken(raw), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: ONE_YEAR_SECONDS,
-    });
+    issue = signToken(raw);
   }
+  const visitor = await visitorService().identify(hashToken(raw));
+  return { visitor, issue };
+}
 
-  return visitorService().identify(hashToken(raw));
+export function visitorCookieOptions() {
+  return {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: VISITOR_COOKIE_MAX_AGE,
+  };
+}
+
+/**
+ * Server Action / RSC convenience using next/headers. MUST be called where cookies
+ * may be set (a Server Action or Route Handler).
+ */
+export async function getOrCreateVisitor(): Promise<Visitor> {
+  const jar = cookies();
+  const { visitor, issue } = await resolveVisitor(jar.get(VISITOR_COOKIE)?.value);
+  if (issue) jar.set(VISITOR_COOKIE, issue, visitorCookieOptions());
+  return visitor;
 }
