@@ -10,9 +10,12 @@ import { PassportInvitation } from "@/components/passport/PassportInvitation";
 import {
   artworkImage,
   getArtwork,
+  getArtworks,
+  getCertificates,
   getChapter,
   getFoundingArtists,
   getPassportCount,
+  getPeople,
   getPerson,
 } from "@/lib/data";
 
@@ -49,6 +52,16 @@ export default function Home() {
     { label: "Federation Origin", value: "2026", sub: "Abuja, Nigeria" },
   ];
 
+  const silenceArtist = silence ? getPerson(silence.artist) : undefined;
+
+  // The living institution — its scale read from the live archive, never hardcoded.
+  const registry = [
+    { n: String(getPeople().length), label: "Contributors" },
+    { n: String(getArtworks().length), label: "Works" },
+    { n: String(getCertificates().length), label: "Certificates" },
+    { n: "1 of ∞", label: "Chapters" },
+  ];
+
   return (
     <>
       {/* ── ARRIVAL · CURIOSITY ─────────────────────────────────────────── */}
@@ -64,13 +77,32 @@ export default function Home() {
         />
       )}
 
-      {/* ── SILENCE · one work, let it land ─────────────────────────────── */}
+      {/* ── SILENCE · one work, given its wall label ────────────────────── */}
       {silence && (
-        <section data-theme="ink" className="flex min-h-[100svh] flex-col items-center justify-center bg-bg px-5 text-text">
+        <section data-theme="ink" className="flex min-h-[100svh] flex-col items-center justify-center gap-10 bg-bg px-5 py-24 text-text">
           <Reveal>
-            <div className="relative aspect-square w-[min(82vw,40rem)] overflow-hidden rounded-sm shadow-museum-soft">
-              <Plate src={artworkImage(silence.slug)} alt={silence.title} className="aspect-square" sizes="(max-width:768px) 82vw, 40rem" fit="contain" />
-            </div>
+            <Link href={`/artworks/${silence.slug}`} className="group block">
+              <div className="relative aspect-square w-[min(82vw,40rem)] overflow-hidden rounded-sm shadow-museum-soft transition-transform duration-700 ease-[cubic-bezier(0.2,0,0,1)] group-hover:-translate-y-1">
+                <Plate src={artworkImage(silence.slug)} alt={silence.title} className="aspect-square" sizes="(max-width:768px) 82vw, 40rem" fit="contain" />
+              </div>
+            </Link>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <figcaption className="mx-auto max-w-xl text-center">
+              <p className="font-display text-2xl leading-tight">{silence.title}</p>
+              {silenceArtist && (
+                <p className="mt-2 text-xs uppercase tracking-[0.24em] text-text-muted">{silenceArtist.full_name}</p>
+              )}
+              {silence.statement && (
+                <p className="mx-auto mt-6 max-w-md text-pretty leading-relaxed text-text-muted">{silence.statement}</p>
+              )}
+              <Link
+                href={`/artworks/${silence.slug}`}
+                className="mt-7 inline-flex min-h-[44px] items-center text-sm text-text-muted underline-offset-4 transition-colors hover:text-text hover:underline"
+              >
+                See this work in the archive&nbsp;→
+              </Link>
+            </figcaption>
           </Reveal>
         </section>
       )}
@@ -151,6 +183,38 @@ export default function Home() {
             </Reveal>
           ))}
         </ul>
+        <Reveal className="mt-14 text-center">
+          <Link
+            href="/artists"
+            className="inline-flex min-h-[44px] items-center text-sm text-text-muted underline-offset-4 transition-colors hover:text-text hover:underline"
+          >
+            Meet the founding artists&nbsp;→
+          </Link>
+        </Reveal>
+      </section>
+
+      {/* ── THE LIVING ARCHIVE · scale, quietly (an engraved register, not a dashboard) ── */}
+      <section className="border-t border-border/70 bg-bg px-5 py-24 sm:py-32">
+        <div className="mx-auto max-w-container">
+          <Reveal>
+            <p className="text-center text-xs uppercase tracking-[0.35em] text-text-muted">The living archive, so far</p>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <dl className="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-x-8 gap-y-12 text-center sm:grid-cols-4">
+              {registry.map((r) => (
+                <div key={r.label}>
+                  <dd className="font-display text-4xl leading-none text-text sm:text-5xl">{r.n}</dd>
+                  <dt className="mt-3 text-[0.65rem] uppercase tracking-[0.24em] text-text-muted">{r.label}</dt>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mx-auto mt-14 max-w-xl text-center leading-relaxed text-text-muted">
+              A record built to hold a hundred chapters over a hundred years — and to outlast the hands that began it.
+            </p>
+          </Reveal>
+        </div>
       </section>
 
       {/* ── IDENTITY · the Planet Passport (curiosity, not disclosure) ──── */}
