@@ -111,10 +111,26 @@
     background: var(--pb-bg);
     color: var(--pb-text);
     font-family: var(--pb-font-text);
-    line-height: 1.5;
+    /* Room to breathe: default copy sits a little more open. Reading columns and
+       display type still set their own leading; this only lifts the in-between. */
+    line-height: 1.6;
     /* A safety net against a single wide child forcing the whole page to
        scroll sideways on a phone. Root causes are still fixed per-gate. */
     overflow-x: clip;
+  }
+  /*
+   * Intentional interactions: anything interactive that doesn't declare its own
+   * transition still eases its state changes rather than snapping. Elements with
+   * an explicit Tailwind transition utility win (utilities layer > base), so this
+   * is only a floor, never an override.
+   */
+  a,
+  button,
+  [role="button"],
+  summary {
+    transition: color var(--pb-dur-base) var(--pb-ease-standard),
+      background-color var(--pb-dur-base) var(--pb-ease-standard),
+      border-color var(--pb-dur-base) var(--pb-ease-standard);
   }
   h1, h2, h3, .font-display {
     font-family: var(--pb-font-display);

@@ -22,14 +22,17 @@ export function Threshold() {
       />
       <AliveEye size={140} className="relative text-accent" />
 
-      <Reveal delay={0.9}>
-        <h1 className="relative mt-12 max-w-3xl pb-display-1 font-display leading-[1.1] tracking-[-0.015em]">
+      {/* The moment. The Eye settles, a held beat, then the line rises slowly and
+          inevitably, and only then the quiet whisper beneath it. The pauses are the
+          point — this is meant to be remembered, not read. */}
+      <Reveal delay={1.1}>
+        <h1 className="relative mt-14 max-w-3xl pb-display-1 font-display leading-[1.12] tracking-[-0.015em] sm:mt-16">
           Because there is no Planet&nbsp;B.
         </h1>
       </Reveal>
 
-      <Reveal delay={1.4}>
-        <p className="relative mt-6 max-w-md text-sm text-text-muted">
+      <Reveal delay={1.9}>
+        <p className="relative mt-7 max-w-md text-[0.95rem] leading-relaxed tracking-[0.01em] text-text-muted">
           The living archive of a global movement.
         </p>
       </Reveal>

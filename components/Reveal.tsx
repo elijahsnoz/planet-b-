@@ -29,10 +29,13 @@ export function Reveal({
   return (
     <MotionTag
       className={className}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10% 0px" }}
-      transition={{ duration: 0.48, ease: [0.2, 0, 0, 1], delay }}
+      viewport={{ once: true, margin: "-12% 0px" }}
+      // The site's motion language: a slow, decelerating arrival — content doesn't
+      // "animate in", it settles as though it was always going to be there. Same
+      // curve as the Passport's rise, so every reveal feels of one inevitable piece.
+      transition={{ duration: 0.68, ease: [0.22, 0.61, 0.36, 1], delay }}
     >
       {children}
     </MotionTag>

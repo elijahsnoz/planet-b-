@@ -52,7 +52,7 @@ export function PassportCover({
 
       <div className="z-10 mt-auto flex flex-col items-center">
         <PassportSeal size={132} className="text-paper/90" />
-        <h3 className="mt-5 font-display text-[1.7rem] leading-none tracking-[0.16em] text-paper">
+        <h3 className="mt-5 whitespace-nowrap font-display text-[1.45rem] leading-none tracking-[0.14em] text-paper">
           PLANET&nbsp;PASSPORT
         </h3>
         <p className="mt-2 text-[0.58rem] uppercase tracking-[0.34em] text-paper/55">
