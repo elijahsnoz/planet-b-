@@ -11,20 +11,20 @@ export const metadata: Metadata = {
 export default function CertificatesPage() {
   const certificates = getCertificates();
   return (
-    <div className="mx-auto max-w-container px-5 py-14">
+    <div className="mx-auto max-w-container px-5 py-24 sm:py-32">
       <Reveal>
         <h1 className="pb-display-2 font-display">Certificates</h1>
-        <p className="mt-3 max-w-measure text-text-muted">
+        <p className="mt-5 max-w-measure leading-relaxed text-text-muted">
           Every verified contributor receives a permanent Planet B identity — honoring contribution,
           not attendance. Certificates are designed to become verifiable digital credentials
           (Soulbound, non-transferable) — no wallet or fee required to receive or verify one.
         </p>
       </Reveal>
-      <ul className="mt-10 divide-y divide-border border-y border-border">
+      <ul className="mt-16 divide-y divide-border border-y border-border sm:mt-24">
         {certificates.map((c) => {
           const subject = c.person ? getPerson(c.person)?.full_name : null;
           return (
-            <li key={c.public_id} className="flex items-center gap-4 py-4">
+            <li key={c.public_id} className="flex items-center gap-4 py-6">
               <PlanetBMark size={28} className="shrink-0 text-accent" />
               <div className="min-w-0 flex-1">
                 <p className="font-display text-lg">

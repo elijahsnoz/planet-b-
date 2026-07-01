@@ -8,13 +8,13 @@ export const metadata: Metadata = {
 
 export default function OriginPage() {
   return (
-    <article className="mx-auto max-w-measure px-5 py-20">
+    <article className="mx-auto max-w-measure px-5 py-24 sm:py-36">
       <Reveal>
-        <p className="text-xs uppercase tracking-widest text-text-muted">Origin Story</p>
-        <h1 className="mt-2 pb-display-2 font-display leading-tight">There is no Planet B.</h1>
+        <p className="text-xs uppercase tracking-[0.28em] text-text-muted">Origin Story</p>
+        <h1 className="mt-4 pb-display-2 font-display leading-tight">There is no Planet B.</h1>
       </Reveal>
       <Reveal>
-        <div className="prose-pb mt-8 space-y-5 text-lg leading-relaxed">
+        <div className="prose-pb mt-12 space-y-8 text-lg leading-relaxed sm:mt-16">
           <p>
             So this — the soil, the water, the air, the city, the single shared sky — is not a
             draft. It is the only copy.

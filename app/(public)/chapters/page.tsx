@@ -12,21 +12,21 @@ export default async function ChaptersIndex() {
   const chapters = chapterService.list().filter((c) => c.status === "published");
 
   return (
-    <div className="mx-auto max-w-3xl px-5 py-16">
-      <p className="text-xs uppercase tracking-widest text-text-muted">Planet B</p>
-      <h1 className="mt-2 pb-display-2 font-display">Chapters</h1>
-      <p className="mt-4 max-w-2xl pb-read text-text-muted">
+    <div className="mx-auto max-w-3xl px-5 py-24 sm:py-32">
+      <p className="text-xs uppercase tracking-[0.28em] text-text-muted">Planet B</p>
+      <h1 className="mt-4 pb-display-2 font-display">Chapters</h1>
+      <p className="mt-6 max-w-2xl pb-read leading-relaxed text-text-muted">
         Planet B is a federation. Each chapter is locally rooted — hosted by a gallery, embassy,
         museum, university, or community — yet part of one global institution. It begins in Abuja,
         and is built to hold a hundred chapters over a hundred years.
       </p>
 
-      <ul className="mt-10 space-y-4">
+      <ul className="mt-16 space-y-6 sm:mt-24">
         {chapters.map((c) => (
           <li key={c.id}>
             <Link
               href={c.slug ? `/chapters/${c.slug}` : "/chapters"}
-              className={`block rounded-sm border p-6 transition-colors hover:border-accent ${
+              className={`block rounded-sm border p-8 transition-colors hover:border-accent sm:p-10 ${
                 c.isGenesis ? "border-accent/40" : "border-border"
               }`}
             >

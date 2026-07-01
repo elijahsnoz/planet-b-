@@ -22,16 +22,16 @@ export default function ArtworksPage() {
   });
 
   return (
-    <div className="mx-auto max-w-container-wide px-5 py-14">
+    <div className="mx-auto max-w-container px-5 py-24 sm:py-32">
       <Reveal>
-        <p className="text-xs uppercase tracking-widest text-text-muted">Genesis Chapter · Abuja 2026</p>
-        <h1 className="mt-2 pb-display-2 font-display">Artwork Registry</h1>
-        <p className="pb-read mt-3 max-w-measure text-text-muted">
+        <p className="text-xs uppercase tracking-[0.28em] text-text-muted">Genesis Chapter · Abuja 2026</p>
+        <h1 className="mt-4 pb-display-2 font-display">Artwork Registry</h1>
+        <p className="pb-read mt-5 max-w-measure leading-relaxed text-text-muted">
           Discarded plastics, drink cans, dead electronics, tailors&rsquo; offcuts — given new
           meaning. Every work is an assemblage made in 2026.
         </p>
       </Reveal>
-      <div className="mt-12">
+      <div className="mt-16 sm:mt-24">
         <RegistryGrid items={items} />
       </div>
     </div>
