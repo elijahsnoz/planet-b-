@@ -34,6 +34,28 @@ const read = (p) => { try { return readFileSync(p, "utf8"); } catch { return "";
 const importLines = (src) => src.split("\n").filter((l) => /^\s*import\b/.test(l));
 const rel = (p) => relative(ROOT, p);
 
+// ── The Constitution is FROZEN. These seven statements are the law, verbatim. ─
+// Changing one requires a deliberate edit here AND in docs/CONSTITUTION.md — an
+// explicit architecture review, never a silent feature-work edit.
+const FROZEN_INVARIANTS = [
+  "Contribution comes before identity.",
+  "Popularity never determines visibility.",
+  "Every contribution may matter decades from now.",
+  "The archive remembers. It does not erase.",
+  "The system optimises for meaning, never attention.",
+  "Technology should disappear.",
+  "Every contribution should have the potential to inspire another human being, even years later.",
+];
+{
+  const doc = read(join(ROOT, "docs/CONSTITUTION.md"));
+  const drifted = FROZEN_INVARIANTS.filter((s) => !doc.includes(s));
+  if (drifted.length) {
+    fail("Frozen constitution", `invariant wording drifted (edit the guard's frozen list only via architecture review): "${drifted[0]}"`);
+  } else {
+    pass("Frozen constitution", `all ${FROZEN_INVARIANTS.length} invariants intact, verbatim`);
+  }
+}
+
 // ── Dependency rule: the Supabase SDK is imported by exactly one adapter file ─
 {
   const files = [...walk(join(ROOT, "src")), ...walk(join(ROOT, "app")), ...walk(join(ROOT, "lib"))];

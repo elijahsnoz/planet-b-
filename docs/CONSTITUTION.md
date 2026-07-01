@@ -3,6 +3,12 @@
 > Planet B exists to preserve human imagination.
 > Software serves that mission. The mission never serves the software.
 
+**Status — RATIFIED & FROZEN · v1.0 · 2026-07-01.**
+Changing an invariant requires an **explicit architecture review**: a deliberate,
+reviewable edit to *both* this document and the frozen list in
+`scripts/check-invariants.mjs`. It must never happen as part of feature work. The
+guard fails the build if any invariant's wording drifts from the frozen text.
+
 These seven invariants are binding. Every pull request must uphold all of them.
 The mechanically-checkable ones are enforced by `npm run check:invariants` (and
 should gate CI); the rest are review gates a human must confirm on every PR.
