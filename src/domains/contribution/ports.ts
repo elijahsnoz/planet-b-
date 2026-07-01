@@ -1,4 +1,4 @@
-import type { Contribution } from "./model";
+import type { Contribution, Visitor } from "./model";
 import type { DomainEvent } from "./events";
 import type { ContributionInput } from "./validation";
 
@@ -36,6 +36,25 @@ export interface ContributionRepository {
   byId(id: string): Promise<Contribution | null>;
   /** The full lineage tree for a root — how one contribution grew. */
   lineage(rootId: string): Promise<Contribution[]>;
+}
+
+/**
+ * Visitor persistence port. Anonymous-first: a visitor is keyed by a stable,
+ * opaque `anonTokenHash` (the domain never sees the raw token). The concrete
+ * store (Supabase today, anything tomorrow) is an adapter behind this interface.
+ */
+export interface VisitorRepository {
+  /** Idempotent: return the existing visitor for this token hash, or null. */
+  findByAnonTokenHash(anonTokenHash: string): Promise<Visitor | null>;
+  /** Create a visitor for a first-seen token hash. */
+  create(input: {
+    id: string;
+    anonTokenHash: string;
+    locale: string | null;
+    region: string | null;
+  }): Promise<Visitor>;
+  /** Touch presence (last_seen); cheap, best-effort. */
+  touch(id: string): Promise<void>;
 }
 
 /**

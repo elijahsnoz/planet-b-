@@ -39,3 +39,14 @@ export function sessionSecret(): Uint8Array {
   }
   return new TextEncoder().encode(value);
 }
+
+/**
+ * HMAC key for the anonymous visitor token (The Garden). Prefers a dedicated
+ * PLANET_B_VISITOR_SECRET; otherwise reuses the session secret so enabling the
+ * Garden never forces a new mandatory production secret. Separable later.
+ */
+export function visitorTokenSecret(): Uint8Array {
+  const dedicated = process.env.PLANET_B_VISITOR_SECRET;
+  if (dedicated && dedicated.length > 0) return new TextEncoder().encode(dedicated);
+  return sessionSecret();
+}

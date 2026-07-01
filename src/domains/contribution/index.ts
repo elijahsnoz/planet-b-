@@ -16,3 +16,4 @@ export * from "./model";
 export * from "./events";
 export * from "./validation";
 export * from "./ports";
+export * from "./visitor-service";
