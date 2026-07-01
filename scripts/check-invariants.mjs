@@ -34,6 +34,14 @@ const read = (p) => { try { return readFileSync(p, "utf8"); } catch { return "";
 const importLines = (src) => src.split("\n").filter((l) => /^\s*import\b/.test(l));
 const rel = (p) => relative(ROOT, p);
 
+/** Every Garden migration, concatenated — so schema invariants cover all of them. */
+function allMigrationsSql() {
+  const dir = join(ROOT, "supabase/migrations");
+  let names;
+  try { names = readdirSync(dir); } catch { return ""; }
+  return names.filter((f) => f.endsWith(".sql")).map((f) => read(join(dir, f))).join("\n").toLowerCase();
+}
+
 // ── The Constitution is FROZEN. These seven statements are the law, verbatim. ─
 // Changing one requires a deliberate edit here AND in docs/CONSTITUTION.md — an
 // explicit architecture review, never a silent feature-work edit.
@@ -83,9 +91,9 @@ const FROZEN_INVARIANTS = [
   else pass("Invariant 1", "the contribution path requires no auth");
 }
 
-// ── Invariant 2: no popularity signal exists in the schema ────────────────────
+// ── Invariant 2: no popularity signal exists in the schema (all migrations) ───
 {
-  const sql = read(join(ROOT, "supabase/migrations/0001_contribution_foundation.sql")).toLowerCase();
+  const sql = allMigrationsSql();
   const forbidden = ["like_count", "likes", "follower", "followers", "upvote", "karma", "trending", "popularity", "view_count", "share_count"];
   const hits = forbidden.filter((w) => new RegExp(`\\b${w}\\b`).test(sql));
   if (hits.length) fail("Invariant 2", `schema contains popularity signal(s): ${hits.join(", ")}`);
@@ -94,7 +102,7 @@ const FROZEN_INVARIANTS = [
 
 // ── Invariant 4: the archive remembers (soft-delete only, no cascade erase) ───
 {
-  const sql = read(join(ROOT, "supabase/migrations/0001_contribution_foundation.sql")).toLowerCase();
+  const sql = allMigrationsSql();
   const problems = [];
   if (/on delete cascade/.test(sql)) problems.push("uses `on delete cascade` (would erase children)");
   if (!/deleted_at/.test(sql)) problems.push("missing soft-delete (`deleted_at`)");

@@ -32,7 +32,12 @@ export interface CreateContribution {
 }
 
 export interface ContributionRepository {
-  create(input: CreateContribution): Promise<Contribution>;
+  /**
+   * Persist a contribution AND its creation event atomically (the outbox
+   * invariant). The domain builds the event; the adapter guarantees both land in
+   * one transaction, so a contribution can never exist without its event.
+   */
+  create(input: CreateContribution, creationEvent: DomainEvent): Promise<Contribution>;
   byId(id: string): Promise<Contribution | null>;
   /** The full lineage tree for a root — how one contribution grew. */
   lineage(rootId: string): Promise<Contribution[]>;
